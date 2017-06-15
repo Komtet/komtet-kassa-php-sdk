@@ -15,8 +15,6 @@ matrix:
 
 before_install:
   - travis_retry composer self-update
-  - travis_retry composer global require --dev phpunit/phpunit ^5.7
-  - phpunit --version
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
