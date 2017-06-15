@@ -1,0 +1,19 @@
+{
+    "name": "motmom/cloud-kassa-sdk",
+    "description": "PHP SDK for Cloud Kassa",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Motmom",
+            "email": "motmom.dev@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Motmom\\CloudKassaSdk\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --coverage-text"
+    }
+}
