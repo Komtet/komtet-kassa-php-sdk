@@ -7,9 +7,8 @@ use Motmom\CloudKassaSdk\Payment;
 use Motmom\CloudKassaSdk\Position;
 use Motmom\CloudKassaSdk\QueueManager;
 use Motmom\CloudKassaSdk\Vat;
-use PHPUnit\Framework\TestCase;
 
-class QueueManagerTest extends TestCase
+class QueueManagerTest extends \PHPUnit_Framework_TestCase
 {
     private $client;
     private $qm;
