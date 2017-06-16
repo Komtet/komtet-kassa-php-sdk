@@ -76,7 +76,7 @@ $check->addPayment($payment);
 
 // Добавляем чек в очередь.
 try {
-    $qm->putCheck($check, 'queue-name-1');
+    $manager->putCheck($check, 'queue-name-1');
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
@@ -87,8 +87,8 @@ try {
 ```php
 <?php
 
-$qm->setDefaultQueue('queue-name-1');
-$qm->putCheck($check);
+$manager->setDefaultQueue('queue-name-1');
+$manager->putCheck($check);
 ```
 
 
@@ -96,5 +96,5 @@ $qm->putCheck($check);
 
 ```php
 <?php
-$qm->isQueueActive('queue-name-1');
+$manager->isQueueActive('queue-name-1');
 ```
