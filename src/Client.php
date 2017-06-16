@@ -82,28 +82,27 @@ class Client
         }
 
         $ch = curl_init($url);
-        try {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            if ($method == 'POST') {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            }
-
-            $response = curl_exec($ch);
-            if ($response === false) {
-                throw new ClientException(curl_error($ch));
-            }
-
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        if ($method == 'POST') {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        $response = curl_exec($ch);
+        $error = null;
+        if ($response === false) {
+            $error = curl_error($ch);
+        } else {
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($status !== 200) {
-                throw new ClientException(sprintf('Unexpected status (%s)', $status));
+                $error = sprintf('Unexpected status (%s)', $status);
             }
-
-            return json_decode($response, true);
-        } finally {
-            curl_close($ch);
         }
+        curl_close($ch);
+        if ($error !== null) {
+            throw new ClientException($error);
+        }
+        return json_decode($response, true);
     }
 }
