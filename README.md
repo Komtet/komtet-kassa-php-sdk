@@ -4,6 +4,11 @@
 
 [![Travis](https://img.shields.io/travis/Motmom/cloud-kassa-php-sdk.svg?style=flat-square)](https://travis-ci.org/Motmom/cloud-kassa-php-sdk)
 
+## Требования
+
+* PHP >= 5.4
+* CURL
+
 ## Установка
 
 С помощью Composer:
