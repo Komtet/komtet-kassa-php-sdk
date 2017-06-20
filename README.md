@@ -1,6 +1,6 @@
 # komtet-kassa-php-sdk
 
-Библиотека для интеграции вашего сайта с облачным сервисом распределенной печати чеков [OnlineКасса](http://kassa.komtet.ru)
+Библиотека для интеграции вашего сайта с облачным сервисом распределенной печати чеков [КОМТЕТ Касса](http://kassa.komtet.ru)
 
 [![Travis](https://img.shields.io/travis/Motmom/komtet-kassa-php-sdk.svg?style=flat-square)](https://travis-ci.org/Motmom/komtet-kassa-php-sdk)
 
