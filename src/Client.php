@@ -1,22 +1,22 @@
 <?php
 
 /**
- * This file is part of the motmom/cloud-kassa-sdk library
+ * This file is part of the motmom/komtet-kassa-sdk library
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Motmom\CloudKassaSdk;
+namespace Motmom\KomtetKassaSdk;
 
-use Motmom\CloudKassaSdk\Exception\ClientException;
+use Motmom\KomtetKassaSdk\Exception\ClientException;
 
 class Client
 {
     /**
      * @var string
      */
-    private $host = 'http://cloud-kassa.com';
+    private $host = 'http://kassa.komtet.ru';
 
     /**
      * @var string

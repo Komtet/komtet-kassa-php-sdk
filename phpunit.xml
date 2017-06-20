@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Cloud Kassa SDK Test Suite">
+        <testsuite name="Komtet Kassa SDK Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

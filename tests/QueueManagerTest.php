@@ -1,12 +1,12 @@
 <?php
 
-namespace MotmomTest\CloudKassaSdk;
+namespace MotmomTest\KomtetKassaSdk;
 
-use Motmom\CloudKassaSdk\Check;
-use Motmom\CloudKassaSdk\Payment;
-use Motmom\CloudKassaSdk\Position;
-use Motmom\CloudKassaSdk\QueueManager;
-use Motmom\CloudKassaSdk\Vat;
+use Motmom\KomtetKassaSdk\Check;
+use Motmom\KomtetKassaSdk\Payment;
+use Motmom\KomtetKassaSdk\Position;
+use Motmom\KomtetKassaSdk\QueueManager;
+use Motmom\KomtetKassaSdk\Vat;
 
 class QueueManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $this
-            ->getMockBuilder('\Motmom\CloudKassaSdk\Client')
+            ->getMockBuilder('\Motmom\KomtetKassaSdk\Client')
             ->disableOriginalConstructor()
             ->getMock();
         $this->qm = new QueueManager($this->client);
@@ -89,7 +89,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutCheckFailedWithoutDefaultQueue()
     {
-        $check = $this->getMockBuilder('\Motmom\CloudKassaSdk\Check')->disableOriginalConstructor()->getMock();
+        $check = $this->getMockBuilder('\Motmom\KomtetKassaSdk\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check);
     }
 
@@ -99,7 +99,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutCheckFailedWithUnregisteredQueue()
     {
-        $check = $this->getMockBuilder('\Motmom\CloudKassaSdk\Check')->disableOriginalConstructor()->getMock();
+        $check = $this->getMockBuilder('\Motmom\KomtetKassaSdk\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check, 'my-queue');
     }
 

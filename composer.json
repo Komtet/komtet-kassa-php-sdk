@@ -1,6 +1,6 @@
 {
-    "name": "motmom/cloud-kassa-sdk",
-    "description": "PHP SDK for Cloud Kassa",
+    "name": "motmom/komtet-kassa-sdk",
+    "description": "PHP SDK for Komtet Kassa",
     "type": "library",
     "authors": [
         {
@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Motmom\\CloudKassaSdk\\": "src"
+            "Motmom\\KomtetKassaSdk\\": "src"
         }
     },
     "require-dev":{

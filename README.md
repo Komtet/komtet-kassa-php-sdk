@@ -1,8 +1,8 @@
-# cloud-kassa-php-sdk
+# komtet-kassa-php-sdk
 
-Библиотека для интеграции вашего сайта с облачным сервисом распределенной печати чеков [OnlineКасса](http://cloud-kassa.com/)
+Библиотека для интеграции вашего сайта с облачным сервисом распределенной печати чеков [OnlineКасса](http://kassa.komtet.ru)
 
-[![Travis](https://img.shields.io/travis/Motmom/cloud-kassa-php-sdk.svg?style=flat-square)](https://travis-ci.org/Motmom/cloud-kassa-php-sdk)
+[![Travis](https://img.shields.io/travis/Motmom/komtet-kassa-php-sdk.svg?style=flat-square)](https://travis-ci.org/Motmom/komtet-kassa-php-sdk)
 
 ## Требования
 
@@ -14,19 +14,19 @@
 С помощью Composer:
 
 ```
-composer require motmom/cloud-kassa-sdk
+composer require motmom/komtet-kassa-sdk
 ```
 
 Вручную:
 
 ```
-git clone https://github.com/Motmom/cloud-kassa-php-sdk
+git clone https://github.com/Motmom/komtet-kassa-php-sdk
 ```
 
 ```php
 <?php
 
-require __DIR__.'/cloud-kassa-php-sdk/autoload.php';
+require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ```
 
 ## Использование
@@ -36,8 +36,8 @@ require __DIR__.'/cloud-kassa-php-sdk/autoload.php';
 ```php
 <?php
 
-use Motmom\CloudKassaSdk\Client;
-use Motmom\CloudKassaSdk\QueueManager;
+use Motmom\KomtetKassaSdk\Client;
+use Motmom\KomtetKassaSdk\QueueManager;
 
 $key = 'идентификатор магазина';
 $secret = 'секретный ключ';
@@ -57,7 +57,7 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 ```php
 <?php
 
-use Motmom\CloudKassaSdk\Exception\SdkException;
+use Motmom\KomtetKassaSdk\Exception\SdkException;
 
 // уникальный ID, предоставляемый магазином
 $checkID = 'id';
