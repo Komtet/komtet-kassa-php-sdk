@@ -1,5 +1,12 @@
 <?php
 
+/**
+* This file is part of the motmom/komtet-kassa-sdk library
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+
 namespace MotmomTest\KomtetKassaSdk;
 
 use Motmom\KomtetKassaSdk\Check;
@@ -108,7 +115,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $this->qm->setDefaultQueue('my-queue');
 
-        $vat = Vat::createPosition(0, Vat::TYPE_NO);
+        $vat = new Vat(0, '18%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $payment = Payment::createCard(100);
 
@@ -128,7 +135,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('default-queue');
         $this->qm->registerQueue('my-queue', 'queue-id');
 
-        $vat = Vat::createUnit(0, Vat::TYPE_NO);
+        $vat = new Vat(0, 'no');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $payment = Payment::createCash(100);
 

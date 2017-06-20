@@ -11,9 +11,6 @@ namespace Motmom\KomtetKassaSdk;
 
 class Vat
 {
-    const MODE_POSITION = 'position';
-    const MODE_UNIT = 'unit';
-
     /**
      * Without VAT
      */
@@ -32,7 +29,7 @@ class Vat
     /**
      * 18%
      */
-    const TYPE_18 = '18%';
+    const TYPE_18 = '18';
 
     /**
      * 10/110
@@ -49,39 +46,46 @@ class Vat
     private $type;
 
     /**
-     * @param string $mode Vat::MODE_POSITION or Vat::MODE_UNIT
      * @param int|float $sum Amount in RUB
-     * @param string $type Vat::TYPE_*
+     * @param string|int|float $type See Vat::TYPE_*
      *
      * @return Vat
      */
-    public function __construct($mode, $sum, $type)
+    public function __construct($sum, $type)
     {
-        $this->mode = $mode;
+        if (!is_int($sum) && !is_float($sum)) {
+            throw new \InvalidArgumentException(sprintf('Unexpected sum type: expects int or float, %s given', gettype($sum)));
+        }
+        if (!is_string($type)) {
+            $type = (string) $type;
+        }
+        $type = str_replace(['0.', '%'], '', $type);
+        switch ($type) {
+            case '10/100':
+                $type = static::TYPE_110;
+                break;
+            case '18/118':
+                $type = static::TYPE_118;
+                break;
+            default:
+                if (!in_array($type, $this->getAvailableTypes())) {
+                    throw new \InvalidArgumentException(sprintf('Unknown VAT type: %s', $type));
+                }
+        }
         $this->sum = $sum;
         $this->type = $type;
     }
 
-    /**
-     * @param int|float $sum Amount in RUB
-     * @param string $type Vat::TYPE_*
-     *
-     * @return Vat
-     */
-    public static function createPosition($sum, $number)
+    private function getAvailableTypes()
     {
-        return new static(static::MODE_POSITION, $sum, $number);
-    }
-
-    /**
-     * @param int|float $sum Amount in RUB
-     * @param string $type Vat::TYPE_*
-     *
-     * @return Vat
-     */
-    public static function createUnit($sum, $number)
-    {
-        return new static(static::MODE_UNIT, $sum, $number);
+        return [
+            static::TYPE_NO,
+            static::TYPE_0,
+            static::TYPE_10,
+            static::TYPE_18,
+            static::TYPE_110,
+            static::TYPE_118,
+        ];
     }
 
     /**
@@ -90,7 +94,6 @@ class Vat
     public function asArray()
     {
         return [
-            'mode' => $this->mode,
             'sum' => $this->sum,
             'number' => $this->type
         ];
