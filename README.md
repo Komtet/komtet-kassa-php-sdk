@@ -68,7 +68,7 @@ $check = Check::createSellReturn($checkID, $clientEmail);
 // Говорим, что чек нужно распечатать
 $check->setShouldPrint(true);
 
-$vat = Vat::createUnit(0, Vat::TYPE_NO);
+$vat = new Vat(0, Vat::TYPE_NO);
 
 // Позиция в чеке: имя, цена, кол-во, общая стоимость, скидка, налог
 $position = new Position('name', 100, 1, 100, 0, $vat);
