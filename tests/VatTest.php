@@ -24,7 +24,7 @@ class VatTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown VAT type: unknown
+     * @expectedExceptionMessage Unknown VAT rate: unknown
      */
     public function testCreateVatWithUnknownTypeFailed()
     {

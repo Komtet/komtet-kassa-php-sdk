@@ -14,77 +14,77 @@ class Vat
     /**
      * Without VAT
      */
-    const TYPE_NO = 'no';
+    const RATE_NO = 'no';
 
     /**
      * 0%
      */
-    const TYPE_0 = '0';
+    const RATE_0 = '0';
 
     /**
      * 10%
      */
-    const TYPE_10 = '10';
+    const RATE_10 = '10';
 
     /**
      * 18%
      */
-    const TYPE_18 = '18';
+    const RATE_18 = '18';
 
     /**
      * 10/110
      */
-    const TYPE_110 = '110';
+    const RATE_110 = '110';
 
     /**
      * 18/118
      */
-    const TYPE_118 = '118';
+    const RATE_118 = '118';
 
     private $mode;
     private $sum;
-    private $type;
+    private $rate;
 
     /**
      * @param int|float $sum Amount in RUB
-     * @param string|int|float $type See Vat::TYPE_*
+     * @param string|int|float $rate See Vat::RATE_*
      *
      * @return Vat
      */
-    public function __construct($sum, $type)
+    public function __construct($sum, $rate)
     {
         if (!is_int($sum) && !is_float($sum)) {
             throw new \InvalidArgumentException(sprintf('Unexpected sum type: expects int or float, %s given', gettype($sum)));
         }
-        if (!is_string($type)) {
-            $type = (string) $type;
+        if (!is_string($rate)) {
+            $rate = (string) $rate;
         }
-        $type = str_replace(['0.', '%'], '', $type);
-        switch ($type) {
+        $rate = str_replace(['0.', '%'], '', $rate);
+        switch ($rate) {
             case '10/100':
-                $type = static::TYPE_110;
+                $rate = static::RATE_110;
                 break;
             case '18/118':
-                $type = static::TYPE_118;
+                $rate = static::RATE_118;
                 break;
             default:
-                if (!in_array($type, $this->getAvailableTypes())) {
-                    throw new \InvalidArgumentException(sprintf('Unknown VAT type: %s', $type));
+                if (!in_array($rate, $this->getAvailableRates())) {
+                    throw new \InvalidArgumentException(sprintf('Unknown VAT rate: %s', $rate));
                 }
         }
         $this->sum = $sum;
-        $this->type = $type;
+        $this->rate = $rate;
     }
 
-    private function getAvailableTypes()
+    private function getAvailableRates()
     {
         return [
-            static::TYPE_NO,
-            static::TYPE_0,
-            static::TYPE_10,
-            static::TYPE_18,
-            static::TYPE_110,
-            static::TYPE_118,
+            static::RATE_NO,
+            static::RATE_0,
+            static::RATE_10,
+            static::RATE_18,
+            static::RATE_110,
+            static::RATE_118,
         ];
     }
 
@@ -95,7 +95,7 @@ class Vat
     {
         return [
             'sum' => $this->sum,
-            'number' => $this->type
+            'number' => $this->rate
         ];
     }
 }
