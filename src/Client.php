@@ -16,7 +16,7 @@ class Client
     /**
      * @var string
      */
-    private $host = 'http://kassa.komtet.ru';
+    private $host = 'https://kassa.komtet.ru';
 
     /**
      * @var string
