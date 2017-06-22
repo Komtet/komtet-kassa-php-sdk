@@ -26,7 +26,7 @@ class VatTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unknown VAT rate: unknown
      */
-    public function testCreateVatWithUnknownTypeFailed()
+    public function testCreateVatWithUnknownRateFailed()
     {
         new Vat(0, 'unknown');
     }
@@ -40,9 +40,45 @@ class VatTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((new Vat(50, '18/118'))->asArray(), ['sum' => 50, 'number' => '118']);
         $this->assertEquals((new Vat(60, '110'))->asArray(), ['sum' => 60, 'number' => '110']);
         $this->assertEquals((new Vat(70, 110))->asArray(), ['sum' => 70, 'number' => '110']);
-        $this->assertEquals((new Vat(80, '10/100'))->asArray(), ['sum' => 80, 'number' => '110']);
+        $this->assertEquals((new Vat(80, '10/110'))->asArray(), ['sum' => 80, 'number' => '110']);
         $this->assertEquals((new Vat(90, '10%'))->asArray(), ['sum' => 90, 'number' => '10']);
         $this->assertEquals((new Vat(100, '0.18'))->asArray(), ['sum' => 100, 'number' => '18']);
         $this->assertEquals((new Vat(110, '10'))->asArray(), ['sum' => 110, 'number' => '10']);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unexpected price type: expects int or float, array given
+     */
+    public function testCalculateVatWithNonNumberFailed()
+    {
+        Vat::calculate([], '10');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unknown VAT rate: unknown
+     */
+    public function testCalculateVatWithUnknownRateFailed()
+    {
+        Vat::calculate(10, 'unknown');
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unable to calculate for rate "no"
+     */
+    public function testCalculateVatWithNoRateFailed()
+    {
+        Vat::calculate(10, 'no');
+    }
+
+    public function testCalculateVatSuccess()
+    {
+        $this->assertEquals(Vat::calculate(10000, '18')->asArray(), ['sum' => 1800.0, 'number' => '18']);
+        $this->assertEquals(Vat::calculate(59000, '18/118')->asArray(), ['sum' => 9000.0, 'number' => '118']);
+        $this->assertEquals(Vat::calculate(10000, '10')->asArray(), ['sum' => 1000.0, 'number' => '10']);
+        $this->assertEquals(Vat::calculate(3000, '0')->asArray(), ['sum' => 0.0, 'number' => '0']);
+        $this->assertEquals(Vat::calculate(11000, '10/110')->asArray(), ['sum' => 1000.0, 'number' => '110']);
     }
 }

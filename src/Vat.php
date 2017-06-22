@@ -56,27 +56,71 @@ class Vat
         if (!is_int($sum) && !is_float($sum)) {
             throw new \InvalidArgumentException(sprintf('Unexpected sum type: expects int or float, %s given', gettype($sum)));
         }
+        $this->sum = $sum;
+        $this->rate = static::normalizeRate($rate);
+    }
+
+    /**
+     * Calculates from price
+     *
+     * @param int|float $price Price in RUB
+     * @param string|int|float $rate See Vat::RATE_*
+     *
+     * @return Vat
+     */
+    public static function calculate($price, $rate)
+    {
+        if (is_int($price)) {
+            $price = floatval($price);
+        } elseif (!is_float($price)) {
+            throw new \InvalidArgumentException(sprintf('Unexpected price type: expects int or float, %s given', gettype($price)));
+        }
+        $price = floatval($price);
+        $rate = static::normalizeRate($rate);
+        switch ($rate) {
+            case static::RATE_0:
+                $sum = 0.0;
+                break;
+            case static::RATE_10:
+                $sum = 10.0 * $price / 100;
+                break;
+            case static::RATE_18:
+                $sum = 18.0 * $price / 100;
+                break;
+            case static::RATE_110:
+                $sum = $price * (10.0 / 110.0);
+                break;
+            case static::RATE_118:
+                $sum = $price * (18.0 / 118.0);
+                break;
+            default:
+                throw new \LogicException(sprintf('Unable to calculate for rate "%s"', $rate));
+        }
+        return new static($sum, $rate);
+    }
+
+    private static function normalizeRate($rate)
+    {
         if (!is_string($rate)) {
             $rate = (string) $rate;
         }
         $rate = str_replace(['0.', '%'], '', $rate);
         switch ($rate) {
-            case '10/100':
+            case '10/110':
                 $rate = static::RATE_110;
                 break;
             case '18/118':
                 $rate = static::RATE_118;
                 break;
             default:
-                if (!in_array($rate, $this->getAvailableRates())) {
+                if (!in_array($rate, static::getAvailableRates())) {
                     throw new \InvalidArgumentException(sprintf('Unknown VAT rate: %s', $rate));
                 }
         }
-        $this->sum = $sum;
-        $this->rate = $rate;
+        return $rate;
     }
 
-    private function getAvailableRates()
+    private static function getAvailableRates()
     {
         return [
             static::RATE_NO,
