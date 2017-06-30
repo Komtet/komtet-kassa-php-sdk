@@ -1,5 +1,5 @@
 {
-    "name": "motmom/komtet-kassa-sdk",
+    "name": "komtet/kassa-sdk",
     "description": "PHP SDK for Komtet Kassa",
     "type": "library",
     "license": "MIT",
