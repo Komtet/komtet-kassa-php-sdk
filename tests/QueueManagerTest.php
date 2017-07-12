@@ -119,7 +119,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $payment = Payment::createCard(100);
 
-        $check = Check::createSell('id', 'user@host');
+        $check = Check::createSell('id', 'user@host', Check::TS_COMMON);
         $check->addPosition($position);
         $check->addPayment($payment);
         $data = $check->asArray();
@@ -139,7 +139,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $payment = Payment::createCash(100);
 
-        $check = Check::createSellReturn('id', 'user@host')->setShouldPrint(true);
+        $check = Check::createSellReturn('id', 'user@host', Check::TS_COMMON)->setShouldPrint(true);
         $check->addPosition($position);
         $check->addPayment($payment);
         $data = $check->asArray();
