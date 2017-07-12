@@ -1,19 +1,19 @@
 <?php
 
 /**
-* This file is part of the motmom/komtet-kassa-sdk library
+* This file is part of the komtet/kassa-sdk library
 *
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
 
-namespace MotmomTest\KomtetKassaSdk;
+namespace KomtetTest\KassaSdk;
 
-use Motmom\KomtetKassaSdk\Check;
-use Motmom\KomtetKassaSdk\Payment;
-use Motmom\KomtetKassaSdk\Position;
-use Motmom\KomtetKassaSdk\QueueManager;
-use Motmom\KomtetKassaSdk\Vat;
+use Komtet\KassaSdk\Check;
+use Komtet\KassaSdk\Payment;
+use Komtet\KassaSdk\Position;
+use Komtet\KassaSdk\QueueManager;
+use Komtet\KassaSdk\Vat;
 
 class QueueManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $this
-            ->getMockBuilder('\Motmom\KomtetKassaSdk\Client')
+            ->getMockBuilder('\Komtet\KassaSdk\Client')
             ->disableOriginalConstructor()
             ->getMock();
         $this->qm = new QueueManager($this->client);
@@ -96,7 +96,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutCheckFailedWithoutDefaultQueue()
     {
-        $check = $this->getMockBuilder('\Motmom\KomtetKassaSdk\Check')->disableOriginalConstructor()->getMock();
+        $check = $this->getMockBuilder('\Komtet\KassaSdk\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check);
     }
 
@@ -106,7 +106,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutCheckFailedWithUnregisteredQueue()
     {
-        $check = $this->getMockBuilder('\Motmom\KomtetKassaSdk\Check')->disableOriginalConstructor()->getMock();
+        $check = $this->getMockBuilder('\Komtet\KassaSdk\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check, 'my-queue');
     }
 

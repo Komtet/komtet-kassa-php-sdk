@@ -1,7 +1,7 @@
 <?php
 
 spl_autoload_register(function ($class) {
-    $prefix = 'Motmom\KomtetKassaSdk\\';
+    $prefix = 'Komtet\KassaSdk\\';
     if (strpos($class, $prefix) !== 0) {
         return;
     }

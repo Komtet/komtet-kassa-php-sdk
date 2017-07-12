@@ -14,19 +14,19 @@
 С помощью Composer:
 
 ```
-composer require motmom/komtet-kassa-sdk
+composer require komtet/kassa-sdk
 ```
 
 Вручную:
 
 ```
-git clone https://github.com/Motmom/komtet-kassa-php-sdk
+git clone https://github.com/Komtet/kassa-php-sdk
 ```
 
 ```php
 <?php
 
-require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
+require __DIR__.'/kassa-php-sdk/autoload.php';
 ```
 
 ## Использование
@@ -36,8 +36,8 @@ require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ```php
 <?php
 
-use Motmom\KomtetKassaSdk\Client;
-use Motmom\KomtetKassaSdk\QueueManager;
+use Komtet\KassaSdk\Client;
+use Komtet\KassaSdk\QueueManager;
 
 $key = 'идентификатор магазина';
 $secret = 'секретный ключ';
@@ -57,7 +57,7 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 ```php
 <?php
 
-use Motmom\KomtetKassaSdk\Exception\SdkException;
+use Komtet\KassaSdk\Exception\SdkException;
 
 // уникальный ID, предоставляемый магазином
 $checkID = 'id';

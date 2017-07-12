@@ -6,13 +6,13 @@
     "version": "0.1.0",
     "authors": [
         {
-            "name": "Motmom",
-            "email": "motmom.dev@gmail.com"
+            "name": "Komtet",
+            "email": "kassa@komtet.ru"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Motmom\\KomtetKassaSdk\\": "src"
+            "Komtet\\KassaSdk\\": "src"
         }
     },
     "require-dev":{
