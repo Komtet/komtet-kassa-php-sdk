@@ -124,9 +124,10 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $check->addPayment($payment);
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
-        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn([]);
+        $rep = ['key' => 'value'];
+        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
-        $this->assertNull($this->qm->putCheck($check));
+        $this->assertEquals($this->qm->putCheck($check), $rep);
     }
 
     public function testPutCheckToCustomQueueSucceeded()
@@ -145,8 +146,9 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $data = $check->asArray();
         $this->assertTrue($data['print']);
         $path = 'api/shop/v1/queues/queue-id/task';
-        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn([]);
+        $rep = ['key' => 'val'];
+        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
-        $this->assertNull($this->qm->putCheck($check, 'my-queue'));
+        $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
     }
 }

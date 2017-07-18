@@ -85,7 +85,7 @@ class QueueManager
      * @param Check $check Check instance
      * @param string $queueName Queue name
      *
-     * @return void
+     * @return mixed
      */
     public function putCheck(Check $check, $queueName = null)
     {
@@ -101,7 +101,7 @@ class QueueManager
         }
 
         $path = sprintf('api/shop/v1/queues/%s/task', $this->queues[$queueName]);
-        $this->client->sendRequest($path, $check->asArray());
+        return $this->client->sendRequest($path, $check->asArray());
     }
 
     /**
