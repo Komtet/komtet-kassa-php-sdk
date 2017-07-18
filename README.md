@@ -48,10 +48,10 @@ $manager = new QueueManager($client);
 После чего зарегистрировать очереди:
 
 ```php
-// Где 'queue-name-1' и 'queue-name-2' произвольные псевдомимы для обращения к очереди, а
-// 'queue-id-1' и 'queue-id-2' id очередей созданных в личном кабинете
 $manager->registerQueue('queue-name-1', 'queue-id-1');
 $manager->registerQueue('queue-name-2', 'queue-id-2');
+// 'queue-name-1' и 'queue-name-2' - произвольные псевдомимы для обращения к очередям.
+// 'queue-id-1' и 'queue-id-2' - идентификаторы очередей, созданных в личном кабинете.
 
 ```
 
