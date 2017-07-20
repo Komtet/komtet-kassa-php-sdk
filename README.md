@@ -78,7 +78,7 @@ $position = new Position('name', 100, 1, 100, 0, $vat);
 $check->addPosition($position);
 
 // Итоговая сумма расчёта
-$payment = Payment::createCash(100);
+$payment = Payment::createCard(100); // или createCash при оплате наличными
 $check->addPayment($payment);
 
 
