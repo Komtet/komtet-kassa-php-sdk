@@ -20,13 +20,13 @@ composer require komtet/kassa-sdk
 Вручную:
 
 ```
-git clone https://github.com/Komtet/kassa-php-sdk
+git clone git clone https://github.com/Komtet/komtet-kassa-php-sdk
 ```
 
 ```php
 <?php
 
-require __DIR__.'/kassa-php-sdk/autoload.php';
+require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ```
 
 ## Использование
