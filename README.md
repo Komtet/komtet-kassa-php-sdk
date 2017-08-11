@@ -71,7 +71,7 @@ $check = Check::createSell($checkID, $clientEmail); // или Check::createSellR
 // Говорим, что чек нужно распечатать
 $check->setShouldPrint(true);
 
-$vat = new Vat(0, Vat::RATE_NO);
+$vat = new Vat(Vat::RATE_18);
 
 // Позиция в чеке: имя, цена, кол-во, общая стоимость, скидка, налог
 $position = new Position('name', 100, 1, 100, 0, $vat);
@@ -108,6 +108,12 @@ $manager->isQueueActive('queue-name-1');
 ```
 
 ## Changelog
+
+# 0.3.0 (11.08.2017)
+
+- Удалён метод `Vat::calculate`.
+- Конструктор класса `Vat` теперь принимает только ставку налога.
+- Метод `Vat::as_array()` заменён на `Vat::getRate`, который возвращает строку, содержащую ставку налога.
 
 # 0.2.1 (18.07.2017)
 
