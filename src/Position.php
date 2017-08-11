@@ -72,7 +72,7 @@ class Position
             'quantity' => $this->quantity,
             'total' => $this->total,
             'discount' => $this->discount,
-            'vat' => $this->vat->asArray(),
+            'vat' => $this->vat->getRate(),
         ];
     }
 }

@@ -115,7 +115,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $this->qm->setDefaultQueue('my-queue');
 
-        $vat = new Vat(0, '18%');
+        $vat = new Vat('18%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $payment = Payment::createCard(100);
 
@@ -136,7 +136,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('default-queue');
         $this->qm->registerQueue('my-queue', 'queue-id');
 
-        $vat = new Vat(0, 'no');
+        $vat = new Vat('no');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $payment = Payment::createCash(100);
 
