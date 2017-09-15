@@ -67,7 +67,7 @@ $checkID = 'id';
 // E-Mail клиента, на который будет отправлен E-Mail с чеком.
 $clientEmail = 'user@host';
 
-$check = Check::createSell($checkID, $clientEmail); // или Check::createSellReturn для оформления возврата
+$check = Check::createSell($checkID, $clientEmail, Check::TS_SIMPLIFIED_IN); // или Check::createSellReturn для оформления возврата
 // Говорим, что чек нужно распечатать
 $check->setShouldPrint(true);
 
