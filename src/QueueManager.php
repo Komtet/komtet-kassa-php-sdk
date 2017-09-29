@@ -82,12 +82,12 @@ class QueueManager
     /**
      * Sends a check to queue
      *
-     * @param Check $check Check instance
+     * @param Check|CorrectionCheck $check Check instance
      * @param string $queueName Queue name
      *
      * @return mixed
      */
-    public function putCheck(Check $check, $queueName = null)
+    public function putCheck($check, $queueName = null)
     {
         if ($queueName === null) {
             if ($this->defaultQueue === null) {
