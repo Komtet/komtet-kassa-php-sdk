@@ -42,6 +42,11 @@ class Position
     private $vat;
 
     /**
+     * @var string|null
+     */
+    private $measureName = null;
+
+    /**
      * @param string $name Item name
      * @param int|float $price Item price
      * @param int|float $quantity Item quanitity
@@ -61,12 +66,25 @@ class Position
         $this->vat = $vat;
     }
 
+
+    /**
+     * @param string|null $value
+     *
+     * @return Position
+     */
+    public function setMeasureName($value)
+    {
+        $this->measureName = $value;
+
+        return $this;
+    }
+
     /**
      * @return array
      */
     public function asArray()
     {
-        return [
+        $result = [
             'name' => $this->name,
             'price' => $this->price,
             'quantity' => $this->quantity,
@@ -74,5 +92,11 @@ class Position
             'discount' => $this->discount,
             'vat' => $this->vat->getRate(),
         ];
+
+        if ($this->measureName !== null) {
+            $result['measure_name'] = $this->measureName;
+        }
+
+        return $result;
     }
 }
