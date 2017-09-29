@@ -57,6 +57,14 @@ class Payment
     }
 
     /**
+     * @return int|float
+     */
+    public function getSum()
+    {
+        return $this->sum;
+    }
+
+    /**
      * @return array
      */
     public function asArray()
