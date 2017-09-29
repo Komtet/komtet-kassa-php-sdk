@@ -15,36 +15,6 @@ class Check
     const INTENT_SELL_RETURN = 'sellReturn';
 
     /**
-     * Common tax system
-     */
-    const TS_COMMON = 0;
-
-    /**
-     * Simplified tax system: Income
-     */
-    const TS_SIMPLIFIED_IN = 1;
-
-    /**
-     * Simplified tax system: Income - Outgo
-     */
-    const TS_SIMPLIFIED_IN_OUT = 2;
-
-    /**
-     * An unified tax on imputed income
-     */
-    const TS_UTOII = 3;
-
-    /**
-     * Unified social tax
-     */
-    const TS_UST = 4;
-
-    /**
-     * Patent
-     */
-    const TS_PATENT = 5;
-
-    /**
      * @var string
      */
     private $id;
