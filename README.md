@@ -153,6 +153,13 @@ $manager->isQueueActive('queue-name-1');
 
 ## Changelog
 
+# 0.4.0 (29.09.2017)
+
+- Добавлен метод `Payment::getSum`.
+- `Check::TS_*` константы перенесены в класс `TaxSystem`.
+- Добавлен метод `Position::setMeasureName`.
+- Добавлен чек коррекции.
+
 # 0.3.0 (11.08.2017)
 
 - Удалён метод `Vat::calculate`.
