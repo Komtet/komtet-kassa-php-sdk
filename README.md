@@ -59,15 +59,18 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 
 ```php
 <?php
-
+use Komtet\KassaSdk\Exception\Check;
+use Komtet\KassaSdk\Exception\Payment;
 use Komtet\KassaSdk\Exception\SdkException;
+use Komtet\KassaSdk\Exception\TaxSystem;
+use Komtet\KassaSdk\Exception\Vat;
 
 // уникальный ID, предоставляемый магазином
 $checkID = 'id';
 // E-Mail клиента, на который будет отправлен E-Mail с чеком.
 $clientEmail = 'user@host';
 
-$check = Check::createSell($checkID, $clientEmail, Check::TS_SIMPLIFIED_IN); // или Check::createSellReturn для оформления возврата
+$check = Check::createSell($checkID, $clientEmail, TaxSystem::Common); // или Check::createSellReturn для оформления возврата
 // Говорим, что чек нужно распечатать
 $check->setShouldPrint(true);
 
@@ -75,6 +78,8 @@ $vat = new Vat(Vat::RATE_18);
 
 // Позиция в чеке: имя, цена, кол-во, общая стоимость, скидка, налог
 $position = new Position('name', 100, 1, 100, 0, $vat);
+// Можно также установить единицу измерения:
+// $position->setMeasureName('Кг.');
 $check->addPosition($position);
 
 // Итоговая сумма расчёта
@@ -88,6 +93,45 @@ try {
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
+```
+
+Отправка чека коррекции:
+
+```php
+<?php
+use Komtet\KassaSdk\Correction;
+use Komtet\KassaSdk\CorrectionCheck;
+
+// Данные коррекции
+// createSelf для самостоятельной коррекции
+// createForced для коррекции по предписанию
+$correction = Correction::createSelf(
+    '2012-12-21', // Дата документа коррекции в формате yyyy-mm-dd
+    '4815162342', // Номер документа коррекции
+    'description' // Описание коррекции
+);
+
+// createSell для коррекции прихода
+// createSellReturn для коррекции расхода
+$check = CorrectionCheck::createSell(
+    '4815162342', // Номер операции в вашей системе
+    '4815162342', // Серийный номер принтера
+    TaxSystem::COMMON, // Система налогообложения
+    $correction // Данные коррекции
+);
+
+$check->setPayment(
+    Payment::createCard(4815), // Общая сумма по чеку
+    new Vat('118') // Ставка налога
+);
+
+// Добавляем чек в очередь.
+try {
+    $manager->putCheck($check, 'queue-name-1');
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+
 ```
 
 Чтобы не указывать каждый раз имя очереди, установите очередь по умолчанию:
