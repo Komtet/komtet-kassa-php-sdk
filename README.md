@@ -59,11 +59,11 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 
 ```php
 <?php
-use Komtet\KassaSdk\Exception\Check;
-use Komtet\KassaSdk\Exception\Payment;
+use Komtet\KassaSdk\Check;
+use Komtet\KassaSdk\Payment;
+use Komtet\KassaSdk\TaxSystem;
+use Komtet\KassaSdk\Vat;
 use Komtet\KassaSdk\Exception\SdkException;
-use Komtet\KassaSdk\Exception\TaxSystem;
-use Komtet\KassaSdk\Exception\Vat;
 
 // уникальный ID, предоставляемый магазином
 $checkID = 'id';
