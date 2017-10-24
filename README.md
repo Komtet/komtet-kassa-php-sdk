@@ -63,7 +63,7 @@ use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\TaxSystem;
 use Komtet\KassaSdk\Vat;
-use Komtet\KassaSdk\Exception\SdkException;
+use Komtet\KassaSdk\Exception\ClientException;
 
 // уникальный ID, предоставляемый магазином
 $checkID = 'id';
@@ -90,7 +90,7 @@ $check->addPayment($payment);
 // Добавляем чек в очередь.
 try {
     $manager->putCheck($check, 'queue-name-1');
-} catch (SdkException $e) {
+} catch (ClientException $e) {
     echo $e->getMessage();
 }
 ```
