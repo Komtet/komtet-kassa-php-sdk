@@ -66,6 +66,17 @@ class Position
         $this->vat = $vat;
     }
 
+    /**
+     * @param string|null $value
+     *
+     * @return Position
+     */
+    public function setId($value)
+    {
+        $this->id = $value;
+
+        return $this;
+    }
 
     /**
      * @param string|null $value
