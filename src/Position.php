@@ -14,6 +14,11 @@ class Position
     /**
      * @var string
      */
+    private $id = null;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -103,6 +108,10 @@ class Position
             'discount' => $this->discount,
             'vat' => $this->vat->getRate(),
         ];
+
+        if ($this->id !== null) {
+            $result['id'] = $this->id;
+        }
 
         if ($this->measureName !== null) {
             $result['measure_name'] = $this->measureName;
