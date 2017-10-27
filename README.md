@@ -32,7 +32,6 @@ require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ## Использование
 
 Первым делом необходимо создать менеджер очередей:
-
 ```php
 <?php
 
@@ -78,7 +77,9 @@ $vat = new Vat(Vat::RATE_18);
 
 // Позиция в чеке: имя, цена, кол-во, общая стоимость, скидка, налог
 $position = new Position('name', 100, 1, 100, 0, $vat);
-// Можно также установить единицу измерения:
+// Можно также установить идентификатор позиции:
+// $position->setId('123');
+// и единицу измерения:
 // $position->setMeasureName('Кг.');
 $check->addPosition($position);
 
@@ -149,6 +150,18 @@ $manager->putCheck($check);
 ```php
 <?php
 $manager->isQueueActive('queue-name-1');
+```
+
+Получить информацию о поставленной на фискализацию задаче:
+
+```php
+<?php
+$taskManager = new TaskManager($client);
+try {
+    $taskManager->getTaskInfo('task-id');
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
 ```
 
 ## Changelog

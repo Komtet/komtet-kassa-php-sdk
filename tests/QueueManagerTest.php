@@ -120,6 +120,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
 
         $vat = new Vat('18%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position->setId('123');
         $payment = Payment::createCard(100);
 
         $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);

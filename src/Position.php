@@ -14,6 +14,11 @@ class Position
     /**
      * @var string
      */
+    private $id = null;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -66,6 +71,17 @@ class Position
         $this->vat = $vat;
     }
 
+    /**
+     * @param string|null $value
+     *
+     * @return Position
+     */
+    public function setId($value)
+    {
+        $this->id = $value;
+
+        return $this;
+    }
 
     /**
      * @param string|null $value
@@ -92,6 +108,10 @@ class Position
             'discount' => $this->discount,
             'vat' => $this->vat->getRate(),
         ];
+
+        if ($this->id !== null) {
+            $result['id'] = $this->id;
+        }
 
         if ($this->measureName !== null) {
             $result['measure_name'] = $this->measureName;
