@@ -40,7 +40,9 @@ use Komtet\KassaSdk\QueueManager;
 
 $key = 'идентификатор магазина';
 $secret = 'секретный ключ';
-$client = new Client($key, $secret);
+// PSR-совместимый логгер (опциональный параметр)
+$logger = null;
+$client = new Client($key, $secret, $logger);
 $manager = new QueueManager($client);
 ```
 

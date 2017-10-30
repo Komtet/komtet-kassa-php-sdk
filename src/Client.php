@@ -10,6 +10,8 @@
 namespace Komtet\KassaSdk;
 
 use Komtet\KassaSdk\Exception\ClientException;
+use Psr\Log\LogLevel;
+use Psr\Log\LoggerInterface;
 
 class Client
 {
@@ -29,15 +31,22 @@ class Client
     private $secret;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param string $key Shop ID
      * @param string $secret Secret key
+     * @param LoggerInterface $logger PSR Logger
      *
      * @return Client
      */
-    public function __construct($key, $secret)
+    public function __construct($key, $secret, LoggerInterface $logger = null)
     {
         $this->key = $key;
         $this->secret = $secret;
+        $this->logger = $logger;
     }
 
     /**
@@ -90,6 +99,13 @@ class Client
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
         $response = curl_exec($ch);
+
+        $this->log(LogLevel::DEBUG, 'request: url={url} headers={headers} data={data}', [
+            'url' => $url,
+            'headers' => $headers,
+            'data' => $data
+        ]);
+
         $error = null;
         if ($response === false) {
             $error = curl_error($ch);
@@ -101,8 +117,23 @@ class Client
         }
         curl_close($ch);
         if ($error !== null) {
+            $this->log(LogLevel::WARNING, 'error: {error} {response}', [
+                'error' => $error,
+                'response' => $response
+            ]);
             throw new ClientException($error);
         }
+
+        $this->log(LogLevel::DEBUG, 'response: {response}', ['response' => $response]);
+
         return json_decode($response, true);
+    }
+
+    private function log($level, $message, $context)
+    {
+        if ($this->logger !== null) {
+            $message = sprintf('KOMTET Kassa %s', $message);
+            $this->logger->log($level, $message, $context);
+        }
     }
 }
