@@ -10,9 +10,13 @@
 namespace Komtet\KassaSdk;
 
 use Komtet\KassaSdk\Exception\ClientException;
+use Psr\Log\LoggerInterface;
 
 class Client
 {
+    
+    const LOG_LEVEL = 0;
+    
     /**
      * @var string
      */
@@ -27,6 +31,11 @@ class Client
      * @var string
      */
     private $secret;
+    
+    /** 
+     * @var LoggerInterface 
+     */
+    private $logger;
 
     /**
      * @param string $key Shop ID
@@ -34,7 +43,7 @@ class Client
      *
      * @return Client
      */
-    public function __construct($key, $secret)
+    public function __construct($key, $secret, LoggerInterface $logger = null)
     {
         $this->key = $key;
         $this->secret = $secret;
@@ -90,6 +99,12 @@ class Client
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
         $response = curl_exec($ch);
+        
+        if($this->logger){
+            $this->logger->log(self::LOG_LEVEL, 'Requested url '.$url.' params '. print_r($data, true).' headers '.print_r($headers, true));
+            $this->logger->log(self::LOG_LEVEL, 'Response '.$response);
+        }
+        
         $error = null;
         if ($response === false) {
             $error = curl_error($ch);
