@@ -22,7 +22,7 @@ class Check
     /**
      * @var string
      */
-    private $email;
+    private $userContact;
 
     /**
      * @var string
@@ -51,42 +51,42 @@ class Check
 
     /**
      * @param string $id An unique ID provided by an online store
-     * @param string $email User E-Mail
+     * @param string $userContact User E-Mail or phone
      * @param string $intent Check::INTENT_SELL or Check::INTENT_SELL_RETURN
      * @param int    $taxSystem See Check::TS_*
      *
      * @return Check
      */
-    public function __construct($id, $email, $intent, $taxSystem)
+    public function __construct($id, $userContact, $intent, $taxSystem)
     {
         $this->id = $id;
-        $this->email = $email;
+        $this->userContact = $userContact;
         $this->intent = $intent;
         $this->taxSystem = $taxSystem;
     }
 
     /**
      * @param string $id
-     * @param string $email
+     * @param string $userContact
      * @param int    $taxSystem
      *
      * @return Check
      */
-    public static function createSell($id, $email, $taxSystem)
+    public static function createSell($id, $userContact, $taxSystem)
     {
-        return new static($id, $email, static::INTENT_SELL, $taxSystem);
+        return new static($id, $userContact, static::INTENT_SELL, $taxSystem);
     }
 
     /**
      * @param string $id
-     * @param string $email
+     * @param string $userContact
      * @param int    $taxSystem
      *
      * @return Check
      */
-    public static function createSellReturn($id, $email, $taxSystem)
+    public static function createSellReturn($id, $userContact, $taxSystem)
     {
-        return new static($id, $email, static::INTENT_SELL_RETURN, $taxSystem);
+        return new static($id, $userContact, static::INTENT_SELL_RETURN, $taxSystem);
     }
 
     /**
@@ -132,7 +132,7 @@ class Check
     {
         return [
             'task_id' => $this->id,
-            'user' => $this->email,
+            'user' => $this->userContact,
             'print' => $this->shouldPrint,
             'intent' => $this->intent,
             'sno' => $this->taxSystem,
