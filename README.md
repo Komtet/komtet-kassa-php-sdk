@@ -60,6 +60,7 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 <?php
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Payment;
+use Komtet\KassaSdk\Position;
 use Komtet\KassaSdk\TaxSystem;
 use Komtet\KassaSdk\Vat;
 use Komtet\KassaSdk\Exception\SdkException;
