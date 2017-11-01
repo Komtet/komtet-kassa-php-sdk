@@ -36,6 +36,11 @@ class Client
     private $logger;
 
     /**
+     * @var array A list of headers to be masked in logs
+     */
+    private $maskedHeaders = ['Authorization', 'X-HMAC-Signature'];
+
+    /**
      * @param string $key Shop ID
      * @param string $secret Secret key
      * @param LoggerInterface $logger PSR Logger
@@ -102,7 +107,7 @@ class Client
 
         $this->log(LogLevel::DEBUG, 'request: url={url} headers={headers} data={data}', [
             'url' => $url,
-            'headers' => $headers,
+            'headers' => $this->maskHeaders($headers),
             'data' => $data
         ]);
 
@@ -135,5 +140,21 @@ class Client
             $message = sprintf('KOMTET Kassa %s', $message);
             $this->logger->log($level, $message, $context);
         }
+    }
+
+    private function maskHeaders($headers)
+    {
+        return array_map(
+            function($header) {
+                $parts = explode(':', $header);
+                $key = trim($parts[0]);
+                $value = trim($parts[1]);
+                if (in_array($key, $this->maskedHeaders)) {
+                    $value =  str_repeat('*', strlen($value) - 2) . substr($value, -2);
+                }
+                return [$key, $value];
+            },
+            $headers
+        );
     }
 }
