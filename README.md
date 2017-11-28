@@ -169,6 +169,10 @@ try {
 
 ## Changelog
 
+### 0.6.0 (28.11.2017)
+
+- Добавлен метод `Client::setPartner`.
+
 ### 0.5.2 (01.11.2017)
 
 - Маскирование значений заголовков Authorization и X-HMAC-Signature в логах.
