@@ -23,6 +23,11 @@ class Client
     /**
      * @var string
      */
+    private $partner = null;
+
+    /**
+     * @var string
+     */
     private $key;
 
     /**
@@ -67,6 +72,18 @@ class Client
     }
 
     /**
+     * @param string $value
+     *
+     * @return Client
+     */
+    public function setPartner($value)
+    {
+        $this->partner = $value;
+
+        return $this;
+    }
+
+    /**
      * @param string $path
      * @param mixed $data
      *
@@ -91,6 +108,9 @@ class Client
             sprintf('Authorization: %s', $this->key),
             sprintf('X-HMAC-Signature: %s', $signature)
         ];
+        if (!empty($this->partner)) {
+            $headers[] = sprintf('X-Partner-ID: %s', $this->partner);
+        }
         if ($method == 'POST') {
             $headers[] = 'Content-Type: application/json';
         }
