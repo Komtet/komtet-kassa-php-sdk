@@ -52,6 +52,21 @@ class Position
     private $measureName = null;
 
     /**
+     * @var string
+     */
+    private $calcMethod = null;
+
+    /**
+     * @var string
+     */
+    private $calcSubject = null;
+
+    /**
+     * @var Agent
+     */
+    private $agent = null;
+
+    /**
      * @param string $name Item name
      * @param int|float $price Item price
      * @param int|float $quantity Item quanitity
@@ -96,6 +111,42 @@ class Position
     }
 
     /**
+     * @param srting $calc_method
+     *
+     * @return Position
+     */
+    public function setCalculationMethod($calc_method)
+    {
+        $this->calcMethod = $calc_method;
+
+        return $this;
+    }
+
+    /**
+     * @param srting $calc_subject
+     *
+     * @return Position
+     */
+    public function setCalculationSubject($calc_subject)
+    {
+        $this->calcSubject = $calc_subject;
+
+        return $this;
+    }
+
+    /**
+     * @param Agent $agent
+     *
+     * @return Position
+     */
+    public function setAgent(Agent $agent)
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function asArray()
@@ -115,6 +166,18 @@ class Position
 
         if ($this->measureName !== null) {
             $result['measure_name'] = $this->measureName;
+        }
+
+        if ($this->calcMethod !== null) {
+            $result['calculation_method'] = $this->calcMethod;
+        }
+
+        if ($this->calcSubject !== null) {
+            $result['calculation_subject'] = $this->calcSubject;
+        }
+
+        if ($this->agent !== null) {
+            $result['agent'] = $this->agent->asArray();
         }
 
         return $result;

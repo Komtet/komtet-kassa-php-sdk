@@ -9,6 +9,10 @@
 
 namespace KomtetTest\KassaSdk;
 
+use Komtet\KassaSdk\Agent;
+use Komtet\KassaSdk\CalculationMethod;
+use Komtet\KassaSdk\CalculationSubject;
+use Komtet\KassaSdk\Cashier;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Correction;
 use Komtet\KassaSdk\CorrectionCheck;
@@ -18,7 +22,7 @@ use Komtet\KassaSdk\QueueManager;
 use Komtet\KassaSdk\TaxSystem;
 use Komtet\KassaSdk\Vat;
 
-class QueueManagerTest extends \PHPUnit_Framework_TestCase
+class QueueManagerTest extends \PHPUnit\Framework\TestCase
 {
     private $client;
     private $qm;
@@ -121,7 +125,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $vat = new Vat('18%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $position->setId('123');
-        $payment = Payment::createCard(100);
+        $payment = new Payment(Payment::TYPE_CARD, 100);
 
         $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);
         $check->addPosition($position);
@@ -142,7 +146,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
 
         $vat = new Vat('no');
         $position = (new Position('name', 100, 1, 100, 0, $vat))->setMeasureName('Kg');
-        $payment = Payment::createCash(100);
+        $payment = new Payment(Payment::TYPE_CASH, 100);
         $this->assertEquals($payment->getSum(), 100);
 
         $check = Check::createSellReturn('id', 'user@host', TaxSystem::COMMON)->setShouldPrint(true);
@@ -157,12 +161,43 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
     }
 
+    public function testPutCheckFFD105Succeeded()
+    {
+        $this->qm->registerQueue('my-queue', 'queue-id');
+        $this->qm->setDefaultQueue('my-queue');
+
+        $vat = new Vat('18%');
+        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position->setId('123');
+        $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
+        $position->setCalculationSubject(CalculationSubject::PRODUCT);
+
+        $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
+        $position->setAgent($agent);
+
+        $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);
+        $check->addPosition($position);
+
+        $payment = new Payment(Payment::TYPE_CARD, 100);
+        $check->addPayment($payment);
+
+        $cashier = new Cashier('Иваров И.П.', '1234567890123');
+        $check->addCashier($cashier);
+
+        $data = $check->asArray();
+        $path = 'api/shop/v1/queues/queue-id/task';
+        $rep = ['key' => 'value'];
+        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
+
+        $this->assertEquals($this->qm->putCheck($check), $rep);
+    }
+
     public function testPutSellCorrectionCheckSucceded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');
         $correction = Correction::createSelf('2012-12-21', '4815162342', 'description');
         $check = CorrectionCheck::createSell('4815162342', '4815162342', TaxSystem::PATENT, $correction);
-        $payment = Payment::createCard(4815);
+        $payment = new Payment(Payment::TYPE_CARD, 4815);
         $vat = new Vat('118');
         $check->setPayment($payment, $vat);
         $data = $check->asArray();
@@ -177,7 +212,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $correction = Correction::createForced('2012-12-21', '4815162342', 'description');
         $check = CorrectionCheck::createSellReturn('4815162342', '4815162342', TaxSystem::PATENT, $correction);
-        $payment = Payment::createCard(4815);
+        $payment = new Payment(Payment::TYPE_CARD, 4815);
         $vat = new Vat('118');
         $check->setPayment($payment, $vat);
         $data = $check->asArray();

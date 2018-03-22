@@ -11,7 +11,7 @@ namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\Vat;
 
-class VatTest extends \PHPUnit_Framework_TestCase
+class VatTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

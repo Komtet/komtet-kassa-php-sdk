@@ -60,7 +60,9 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 
 ```php
 <?php
+use Komtet\KassaSdk\Agent;
 use Komtet\KassaSdk\Check;
+use Komtet\KassaSdk\Cashier;
 use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\Position;
 use Komtet\KassaSdk\TaxSystem;
@@ -80,16 +82,33 @@ $vat = new Vat(Vat::RATE_18);
 
 // Позиция в чеке: имя, цена, кол-во, общая стоимость, скидка, налог
 $position = new Position('name', 100, 1, 100, 0, $vat);
-// Можно также установить идентификатор позиции:
+
+// Опционально можно установить:
+// Идентификатор позиции
 // $position->setId('123');
-// и единицу измерения:
+
+// Единицу измерения
 // $position->setMeasureName('Кг.');
+
+// Cпособ рассчета
+// $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
+
+// Признак рассчета
+// $position->setCalculationSubject(CalculationSubject::PRODUCT);
+
+// Агента по предмету расчета
+// $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
+// $position->setAgent($agent);
+
 $check->addPosition($position);
 
 // Итоговая сумма расчёта
-$payment = Payment::createCard(100); // или createCash при оплате наличными
+$payment = new Payment(Payment::TYPE_CARD, 100);
 $check->addPayment($payment);
 
+// Добавление кассира (опционально)
+$cashier = new Cashier('Иваров И.П.', '1234567890123');
+$check->addCashier($cashier);
 
 // Добавляем чек в очередь.
 try {

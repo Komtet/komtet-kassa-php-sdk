@@ -50,6 +50,11 @@ class Check
     private $positions = [];
 
     /**
+     * @var Cashier
+     */
+    private $cashier;
+
+    /**
      * @param string $id An unique ID provided by an online store
      * @param string $userContact User E-Mail or phone
      * @param string $intent Check::INTENT_SELL or Check::INTENT_SELL_RETURN
@@ -114,6 +119,18 @@ class Check
     }
 
     /**
+     * @param Cashier $cashier
+     *
+     * @return Check
+     */
+    public function addCashier(Cashier $cashier)
+    {
+        $this->cashier = $cashier;
+
+        return $this;
+    }
+
+    /**
      * @param Position $position
      *
      * @return Check
@@ -130,7 +147,7 @@ class Check
      */
     public function asArray()
     {
-        return [
+        $result = [
             'task_id' => $this->id,
             'user' => $this->userContact,
             'print' => $this->shouldPrint,
@@ -149,5 +166,11 @@ class Check
                 $this->positions
             ),
         ];
+
+        if ($this->cashier !== null) {
+            $result['cashier'] = $this->cashier->asArray();
+        }
+
+        return $result;
     }
 }
