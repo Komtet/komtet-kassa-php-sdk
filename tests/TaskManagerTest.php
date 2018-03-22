@@ -11,7 +11,7 @@ namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\TaskManager;
 
-class TaskManagerTest extends \PHPUnit\Framework\TestCase
+class TaskManagerTest extends \PHPUnit_Framework_TestCase
 {
     private $client;
     private $tm;

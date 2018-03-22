@@ -22,7 +22,7 @@ use Komtet\KassaSdk\QueueManager;
 use Komtet\KassaSdk\TaxSystem;
 use Komtet\KassaSdk\Vat;
 
-class QueueManagerTest extends \PHPUnit\Framework\TestCase
+class QueueManagerTest extends \PHPUnit_Framework_TestCase
 {
     private $client;
     private $qm;
