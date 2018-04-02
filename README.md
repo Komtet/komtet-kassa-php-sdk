@@ -188,6 +188,13 @@ try {
 
 ## Changelog
 
+### 0.7.0 (02.04.2018)
+
+- Добавлены классы `Agent`, `CalculationMethod`, `CalculationSubject` и `Cashier`.
+- Добавлены методы `Check::addCashier`, `Position::setCalculationMethod`, `Position::setCalculationSubject`, `Position::setAgent`.
+- Добавлены константы `Payment::TYPE_PREPAYMENT`, `Payment::TYPE_CREDIT` и `Payment::TYPE_COUNTER_PROVISIONING`.
+- Удалены методы `Payment::createCard` и `Payment::createCash`
+
 ### 0.6.0 (28.11.2017)
 
 - Добавлен метод `Client::setPartner`.
