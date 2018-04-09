@@ -124,6 +124,7 @@ try {
 <?php
 use Komtet\KassaSdk\Correction;
 use Komtet\KassaSdk\CorrectionCheck;
+use Komtet\KassaSdk\AuthorisedPerson;
 
 // Данные коррекции
 // createSelf для самостоятельной коррекции
@@ -147,6 +148,12 @@ $check->setPayment(
     Payment::createCard(4815), // Общая сумма по чеку
     new Vat('118') // Ставка налога
 );
+
+$authorised_person = new AuthorisedPerson(
+  'Иваров И.И.', // ФИО
+  '123456789012' // ИНН
+);
+$check->setAuthorisedPerson($authorised_person);
 
 // Добавляем чек в очередь.
 try {
