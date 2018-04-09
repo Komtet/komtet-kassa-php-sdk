@@ -10,6 +10,7 @@
 namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\Agent;
+use Komtet\KassaSdk\AuthorisedPerson;
 use Komtet\KassaSdk\CalculationMethod;
 use Komtet\KassaSdk\CalculationSubject;
 use Komtet\KassaSdk\Cashier;
@@ -200,6 +201,8 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment(Payment::TYPE_CARD, 4815);
         $vat = new Vat('118');
         $check->setPayment($payment, $vat);
+        $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
+        $check->setAuthorisedPerson($authorised_person);
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
@@ -215,6 +218,8 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment(Payment::TYPE_CARD, 4815);
         $vat = new Vat('118');
         $check->setPayment($payment, $vat);
+        $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
+        $check->setAuthorisedPerson($authorised_person);
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];

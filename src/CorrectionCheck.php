@@ -50,6 +50,11 @@ class CorrectionCheck
     private $position;
 
     /**
+     * @var AuthorisedPerson
+     */
+    private $authorised_person;
+
+    /**
      * @param string $id An unique ID provided by an online store
      * @param string $intent One of CorrectionCheck::INTENT_* constants
      * @param string $printerNumber Printer's serial number
@@ -117,6 +122,18 @@ class CorrectionCheck
     }
 
     /**
+     * @param AuthorisedPerson $authorised_person
+     *
+     * @return Check
+     */
+    public function setAuthorisedPerson(AuthorisedPerson $authorised_person)
+    {
+      $this->authorised_person = $authorised_person;
+
+      return $this;
+    }
+
+    /**
      * @return array
      */
     public function asArray()
@@ -128,7 +145,8 @@ class CorrectionCheck
             'sno' => $this->taxSystem,
             'payments' => [$this->payment->asArray()],
             'positions' => [$this->position],
-            'correction' => $this->correction->asArray()
+            'correction' => $this->correction->asArray(),
+            'authorised_person' => $this->authorised_person->asArray()
         ];
     }
 }
