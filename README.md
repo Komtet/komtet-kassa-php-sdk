@@ -195,6 +195,10 @@ try {
 
 ## Changelog
 
+### 0.8.0 (09.04.2018)
+
+- Добавлен класс `AuthorisedPerson`
+
 ### 0.7.0 (02.04.2018)
 
 - Добавлены классы `Agent`, `CalculationMethod`, `CalculationSubject` и `Cashier`.
