@@ -162,6 +162,48 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
     }
 
+    public function testPutBuyCheckSucceeded()
+    {
+        $this->qm->registerQueue('my-queue', 'queue-id');
+        $this->qm->setDefaultQueue('my-queue');
+
+        $vat = new Vat('18%');
+        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position->setId('123');
+        $payment = new Payment(Payment::TYPE_CARD, 100);
+
+        $check = Check::createBuy('id', 'user@host', TaxSystem::COMMON);
+        $check->addPosition($position);
+        $check->addPayment($payment);
+        $data = $check->asArray();
+        $path = 'api/shop/v1/queues/queue-id/task';
+        $rep = ['key' => 'value'];
+        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
+
+        $this->assertEquals($this->qm->putCheck($check), $rep);
+    }
+
+    public function testPutBuyReturnCheckSucceeded()
+    {
+        $this->qm->registerQueue('my-queue', 'queue-id');
+        $this->qm->setDefaultQueue('my-queue');
+
+        $vat = new Vat('18%');
+        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position->setId('123');
+        $payment = new Payment(Payment::TYPE_CARD, 100);
+
+        $check = Check::createBuyReturn('id', 'user@host', TaxSystem::COMMON);
+        $check->addPosition($position);
+        $check->addPayment($payment);
+        $data = $check->asArray();
+        $path = 'api/shop/v1/queues/queue-id/task';
+        $rep = ['key' => 'value'];
+        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
+
+        $this->assertEquals($this->qm->putCheck($check), $rep);
+    }
+
     public function testPutCheckFFD105Succeeded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');

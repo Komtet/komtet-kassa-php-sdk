@@ -13,6 +13,8 @@ class Check
 {
     const INTENT_SELL = 'sell';
     const INTENT_SELL_RETURN = 'sellReturn';
+    const INTENT_BUY = 'buy';
+    const INTENT_BUY_RETURN = 'buyReturn';
 
     /**
      * @var string
@@ -57,7 +59,7 @@ class Check
     /**
      * @param string $id An unique ID provided by an online store
      * @param string $userContact User E-Mail or phone
-     * @param string $intent Check::INTENT_SELL or Check::INTENT_SELL_RETURN
+     * @param string $intent Check::INTENT_SELL, Check::INTENT_SELL_RETURN, Check::INTENT_BUY, or Check::INTENT_BUY_RETURN
      * @param int    $taxSystem See Check::TS_*
      *
      * @return Check
@@ -92,6 +94,30 @@ class Check
     public static function createSellReturn($id, $userContact, $taxSystem)
     {
         return new static($id, $userContact, static::INTENT_SELL_RETURN, $taxSystem);
+    }
+
+    /**
+     * @param string $id
+     * @param string $userContact
+     * @param int    $taxSystem
+     *
+     * @return Check
+     */
+    public static function createBuy($id, $userContact, $taxSystem)
+    {
+        return new static($id, $userContact, static::INTENT_BUY, $taxSystem);
+    }
+
+    /**
+     * @param string $id
+     * @param string $userContact
+     * @param int    $taxSystem
+     *
+     * @return Check
+     */
+    public static function createBuyReturn($id, $userContact, $taxSystem)
+    {
+        return new static($id, $userContact, static::INTENT_BUY_RETURN, $taxSystem);
     }
 
     /**
