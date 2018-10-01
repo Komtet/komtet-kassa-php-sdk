@@ -126,7 +126,8 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $vat = new Vat('18%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $position->setId('123');
-        $payment = new Payment(Payment::TYPE_CARD, 100);
+        $payment = Payment::createCard(100);
+
 
         $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);
         $check->addPosition($position);
@@ -147,7 +148,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
 
         $vat = new Vat('no');
         $position = (new Position('name', 100, 1, 100, 0, $vat))->setMeasureName('Kg');
-        $payment = new Payment(Payment::TYPE_CASH, 100);
+        $payment = Payment::createCash(100);
         $this->assertEquals($payment->getSum(), 100);
 
         $check = Check::createSellReturn('id', 'user@host', TaxSystem::COMMON)->setShouldPrint(true);

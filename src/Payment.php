@@ -59,6 +59,26 @@ class Payment
     }
 
     /**
+     * @param int|float $sum Amount
+     *
+     * @return Payment
+     */
+    public static function createCard($sum)
+    {
+        return new static(static::TYPE_CARD, $sum);
+    }
+
+     /**
+     * @param int|float $sum Amount
+     *
+     * @return Payment
+     */
+    public static function createCash($sum)
+    {
+        return new static(static::TYPE_CASH, $sum);
+    }
+
+    /**
      * @return int|float
      */
     public function getSum()

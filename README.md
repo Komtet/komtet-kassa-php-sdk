@@ -145,7 +145,7 @@ $check = CorrectionCheck::createSell(
 );
 
 $check->setPayment(
-    Payment::createCard(4815), // Общая сумма по чеку
+    new Payment(Payment::TYPE_CARD, 4815), // Общая сумма по чеку
     new Vat('118') // Ставка налога
 );
 
@@ -194,6 +194,10 @@ try {
 ```
 
 ## Changelog
+
+### 0.9.1 (01.09.2018)
+
+- Вернул методы createCard и createCash для подержания совместимости версии 0.X.X
 
 ### 0.9.0 (15.08.2018)
 
