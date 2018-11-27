@@ -172,6 +172,20 @@ class Check
     }
 
     /**
+     * @return int|float
+     */
+    public function getTotalSum()
+    {
+        $orderTotal = 0;
+        foreach( $this->payments as $payment )
+        {
+            $orderTotal += $payment->getSum();
+        }
+
+        return $orderTotal;
+    }
+
+    /**
      * @param float  $discount
      * @param string $discountType
      *
@@ -179,8 +193,11 @@ class Check
      */
     public function applyDiscount(float $discount, string $discountType)
     {
+
+        $orderTotal = $this->getTotalSum();
+
         if ($discountType == static::DISCOUNT_TYPE_VALUE) {
-            $orderDiscountPercent = floatval($discount) / $this->positions[0]->order_total * 100;
+            $orderDiscountPercent = floatval($discount) / $orderTotal * 100;
         }
         else {
             $orderDiscountPercent = $discount;
