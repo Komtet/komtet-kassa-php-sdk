@@ -16,6 +16,9 @@ class Check
     const INTENT_BUY = 'buy';
     const INTENT_BUY_RETURN = 'buyReturn';
 
+    const DISCOUNT_TYPE_PERCENT = 'percent';
+    const DISCOUNT_TYPE_VALUE = 'value';
+
     /**
      * @var string
      */
@@ -164,6 +167,42 @@ class Check
     public function addPosition(Position $position)
     {
         $this->positions[] = $position;
+
+        return $this;
+    }
+
+    /**
+     * @param float  $discount
+     * @param string $discountType
+     *
+     * @return Check
+     */
+    public function applyDiscount(float $discount, string $discountType)
+    {
+        if ($discountType == static::DISCOUNT_TYPE_VALUE) {
+            $orderDiscountPercent = floatval($discount) / $this->positions[0]->order_total * 100;
+        }
+        else {
+            $orderDiscountPercent = $discount;
+        }
+
+        $positionsCount = count($positions);
+        $positionsDiscount = 0;
+
+        foreach( $positions as $index => $position )
+        {
+
+            if ($index < $positionsCount-1) {
+                $curPositionDiscount = round($position->price - ($position->price*$orderDiscountPercent/100), 2);
+                $positionsDiscount += $curPositionDiscount;
+            }
+
+            if ($index == $positionsCount-1) {
+                $curPositionDiscount = round($position->order_discount - $positionsDiscount, 2);
+            }
+
+            $position->total -= $curPositionDiscount;
+        }
 
         return $this;
     }

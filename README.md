@@ -20,7 +20,7 @@ composer require komtet/kassa-sdk
 Вручную:
 
 ```
-git clone git clone https://github.com/Komtet/komtet-kassa-php-sdk
+git clone https://github.com/Komtet/komtet-kassa-php-sdk
 ```
 
 ```php
@@ -194,6 +194,10 @@ try {
 ```
 
 ## Changelog
+
+### 1.1.0 (27.11.2018)
+
+- Добавлен метод применения скидки к чеку Check::applyDiscount;
 
 ### 1.0.0 (01.09.2018)
 
