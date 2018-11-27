@@ -186,10 +186,10 @@ class Check
             $orderDiscountPercent = $discount;
         }
 
-        $positionsCount = count($positions);
+        $positionsCount = count($this->positions);
         $positionsDiscount = 0;
 
-        foreach( $positions as $index => $position )
+        foreach( $this->positions as $index => $position )
         {
 
             if ($index < $positionsCount-1) {
