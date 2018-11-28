@@ -147,6 +147,27 @@ class Position
     }
 
     /**
+     *
+     * @return int|float
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param float $total
+     *
+     * @return Position
+     */
+    public function setTotal(float $total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function asArray()

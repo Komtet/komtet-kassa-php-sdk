@@ -206,14 +206,14 @@ class Check
         foreach( $this->positions as $index => $position )
         {
             if ($index < $positionsCount-1) {
-                $curPositionDiscount = round($position->total*$checkDiscountPercent/100, 2);
+                $curPositionDiscount = round($position->getTotal()*$checkDiscountPercent/100, 2);
                 $positionsDiscount += $curPositionDiscount;
             }
             else {
                 $curPositionDiscount = round($checkDiscount - $positionsDiscount, 2);
             }
 
-            $position->total -= $curPositionDiscount;
+            $position->setTotal($position->getTotal()-$curPositionDiscount);
         }
 
         return $this;
