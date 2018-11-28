@@ -174,48 +174,43 @@ class Check
     /**
      * @return int|float
      */
-    public function getTotalSum()
+    public function getTotalPaymentsSum()
     {
-        $orderTotal = 0;
+        $paymentsTotal = 0;
         foreach( $this->payments as $payment )
         {
-            $orderTotal += $payment->getSum();
+            $paymentsTotal += $payment->getSum();
         }
 
-        return $orderTotal;
+        return $paymentsTotal;
     }
 
     /**
-     * @param float  $discount
-     * @param string $discountType
+     *
+     * Применение к позициям единой общей скидки на чек (например скидочного купона)
+     *
+     * @param float  $checkDiscount
      *
      * @return Check
      */
-    public function applyDiscount(float $discount, string $discountType)
+    public function applyDiscount(float $checkDiscount)
     {
 
-        $orderTotal = $this->getTotalSum();
+        $paymentsTotal = $this->getTotalPaymentsSum();
 
-        if ($discountType == static::DISCOUNT_TYPE_VALUE) {
-            $orderDiscountPercent = floatval($discount) / $orderTotal * 100;
-        }
-        else {
-            $orderDiscountPercent = $discount;
-        }
+        $checkDiscountPercent = round($checkDiscount / $paymentsTotal * 100, 2);
 
         $positionsCount = count($this->positions);
         $positionsDiscount = 0;
 
         foreach( $this->positions as $index => $position )
         {
-
             if ($index < $positionsCount-1) {
-                $curPositionDiscount = round($position->price - ($position->price*$orderDiscountPercent/100), 2);
+                $curPositionDiscount = round($position->total*$calculatedDiscountPercent/100, 2);
                 $positionsDiscount += $curPositionDiscount;
             }
-
-            if ($index == $positionsCount-1) {
-                $curPositionDiscount = round($position->order_discount - $positionsDiscount, 2);
+            else {
+                $curPositionDiscount = round($checkDiscount - $positionsDiscount, 2);
             }
 
             $position->total -= $curPositionDiscount;
