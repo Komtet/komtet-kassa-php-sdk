@@ -147,7 +147,6 @@ class Position
     }
 
     /**
-     *
      * @return int|float
      */
     public function getTotal()

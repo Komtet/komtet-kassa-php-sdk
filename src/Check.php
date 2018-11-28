@@ -186,6 +186,14 @@ class Check
     }
 
     /**
+     * @return array
+     */
+    public function getPositions()
+    {
+        return $this->positions;
+    }
+
+    /**
      *
      * Применение к позициям единой общей скидки на чек (например скидочного купона)
      *
@@ -195,15 +203,15 @@ class Check
      */
     public function applyDiscount(float $checkDiscount)
     {
-
         $paymentsTotal = $this->getTotalPaymentsSum();
+        $checkPositions = $this->getPositions();
 
         $checkDiscountPercent = round($checkDiscount / $paymentsTotal * 100, 2);
 
-        $positionsCount = count($this->positions);
+        $positionsCount = count($checkPositions);
         $positionsDiscount = 0;
 
-        foreach( $this->positions as $index => $position )
+        foreach( $checkPositions as $index => $position )
         {
             if ($index < $positionsCount-1) {
                 $curPositionDiscount = round($position->getTotal()*$checkDiscountPercent/100, 2);
