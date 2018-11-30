@@ -159,7 +159,7 @@ class Position
      *
      * @return Position
      */
-    public function setTotal(float $total)
+    public function setTotal($total)
     {
         $this->total = $total;
 
