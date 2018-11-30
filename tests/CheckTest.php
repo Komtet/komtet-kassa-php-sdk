@@ -24,7 +24,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase
     public function testApplyDiscount()
     {
         $vat = new Vat(0);
-        $payment1 = new Payment(Payment::TYPE_CARD, 120.0);
+        $payment1 = new Payment(Payment::TYPE_CARD, 110.0);
         $payment2 = new Payment(Payment::TYPE_CARD, 15.0);
         $position1 = new Position('position1', 100.0, 1, 100.0, 0, $vat);
         $position2 = new Position('position2', 25.0, 2, 40.0, 10.0, $vat);
