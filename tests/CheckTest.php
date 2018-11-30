@@ -25,14 +25,16 @@ class CheckTest extends \PHPUnit_Framework_TestCase
     {
         $vat = new Vat(0);
         $payment1 = new Payment(Payment::TYPE_CARD, 110.0);
-        $payment2 = new Payment(Payment::TYPE_CARD, 15.0);
+        $payment2 = new Payment(Payment::TYPE_CARD, 20.0);
         $position1 = new Position('position1', 100.0, 1, 100.0, 0, $vat);
         $position2 = new Position('position2', 25.0, 2, 40.0, 10.0, $vat);
+        $position3 = new Position('position3', 5.0, 1, 5.0, 0, $vat);
 
         $this->check->addPayment($payment1);
         $this->check->addPayment($payment2);
         $this->check->addPosition($position1);
         $this->check->addPosition($position2);
+        $this->check->addPosition($position3);
         $discount = 15.0;
 
         $this->check->applyDiscount($discount);
@@ -45,6 +47,6 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($positionsTotal, $this->check->getTotalPaymentsSum());
-        $this->assertEquals($positions[0]->getTotal(), 88.0);
+        $this->assertEquals($positions[0]->getTotal(), 89.66);
     }
 }

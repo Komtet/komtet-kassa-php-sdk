@@ -183,6 +183,20 @@ class Check
     }
 
     /**
+     * @return int|float
+     */
+    public function getTotalPositionsSum()
+    {
+        $positionsTotal = 0;
+        foreach( $this->positions as $position )
+        {
+            $positionsTotal += $position->getTotal();
+        }
+
+        return $positionsTotal;
+    }
+
+    /**
      * @return array
      */
     public function getPositions()
@@ -200,10 +214,11 @@ class Check
      */
     public function applyDiscount($checkDiscount)
     {
-        $paymentsTotal = $this->getTotalPaymentsSum();
+        // $paymentsTotal = $this->getTotalPaymentsSum();
+        $positionsTotal = $this->getTotalPositionsSum();
         $checkPositions = $this->getPositions();
 
-        $checkDiscountPercent = $checkDiscount / $paymentsTotal * 100;
+        // $checkDiscountPercent = $checkDiscount / $paymentsTotal * 100;
 
         $positionsCount = count($checkPositions);
         $accumulatedDiscount = 0;
@@ -211,7 +226,9 @@ class Check
         foreach( $checkPositions as $index => $position )
         {
             if ($index < $positionsCount-1) {
-                $curPositionDiscount = round($position->getTotal() * $checkDiscountPercent / 100, 2);
+                $positionPricePercent = $position->getTotal() / $positionsTotal * 100;
+                $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100));
+                // $curPositionDiscount = round($position->getTotal() * $checkDiscountPercent / 100, 2);
                 $accumulatedDiscount += $curPositionDiscount;
             }
             else {
