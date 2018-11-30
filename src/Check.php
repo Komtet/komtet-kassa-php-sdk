@@ -16,9 +16,6 @@ class Check
     const INTENT_BUY = 'buy';
     const INTENT_BUY_RETURN = 'buyReturn';
 
-    const DISCOUNT_TYPE_PERCENT = 'percent';
-    const DISCOUNT_TYPE_VALUE = 'value';
-
     /**
      * @var string
      */
@@ -197,31 +194,31 @@ class Check
      *
      * Применение к позициям единой общей скидки на чек (например скидочного купона)
      *
-     * @param float  $checkDiscount
+     * @param float $checkDiscount
      *
      * @return Check
      */
-    public function applyDiscount(float $checkDiscount)
+    public function applyDiscount($checkDiscount)
     {
         $paymentsTotal = $this->getTotalPaymentsSum();
         $checkPositions = $this->getPositions();
 
-        $checkDiscountPercent = round($checkDiscount / $paymentsTotal * 100, 2);
+        $checkDiscountPercent = $checkDiscount / $paymentsTotal * 100;
 
         $positionsCount = count($checkPositions);
-        $positionsDiscount = 0;
+        $accumulatedDiscount = 0;
 
         foreach( $checkPositions as $index => $position )
         {
             if ($index < $positionsCount-1) {
-                $curPositionDiscount = round($position->getTotal()*$checkDiscountPercent/100, 2);
-                $positionsDiscount += $curPositionDiscount;
+                $curPositionDiscount = round($position->getTotal() * $checkDiscountPercent / 100, 2);
+                $accumulatedDiscount += $curPositionDiscount;
             }
             else {
-                $curPositionDiscount = round($checkDiscount - $positionsDiscount, 2);
+                $curPositionDiscount = round($checkDiscount - $accumulatedDiscount, 2);
             }
 
-            $position->setTotal($position->getTotal()-$curPositionDiscount);
+            $position->setTotal($position->getTotal() - $curPositionDiscount);
         }
 
         return $this;

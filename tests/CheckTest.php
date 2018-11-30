@@ -38,11 +38,13 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $this->check->applyDiscount($discount);
 
         $positionsTotal = 0;
-        foreach( $this->check->getPositions() as $position )
+        $positions = $this->check->getPositions();
+        foreach( $positions as $position )
         {
             $positionsTotal += $position->getTotal();
         }
 
         $this->assertEquals($positionsTotal, $this->check->getTotalPaymentsSum());
+        $this->assertEquals($positions[0]->getTotal(), 88.0);
     }
 }
