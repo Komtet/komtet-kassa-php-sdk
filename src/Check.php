@@ -227,7 +227,7 @@ class Check
         {
             if ($index < $positionsCount-1) {
                 $positionPricePercent = $position->getTotal() / $positionsTotal * 100;
-                $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100));
+                $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100, 2);
                 // $curPositionDiscount = round($position->getTotal() * $checkDiscountPercent / 100, 2);
                 $accumulatedDiscount += $curPositionDiscount;
             }
