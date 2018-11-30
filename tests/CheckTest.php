@@ -46,7 +46,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase
             $positionsTotal += $position->getTotal();
         }
 
-        $this->assertEquals($positionsTotal, $this->check->getTotalPaymentsSum());
+        $this->assertEquals($positionsTotal, 145.0);
         $this->assertEquals($positions[0]->getTotal(), 89.66);
     }
 }
