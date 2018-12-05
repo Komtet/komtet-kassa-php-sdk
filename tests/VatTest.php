@@ -35,5 +35,6 @@ class VatTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((new Vat('10%'))->getRate(), '10');
         $this->assertEquals((new Vat('0.18'))->getRate(), '18');
         $this->assertEquals((new Vat('10'))->getRate(), '10');
+        $this->assertEquals((new Vat('20/120'))->getRate(), '120');
     }
 }
