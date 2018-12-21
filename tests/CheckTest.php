@@ -22,6 +22,12 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $this->check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
     }
 
+    public function testPaymentAddress()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1, 'Адрес');
+        $this->assertEquals($check->asArray()['payment_address'], 'Адрес');
+    }
+
     public function testApplyDiscount()
     {
         $vat = new Vat(0);
