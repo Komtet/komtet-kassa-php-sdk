@@ -54,32 +54,89 @@ class Agent
     const AGENT = 'agent';
 
     /**
-     * @var string
+     * @var array
      */
-    private $agent_type;
-
-    /**
-     * @var string
-     */
-    private $phone;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $inn;
+    private $agent_info;
 
 
-    public function __construct($agent_type, $phone, $name, $inn)
+    public function __construct($agent_type, $phone=null, $name=null, $inn=null)
     {
-        $this->agent_type = $agent_type;
-        $this->phone = $phone;
-        $this->name = $name;
-        $this->inn = $inn;
+        $this->agent_info = [
+            'type' => $agent_type
+        ];
+
+        if ($name) {
+            $this->setSupplierInfo($name, [$phone], $inn);
+        }
+    }
+
+    /**
+     * Передача атрибутов поставщика
+     *
+     * @param string $name
+     * @param array $phones
+     * @param string $inn
+     *
+     * @return Agent
+     */
+    public function setSupplierInfo($name, $phones, $inn) {
+        $this->agent_info['supplier_info'] = [
+            'phones' => $phones,
+            'name' => $name,
+            'inn' => $inn
+        ];
+        return $this;
+    }
+
+    /**
+     * Передача атрибутов платежного агента
+     *
+     * @param string $operation
+     * @param array $phones
+     *
+     * @return Agent
+     */
+    public function setPayingAgentInfo($operation, $phones) {
+        $this->agent_info['paying_agent'] = [
+            'operation' => $operation,
+            'phones' => $phones
+        ];
+        return $this;
+    }
+
+
+    /**
+     * Передача атрибутов оператора по приему платежей
+     *
+     * @param array $phones
+     *
+     * @return Agent
+     */
+    public function setReceivePaymentsOperatorInfo($phones) {
+        $this->agent_info['receive_payments_operator'] = [
+            'phones' => $phones
+        ];
+        return $this;
+    }
+
+    /**
+     * Передача атрибутов оператора перевода
+     *
+     * @param str $name
+     * @param list $phones
+     * @param str $address
+     * @param str $inn
+     *
+     * @return Agent
+     */
+    public function setMoneyTransferOperatorInfo($name, $phones, $address, $inn) {
+        $this->agent_info['money_transfer_operator'] = [
+            'name' => $name,
+            'phones' => $phones,
+            'address' => $address,
+            'inn' => $inn
+          ];
+        return $this;
     }
 
     /**
@@ -87,11 +144,6 @@ class Agent
      */
     public function asArray()
     {
-        return [
-            'agent_type' => $this->agent_type,
-            'phone' => $this->phone,
-            'name' => $this->name,
-            'inn' => $this->inn
-        ];
+        return $this->agent_info;
     }
 }
