@@ -195,6 +195,15 @@ try {
 
 ## Changelog
 
+### 1.3.0 (24.12.2018)
+
+- Добавлены новые методы `Agent::setSupplierInfo`, `Agent::setPayingAgentInfo`, `Agent::setReceivePaymentsOperatorInfo` и `Agent::setMoneyTransferOperatorInfo`.
+- Класс `Check` принимает необязательный параметр места расчета `$paymentAddress`
+
+### 1.2.0 (10.12.2018)
+
+- Добалвены новые виды НДС `Vat::RATE_20` и `Vat::RATE_120`
+
 ### 1.1.0 (27.11.2018)
 
 - Добавлен метод применения скидки к чеку Check::applyDiscount;
