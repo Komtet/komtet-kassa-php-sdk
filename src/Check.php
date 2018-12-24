@@ -37,6 +37,11 @@ class Check
     private $taxSystem;
 
     /**
+     * @var string
+     */
+    private $paymentAddress;
+
+    /**
      * @var bool
      */
     private $shouldPrint = false;
@@ -61,15 +66,17 @@ class Check
      * @param string $userContact User E-Mail or phone
      * @param string $intent Check::INTENT_SELL, Check::INTENT_SELL_RETURN, Check::INTENT_BUY, or Check::INTENT_BUY_RETURN
      * @param int    $taxSystem See Check::TS_*
+     * @param string $paymentAddress
      *
      * @return Check
      */
-    public function __construct($id, $userContact, $intent, $taxSystem)
+    public function __construct($id, $userContact, $intent, $taxSystem, $paymentAddress=null)
     {
         $this->id = $id;
         $this->userContact = $userContact;
         $this->intent = $intent;
         $this->taxSystem = $taxSystem;
+        $this->paymentAddress = $paymentAddress;
     }
 
     /**
@@ -250,6 +257,10 @@ class Check
 
         if ($this->cashier !== null) {
             $result['cashier'] = $this->cashier->asArray();
+        }
+
+        if ($this->paymentAddress !== null) {
+            $result['payment_address'] = $this->paymentAddress;
         }
 
         return $result;
