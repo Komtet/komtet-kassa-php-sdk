@@ -9,6 +9,7 @@
 
 namespace KomtetTest\KassaSdk;
 
+use Komtet\KassaSdk\Agent;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\Position;
@@ -19,6 +20,12 @@ class CheckTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+    }
+
+    public function testPaymentAddress()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1, 'Адрес');
+        $this->assertEquals($check->asArray()['payment_address'], 'Адрес');
     }
 
     public function testApplyDiscount()

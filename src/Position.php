@@ -197,7 +197,7 @@ class Position
         }
 
         if ($this->agent !== null) {
-            $result['agent'] = $this->agent->asArray();
+            $result['agent_info'] = $this->agent->asArray();
         }
 
         return $result;
