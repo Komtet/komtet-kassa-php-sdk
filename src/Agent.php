@@ -122,10 +122,10 @@ class Agent
     /**
      * Передача атрибутов оператора перевода
      *
-     * @param str $name
-     * @param list $phones
-     * @param str $address
-     * @param str $inn
+     * @param string $name
+     * @param array $phones
+     * @param string $address
+     * @param string $inn
      *
      * @return Agent
      */
