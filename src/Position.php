@@ -111,7 +111,7 @@ class Position
     }
 
     /**
-     * @param srting $calc_method
+     * @param string $calc_method
      *
      * @return Position
      */
@@ -123,7 +123,7 @@ class Position
     }
 
     /**
-     * @param srting $calc_subject
+     * @param string $calc_subject
      *
      * @return Position
      */

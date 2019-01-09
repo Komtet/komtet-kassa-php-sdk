@@ -124,7 +124,7 @@ class CorrectionCheck
     /**
      * @param AuthorisedPerson $authorised_person
      *
-     * @return Check
+     * @return CorrectionCheck
      */
     public function setAuthorisedPerson(AuthorisedPerson $authorised_person)
     {
