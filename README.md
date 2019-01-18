@@ -78,7 +78,7 @@ $check = Check::createSell($checkID, $clientEmail, TaxSystem::COMMON); // или
 // Говорим, что чек нужно распечатать
 $check->setShouldPrint(true);
 
-$vat = new Vat(Vat::RATE_18);
+$vat = new Vat(Vat::RATE_20);
 
 // Позиция в чеке: имя, цена, кол-во, общая стоимость, скидка, налог
 $position = new Position('name', 100, 1, 100, 0, $vat);
@@ -146,7 +146,7 @@ $check = CorrectionCheck::createSell(
 
 $check->setPayment(
     new Payment(Payment::TYPE_CARD, 4815), // Общая сумма по чеку
-    new Vat('118') // Ставка налога
+    new Vat('120') // Ставка налога
 );
 
 $authorised_person = new AuthorisedPerson(
@@ -194,6 +194,10 @@ try {
 ```
 
 ## Changelog
+
+### 2.0.0 (18.01.2019)
+
+- Убраны типы НДС `Vat::RATE_18` и `Vat::RATE_118`
 
 ### 1.3.0 (24.12.2018)
 
