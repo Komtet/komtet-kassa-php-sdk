@@ -123,7 +123,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $this->qm->setDefaultQueue('my-queue');
 
-        $vat = new Vat('18%');
+        $vat = new Vat('20%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
@@ -167,7 +167,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $this->qm->setDefaultQueue('my-queue');
 
-        $vat = new Vat('18%');
+        $vat = new Vat('20%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
@@ -188,7 +188,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $this->qm->setDefaultQueue('my-queue');
 
-        $vat = new Vat('18%');
+        $vat = new Vat('20%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
@@ -209,7 +209,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $this->qm->setDefaultQueue('my-queue');
 
-        $vat = new Vat('18%');
+        $vat = new Vat('20%');
         $position = new Position('name', 100, 1, 100, 0, $vat);
         $position->setId('123');
         $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
@@ -241,7 +241,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $correction = Correction::createSelf('2012-12-21', '4815162342', 'description');
         $check = CorrectionCheck::createSell('4815162342', '4815162342', TaxSystem::PATENT, $correction);
         $payment = new Payment(Payment::TYPE_CARD, 4815);
-        $vat = new Vat('118');
+        $vat = new Vat('120');
         $check->setPayment($payment, $vat);
         $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
         $check->setAuthorisedPerson($authorised_person);
@@ -258,7 +258,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $correction = Correction::createForced('2012-12-21', '4815162342', 'description');
         $check = CorrectionCheck::createSellReturn('4815162342', '4815162342', TaxSystem::PATENT, $correction);
         $payment = new Payment(Payment::TYPE_CARD, 4815);
-        $vat = new Vat('118');
+        $vat = new Vat('120');
         $check->setPayment($payment, $vat);
         $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
         $check->setAuthorisedPerson($authorised_person);

@@ -27,11 +27,6 @@ class Vat
     const RATE_10 = '10';
 
     /**
-     * 18%
-     */
-    const RATE_18 = '18';
-
-    /**
      * 20%
      */
     const RATE_20 = '20';
@@ -40,11 +35,6 @@ class Vat
      * 10/110
      */
     const RATE_110 = '110';
-
-    /**
-     * 18/118
-     */
-    const RATE_118 = '118';
 
     /**
      * 20/120
@@ -60,6 +50,10 @@ class Vat
      */
     public function __construct($rate)
     {
+        if (is_float($rate) && ($rate < 1)) {
+            $rate = number_format($rate, 2);
+        }
+
         if (!is_string($rate)) {
             $rate = (string) $rate;
         }
@@ -70,9 +64,6 @@ class Vat
             case '10/110':
                 $rate = static::RATE_110;
                 break;
-            case '18/118':
-                $rate = static::RATE_118;
-                break;
             case '20/120':
                 $rate = static::RATE_120;
                 break;
@@ -81,10 +72,8 @@ class Vat
                     static::RATE_NO,
                     static::RATE_0,
                     static::RATE_10,
-                    static::RATE_18,
                     static::RATE_20,
                     static::RATE_110,
-                    static::RATE_118,
                     static::RATE_120,
                 ])) {
                     throw new \InvalidArgumentException(sprintf('Unknown VAT rate: %s', $rate));
