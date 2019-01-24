@@ -100,6 +100,15 @@ class Client
             throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
         }
 
+        if (class_exists('Psr\Log\LogLevel')) {
+            $log_level_debug = LogLevel::DEBUG;
+            $log_level_warning = LogLevel::WARNING;
+        }
+        else {
+            $log_level_debug = 'debug';
+            $log_level_warning = 'warning';
+        }
+
         $url = sprintf('%s/%s', $this->host, $path);
         $signature = hash_hmac('md5', $method . $url . ($data ? $data : ''), $this->secret);
 
@@ -125,7 +134,7 @@ class Client
         }
         $response = curl_exec($ch);
 
-        $this->log(LogLevel::DEBUG, 'request: url={url} headers={headers} data={data}', [
+        $this->log($log_level_debug, 'request: url={url} headers={headers} data={data}', [
             'url' => $url,
             'headers' => $this->maskHeaders($headers),
             'data' => $data
@@ -142,14 +151,14 @@ class Client
         }
         curl_close($ch);
         if ($error !== null) {
-            $this->log(LogLevel::WARNING, 'error: {error} {response}', [
+            $this->log($log_level_warning, 'error: {error} {response}', [
                 'error' => $error,
                 'response' => $response
             ]);
             throw new ClientException($error);
         }
 
-        $this->log(LogLevel::DEBUG, 'response: {response}', ['response' => $response]);
+        $this->log($log_level_debug, 'response: {response}', ['response' => $response]);
 
         return json_decode($response, true);
     }
