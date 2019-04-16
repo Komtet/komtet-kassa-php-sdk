@@ -17,19 +17,28 @@ use Komtet\KassaSdk\Vat;
 
 class CheckTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        $this->check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
-    }
-
     public function testPaymentAddress()
     {
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1, 'Адрес');
         $this->assertEquals($check->asArray()['payment_address'], 'Адрес');
+
+        $check = Check::createSell('id2', 'test@test.test', 1, 'ул.Пушкина, д.8');
+        $this->assertEquals($check->asArray()['payment_address'], 'ул.Пушкина, д.8');
+
+        $check = Check::createSellReturn('id3', 'test@test.test', 1, 'ул.Гагарина, д.12');
+        $this->assertEquals($check->asArray()['payment_address'], 'ул.Гагарина, д.12');
+
+        $check = Check::createBuy('id4', 'test@test.test', 1, 'ул.Дзержинского, д.11');
+        $this->assertEquals($check->asArray()['payment_address'], 'ул.Дзержинского, д.11');
+
+        $check = Check::createBuyReturn('id5', 'test@test.test', 1, 'ул.Московская, д.13');
+        $this->assertEquals($check->asArray()['payment_address'], 'ул.Московская, д.13');
     }
 
     public function testApplyDiscount()
     {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+
         $vat = new Vat(0);
         $payment1 = new Payment(Payment::TYPE_CARD, 110.0);
         $payment2 = new Payment(Payment::TYPE_CARD, 20.0);
@@ -37,17 +46,17 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $position2 = new Position('position2', 25.0, 2, 40.0, 10.0, $vat);
         $position3 = new Position('position3', 5.0, 1, 5.0, 0, $vat);
 
-        $this->check->addPayment($payment1);
-        $this->check->addPayment($payment2);
-        $this->check->addPosition($position1);
-        $this->check->addPosition($position2);
-        $this->check->addPosition($position3);
+        $check->addPayment($payment1);
+        $check->addPayment($payment2);
+        $check->addPosition($position1);
+        $check->addPosition($position2);
+        $check->addPosition($position3);
         $discount = 15.0;
 
-        $this->check->applyDiscount($discount);
+        $check->applyDiscount($discount);
 
         $positionsTotal = 0;
-        $positions = $this->check->getPositions();
+        $positions = $check->getPositions();
         foreach( $positions as $position )
         {
             $positionsTotal += $position->getTotal();

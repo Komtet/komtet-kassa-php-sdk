@@ -228,6 +228,9 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $check->addCashier($cashier);
 
         $data = $check->asArray();
+        $this->assertTrue(array_key_exists('supplier_info', $data['positions'][0]));
+        $this->assertFalse(array_key_exists('supplier_info', $data['positions'][0]['agent_info']));
+
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'value'];
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
