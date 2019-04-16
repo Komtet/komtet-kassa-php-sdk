@@ -83,48 +83,54 @@ class Check
      * @param string $id
      * @param string $userContact
      * @param int    $taxSystem
+     * @param string $paymentAddress
      *
      * @return Check
      */
-    public static function createSell($id, $userContact, $taxSystem)
+    public static function createSell($id, $userContact, $taxSystem, $paymentAddress=null)
     {
-        return new static($id, $userContact, static::INTENT_SELL, $taxSystem);
+        return new static($id, $userContact, static::INTENT_SELL, $taxSystem, $paymentAddress);
     }
 
     /**
      * @param string $id
      * @param string $userContact
      * @param int    $taxSystem
+     * @param string $paymentAddress
      *
      * @return Check
      */
-    public static function createSellReturn($id, $userContact, $taxSystem)
+    public static function createSellReturn($id, $userContact, $taxSystem, $paymentAddress=null)
     {
-        return new static($id, $userContact, static::INTENT_SELL_RETURN, $taxSystem);
+        return new static($id, $userContact, static::INTENT_SELL_RETURN, $taxSystem,
+                          $paymentAddress);
     }
 
     /**
      * @param string $id
      * @param string $userContact
      * @param int    $taxSystem
+     * @param string $paymentAddress
      *
      * @return Check
      */
-    public static function createBuy($id, $userContact, $taxSystem)
+    public static function createBuy($id, $userContact, $taxSystem, $paymentAddress=null)
     {
-        return new static($id, $userContact, static::INTENT_BUY, $taxSystem);
+        return new static($id, $userContact, static::INTENT_BUY, $taxSystem, $paymentAddress);
     }
 
     /**
      * @param string $id
      * @param string $userContact
      * @param int    $taxSystem
+     * @param string $paymentAddress
      *
      * @return Check
      */
-    public static function createBuyReturn($id, $userContact, $taxSystem)
+    public static function createBuyReturn($id, $userContact, $taxSystem, $paymentAddress=null)
     {
-        return new static($id, $userContact, static::INTENT_BUY_RETURN, $taxSystem);
+        return new static($id, $userContact, static::INTENT_BUY_RETURN, $taxSystem,
+                          $paymentAddress);
     }
 
     /**
