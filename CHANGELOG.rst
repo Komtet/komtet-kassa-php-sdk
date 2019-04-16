@@ -1,12 +1,12 @@
 Changelog
 =========
 
-2.0.2-dev (16.04.2019)
-----------------------
+2.0.2 (16.04.2019)
+------------------
 
 - Исправлена структура передачи данных поставщика в позиции заказа
-- Расширенны возможности статических функций `createSell`, `createSellReturn`, `createBuy` и
-  `createBuyReturn` приемом адреса места расчета `$paymentAddress`
+- Расширенны возможности статических функций `Check::createSell`, `Check::createSellReturn`,
+  `Check::createBuy` и `Check::createBuyReturn` приемом адреса места расчета `$paymentAddress`
 
 
 2.0.1 (23.01.2019)
