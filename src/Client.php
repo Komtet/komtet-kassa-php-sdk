@@ -89,12 +89,16 @@ class Client
      *
      * @return mixed
      */
-    public function sendRequest($path, $data = null)
+    public function sendRequest($path, $data = null, $method = null)
     {
         if ($data === null) {
-            $method = 'GET';
+            if ($method === null){
+              $method = 'GET';
+            }
         } elseif (is_array($data)) {
-            $method = 'POST';
+            if ($method === null){
+              $method = 'POST';
+            }
             $data = json_encode($data);
         } else {
             throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
@@ -120,7 +124,7 @@ class Client
         if (!empty($this->partner)) {
             $headers[] = sprintf('X-Partner-ID: %s', $this->partner);
         }
-        if ($method == 'POST') {
+        if ($method == 'POST' or $method == 'PUT') {
             $headers[] = 'Content-Type: application/json';
         }
 
