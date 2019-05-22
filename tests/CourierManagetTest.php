@@ -27,7 +27,7 @@ class CourierManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCouriersSucceded()
     {
-        $path = '/api/shop/v1/couriers?start=0&limit=10';
+        $path = 'api/shop/v1/couriers?start=0&limit=10';
         $rep = ['key' => 'val'];
         $this->client
             ->expects($this->once())

@@ -49,7 +49,7 @@ class OrderManager
    */
    public function updateOrder($oid, $order)
    {
-     $path = sprintf('/api/shop/v1/orders/%s', $oid);
+     $path = sprintf('api/shop/v1/orders/%s', $oid);
      return $this->client->sendRequest($path, $order->asArray(), 'PUT');
    }
 
@@ -63,7 +63,7 @@ class OrderManager
     */
     public function getOrderInfo($oid)
     {
-      $path = sprintf('/api/shop/v1/orders/%s', $oid);
+      $path = sprintf('api/shop/v1/orders/%s', $oid);
       return $this->client->sendRequest($path);
     }
 
@@ -77,7 +77,7 @@ class OrderManager
      */
      public function deleteOrder($oid)
      {
-       $path = sprintf('/api/shop/v1/orders/%s', $oid);
+       $path = sprintf('api/shop/v1/orders/%s', $oid);
        return $this->client->sendRequest($path, null, 'DELETE');
      }
 
@@ -93,7 +93,7 @@ class OrderManager
       */
       public function getOrders($start='0', $limit='10', $courier_id=null, $date_start=null)
       {
-        $path = sprintf('/api/shop/v1/orders?start=%s&limit=%s', $start, $limit);
+        $path = sprintf('api/shop/v1/orders?start=%s&limit=%s', $start, $limit);
 
         if ($courier_id !== null){
           $path .= sprintf('&courier_id=%s', $courier_id);

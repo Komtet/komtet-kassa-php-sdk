@@ -58,7 +58,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
 
   public function testUpdateOrderSucceded()
   {
-    $path = '/api/shop/v1/orders/1';
+    $path = 'api/shop/v1/orders/1';
     $rep = ['key' => 'val'];
     $this->client
         ->expects($this->once())
@@ -70,7 +70,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
 
   public function testGetOrderInfoSucceded()
   {
-    $path = '/api/shop/v1/orders/1';
+    $path = 'api/shop/v1/orders/1';
     $rep = ['key' => 'val'];
     $this->client
         ->expects($this->once())
@@ -83,7 +83,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
 
   public function testDeleteOrderInfoSucceded()
   {
-    $path = '/api/shop/v1/orders/1';
+    $path = 'api/shop/v1/orders/1';
     $this->client
         ->expects($this->once())
         ->method('sendRequest')
@@ -94,7 +94,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
 
   public function testGetOrdersSucceded()
   {
-    $path = '/api/shop/v1/orders?start=0&limit=10';
+    $path = 'api/shop/v1/orders?start=0&limit=10';
     $rep = ['key' => 'val'];
     $this->client
         ->expects($this->once())
@@ -106,7 +106,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
 
   public function testGetOrdersSucceded1()
   {
-    $path = '/api/shop/v1/orders?start=0&limit=10&courier_id=1';
+    $path = 'api/shop/v1/orders?start=0&limit=10&courier_id=1';
     $rep = ['key' => 'val'];
     $this->client
         ->expects($this->once())
@@ -118,7 +118,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
 
   public function testGetOrdersSucceded2()
   {
-    $path = '/api/shop/v1/orders?start=0&limit=10&courier_id=1&date_start=2019-12-12';
+    $path = 'api/shop/v1/orders?start=0&limit=10&courier_id=1&date_start=2019-12-12';
     $rep = ['key' => 'val'];
     $this->client
         ->expects($this->once())

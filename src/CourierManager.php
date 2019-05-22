@@ -35,7 +35,7 @@ class CourierManager
    */
    public function getCouriers($start='0', $limit='10')
    {
-     $path = sprintf('/api/shop/v1/couriers?start=%s&limit=%s', $start, $limit);
+     $path = sprintf('api/shop/v1/couriers?start=%s&limit=%s', $start, $limit);
      return $this->client->sendRequest($path);
    }
 
