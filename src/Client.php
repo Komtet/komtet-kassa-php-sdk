@@ -91,18 +91,15 @@ class Client
      */
     public function sendRequest($path, $data = null, $method = null)
     {
-        if ($data === null) {
-            if ($method === null){
-              $method = 'GET';
-            }
-        } elseif (is_array($data)) {
-            if ($method === null){
-              $method = 'POST';
-            }
-            $data = json_encode($data);
-        } else {
-            throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
+        if (is_array($data)) {
+          $data = json_encode($data);
+        }elseif ($data) {
+          throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
         }
+
+        if (!$method)
+          $method = $data !== null ? 'POST' : 'GET';
+
 
         if (class_exists('Psr\Log\LogLevel')) {
             $log_level_debug = LogLevel::DEBUG;
@@ -124,7 +121,7 @@ class Client
         if (!empty($this->partner)) {
             $headers[] = sprintf('X-Partner-ID: %s', $this->partner);
         }
-        if ($method == 'POST' or $method == 'PUT') {
+        if (in_array($method, array('POST', 'PUT'))) {
             $headers[] = 'Content-Type: application/json';
         }
 
