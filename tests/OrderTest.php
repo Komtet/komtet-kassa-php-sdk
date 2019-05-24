@@ -67,10 +67,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals($order->asArray()['items'][1]['total'], 500.0);
     $this->assertEquals($order->asArray()['items'][1]['measure_name'], 'kg');
 
-    $order->addCourierId(1);
+    $order->setCourierId(1);
     $this->assertEquals($order->asArray()['courier_id'], 1);
 
-    $order->addCallbackUrl('https://calback_url.ru');
+    $order->setallbackUrl('https://calback_url.ru');
     $this->assertEquals($order->asArray()['callback_url'], 'https://calback_url.ru');
 
   }

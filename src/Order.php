@@ -87,7 +87,7 @@ class Order
    * @param string $sno Tax system
    * @param bool $is_paid Payment status
    *
-   * @return Check
+   * @return Order
    */
   public function __construct($order_id, $state=null, $sno=null, $is_paid=false)
   {
@@ -160,7 +160,7 @@ class Order
    * @param string $callback_url callback url for Order
    *
    */
-  public function addCallbackUrl($callback_url)
+  public function setallbackUrl($callback_url)
   {
       $this->callback_url = $callback_url;
   }
@@ -169,7 +169,7 @@ class Order
    * @param int $courier_id ID courier
    *
    */
-  public function addCourierId($courier_id)
+  public function setCourierId($courier_id)
   {
       $this->courier_id = $courier_id;
   }
