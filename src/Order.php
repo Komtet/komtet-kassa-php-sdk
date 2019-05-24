@@ -94,12 +94,8 @@ class Order
       $this->order_id = $order_id;
       $this->is_paid = $is_paid;
 
-      if ($state !== null) {
-          $this->state = $state;
-      }
-      if ($sno !== null) {
-          $this->sno = $sno;
-      }
+      $this->state = $state;
+      $this->sno = $sno;
   }
 
   /**
@@ -114,12 +110,8 @@ class Order
       $this->client_address = $address;
       $this->client_phone = $phone;
 
-      if ($email !== null){
-          $this->client_email = $email;
-      }
-      if ($name !== null){
-          $this->client_name = $name;
-      }
+      $this->client_email = $email;
+      $this->client_name = $name;
   }
   /**
    * @param string $date_start Initial order delivery time
