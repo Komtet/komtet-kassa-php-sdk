@@ -84,11 +84,11 @@
         $this->total = $args['total'];
         $this->vat = new Vat($args['vat']);
 
-        if ($args['measure_name'] !== null){
+        if ($args['measure_name'] !== null) {
             $this->measure_name = $args['measure_name'];
         }
 
-        if ($args['type'] !== null){
+        if ($args['type'] !== null) {
             $this->type = $args['type'];
         }
     }
@@ -107,11 +107,11 @@
             'vat' => $this->vat->getRate()
         ];
 
-        if ($this->measure_name !== null){
+        if ($this->measure_name !== null) {
             $result['measure_name'] = $this->measure_name;
         }
 
-        if ($this->type !== null){
+        if ($this->type !== null) {
             $result['type'] = $this->type;
         }
 

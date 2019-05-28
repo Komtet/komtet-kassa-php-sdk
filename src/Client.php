@@ -92,13 +92,13 @@ class Client
     public function sendRequest($path, $data = null, $method = null)
     {
         if (is_array($data)) {
-          $data = json_encode($data);
+            $data = json_encode($data);
         } elseif ($data) {
-          throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
+            throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
         }
 
         if (!$method) {
-          $method = $data !== null ? 'POST' : 'GET';
+            $method = $data !== null ? 'POST' : 'GET';
         }
 
         if (class_exists('Psr\Log\LogLevel')) {
