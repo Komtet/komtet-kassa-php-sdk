@@ -93,13 +93,13 @@ class Client
     {
         if (is_array($data)) {
           $data = json_encode($data);
-        }elseif ($data) {
+        } elseif ($data) {
           throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
         }
 
-        if (!$method)
+        if (!$method){
           $method = $data !== null ? 'POST' : 'GET';
-
+        }
 
         if (class_exists('Psr\Log\LogLevel')) {
             $log_level_debug = LogLevel::DEBUG;
