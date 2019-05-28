@@ -97,7 +97,7 @@ class Client
           throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
         }
 
-        if (!$method){
+        if (!$method) {
           $method = $data !== null ? 'POST' : 'GET';
         }
 

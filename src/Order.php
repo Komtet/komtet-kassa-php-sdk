@@ -116,7 +116,7 @@ class Order
     /**
      * @param string $date_start Initial order delivery time
      * @param string $date_end Final order delivery time
-     *]
+     *
      */
     public function setDeliveryTime($date_start, $date_end)
     {

@@ -65,16 +65,16 @@
     public function __construct($args=[])
     {
         $defaultArgs = [
-          'vat' =>  Vat::RATE_NO,
-          'total' => null,
-          'measure_name' => null,
-          'type' => null,
-          'quantity' => 1
+            'vat' =>  Vat::RATE_NO,
+            'total' => null,
+            'measure_name' => null,
+            'type' => null,
+            'quantity' => 1
         ];
         $args = array_merge($defaultArgs, $args);
 
         if ($args['total'] == null){
-         $args['total'] = $args['price'] * $args['quantity'];
+            $args['total'] = $args['price'] * $args['quantity'];
         }
 
         $this->oid = $args['oid'];
@@ -85,11 +85,11 @@
         $this->vat = new Vat($args['vat']);
 
         if ($args['measure_name'] !== null){
-         $this->measure_name = $args['measure_name'];
+            $this->measure_name = $args['measure_name'];
         }
 
         if ($args['type'] !== null){
-         $this->type = $args['type'];
+            $this->type = $args['type'];
         }
     }
 
@@ -99,20 +99,20 @@
     public function asArray()
     {
         $result = [
-          'order_item_id' => $this->oid,
-          'name' => $this->name,
-          'price' => $this->price,
-          'quantity' => $this->quantity,
-          'total' => $this->total,
-          'vat' => $this->vat->getRate()
+            'order_item_id' => $this->oid,
+            'name' => $this->name,
+            'price' => $this->price,
+            'quantity' => $this->quantity,
+            'total' => $this->total,
+            'vat' => $this->vat->getRate()
         ];
 
         if ($this->measure_name !== null){
-          $result['measure_name'] = $this->measure_name;
+            $result['measure_name'] = $this->measure_name;
         }
 
         if ($this->type !== null){
-          $result['type'] = $this->type;
+            $result['type'] = $this->type;
         }
 
         return $result;

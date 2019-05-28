@@ -96,11 +96,11 @@ class OrderManager
         $path = sprintf('api/shop/v1/orders?start=%s&limit=%s', $start, $limit);
 
         if ($courier_id !== null){
-          $path .= sprintf('&courier_id=%s', $courier_id);
+            $path .= sprintf('&courier_id=%s', $courier_id);
         }
 
         if ($date_start !== null){
-          $path .= sprintf('&date_start=%s', $date_start);
+            $path .= sprintf('&date_start=%s', $date_start);
         }
         return $this->client->sendRequest($path);
     }
