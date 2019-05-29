@@ -70,7 +70,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setCourierId(1);
         $this->assertEquals($order->asArray()['courier_id'], 1);
 
-        $order->setallbackUrl('https://calback_url.ru');
+        $order->setСallbackUrl('https://calback_url.ru');
         $this->assertEquals($order->asArray()['callback_url'], 'https://calback_url.ru');
 
     }
