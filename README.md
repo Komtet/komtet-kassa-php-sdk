@@ -61,6 +61,7 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 ```php
 <?php
 use Komtet\KassaSdk\Agent;
+use Komtet\KassaSdk\Buyer;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Cashier;
 use Komtet\KassaSdk\Payment;
@@ -105,6 +106,10 @@ $check->addPosition($position);
 // Итоговая сумма расчёта
 $payment = new Payment(Payment::TYPE_CARD, 100);
 $check->addPayment($payment);
+
+// Добавление данных покупателя (опционально)
+$buyer = new Buyer('Пупкин П.П.', '123412341234');
+$check->addBuyer($buyer);
 
 // Добавление кассира (опционально)
 $cashier = new Cashier('Иваров И.П.', '1234567890123');

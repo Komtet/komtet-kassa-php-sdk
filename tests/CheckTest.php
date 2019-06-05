@@ -10,6 +10,7 @@
 namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\Agent;
+use Komtet\KassaSdk\Buyer;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\Position;
@@ -64,5 +65,23 @@ class CheckTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($positionsTotal, 130.0);
         $this->assertEquals($positions[0]->getTotal(), 89.66);
+    }
+
+    public function testAddBuyerInfo()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+
+        $vat = new Vat(0);
+        $position = new Position('position1', 100.0, 1, 100.0, 0, $vat);
+        $check->addPosition($position);
+
+        $payment = new Payment(Payment::TYPE_CARD, 100.0);
+        $check->addPayment($payment);
+
+        $buyer = new Buyer('Пупкин П.П.', '123412341234');
+        $check->addBuyer($buyer);
+
+        $this->assertEquals($check->asArray()['client']['name'], 'Пупкин П.П.');
+        $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
     }
 }

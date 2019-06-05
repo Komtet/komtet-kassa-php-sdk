@@ -57,6 +57,11 @@ class Check
     private $positions = [];
 
     /**
+     * @var buyer
+     */
+    private $buyer;
+
+    /**
      * @var Cashier
      */
     private $cashier;
@@ -153,6 +158,18 @@ class Check
     public function addPayment(Payment $payment)
     {
         $this->payments[] = $payment;
+
+        return $this;
+    }
+
+    /**
+     * @param Buyer $buyer
+     *
+     * @return Check
+     */
+    public function addBuyer(Buyer $buyer)
+    {
+        $this->buyer = $buyer;
 
         return $this;
     }
@@ -260,6 +277,10 @@ class Check
                 $this->positions
             ),
         ];
+
+        if ($this->buyer !== null) {
+            $result['client'] = $this->buyer->asArray();
+        }
 
         if ($this->cashier !== null) {
             $result['cashier'] = $this->cashier->asArray();
