@@ -27,7 +27,10 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->om = new OrderManager($this->client);
 
-        $this->order = new Order('123', 'new', 0);
+        $this->order = new Order(['oid' =>'123',
+                                  'state' => 'new',
+                                  'sno' => 0
+                                ]);
         $this->order->setClient('г.Пенза, ул.Суворова д.10 кв.25',
                                 '+87654443322',
                                 'client@email.com',
