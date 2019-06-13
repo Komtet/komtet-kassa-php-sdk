@@ -96,30 +96,22 @@ class Order
      * @param string $state Order status
      * @param string $sno Tax system
      * @param bool $is_paid Payment status
-     * @param Payment $payment_type Payment type
      * @param int|float prepayment Prepayment
+     * @param Payment $payment_type Payment type
      *
      * @return Order
      */
-    public function __construct($args=[])
+    public function __construct($order_id, $state=null, $sno=null, $is_paid=false,
+                                $prepayment = 0, $payment_type = Payment::TYPE_CARD)
     {
-        $defaultArgs = [
-            'state' =>  null,
-            'sno' => null,
-            'is_paid' => false,
-            'payment_type' => Payment::TYPE_CARD,
-            'prepayment' => 0
-        ];
-        $args = array_merge($defaultArgs, $args);
+        $this->order_id = $order_id;
+        $this->is_paid = $is_paid;
 
-        $this->order_id = $args['oid'];
-        $this->is_paid = $args['is_paid'];
+        $this->state = $state;
+        $this->sno = $sno;
 
-        $this->state = $args['state'];
-        $this->sno = $args['sno'];
-
-        $this->payment_type = $args['payment_type'];
-        $this->prepayment = $args['prepayment'];
+        $this->prepayment = $prepayment;
+        $this->payment_type = $payment_type;
     }
 
     /**
