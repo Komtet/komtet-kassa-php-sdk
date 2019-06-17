@@ -82,20 +82,36 @@ class Order
     private $courier_id;
 
     /**
-     * @param int $order_id A unique order id in a shop
+     * @var Payment
+     */
+    private $payment_type;
+
+    /**
+     * @var int|float
+     */
+    private $prepayment;
+
+    /**
+     * @param int $oid A unique order id in a shop
      * @param string $state Order status
      * @param string $sno Tax system
      * @param bool $is_paid Payment status
+     * @param int|float prepayment Prepayment
+     * @param Payment $payment_type Payment type
      *
      * @return Order
      */
-    public function __construct($order_id, $state=null, $sno=null, $is_paid=false)
+    public function __construct($order_id, $state=null, $sno=null, $is_paid=false,
+                                $prepayment = 0, $payment_type = Payment::TYPE_CARD)
     {
         $this->order_id = $order_id;
         $this->is_paid = $is_paid;
 
         $this->state = $state;
         $this->sno = $sno;
+
+        $this->prepayment = $prepayment;
+        $this->payment_type = $payment_type;
     }
 
     /**
@@ -209,6 +225,14 @@ class Order
 
         if ($this->callback_url !== null) {
             $result['callback_url'] = $this->callback_url;
+        }
+
+        if ($this->payment_type !== null) {
+            $result['payment_type'] = $this->payment_type;
+        }
+
+        if ($this->prepayment !== null) {
+            $result['prepayment'] = $this->prepayment;
         }
 
         return $result;
