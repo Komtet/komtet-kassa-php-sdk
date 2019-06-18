@@ -68,7 +68,7 @@ class Vat
                 $rate = static::RATE_20;
                 break;
             case '118':
-                $rate = static::RATE_20;
+                $rate = static::RATE_120;
                 break;
             case '18/118':
                 $rate = static::RATE_120;
