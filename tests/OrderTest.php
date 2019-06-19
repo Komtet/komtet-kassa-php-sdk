@@ -10,13 +10,15 @@ namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\Order;
 use Komtet\KassaSdk\OrderPosition;
+use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\Vat;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testOrder(){
 
-        $order = new Order('123', 'new', 0);
+        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+
         $this->assertEquals($order->asArray()['order_id'], '123');
         $this->assertEquals($order->asArray()['state'], 'new');
         $this->assertEquals($order->asArray()['sno'], 0);
@@ -73,5 +75,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setСallbackUrl('https://calback_url.ru');
         $this->assertEquals($order->asArray()['callback_url'], 'https://calback_url.ru');
 
+        $this->assertEquals($order->asArray()['prepayment'], 200);
+        $this->assertEquals($order->asArray()['payment_type'], 'cash');
     }
 }
