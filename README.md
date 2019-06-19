@@ -193,7 +193,123 @@ try {
 }
 ```
 
+Создание заказа на доставку:
+
+```php
+<?php
+$orderManager = new OrderManager(client);
+
+$order = new Order('123', 'new', 0);
+$order->setClient('г.Пенза, ул.Суворова д.10 кв.25',
+                  '+87654443322',
+                  'client@email.com',
+                  'Сергеев Виктор Сергеевич');
+$order->setDeliveryTime('2018-02-28 14:00',
+                        '2018-02-28 15:20');
+$orderPosition = new OrderPosition(['oid' => '1',
+                                    'name' => 'position name1',
+                                    'price' => 555.0,
+                                    'type' => 'product'
+                                    ]);
+$order->addPosition($orderPosition);
+
+try {
+    $orderManager->createOrder($order);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Обновление заказа на доставку:
+
+```php
+<?php
+$orderManager = new OrderManager(client);
+$order_id = 1;
+
+$order = new Order('123', 'new', 0);
+$order->setClient('г.Пенза, ул.Суворова д.10 кв.25',
+                  '+87654443322',
+                  'client@email.com',
+                  'Сергеев Виктор Сергеевич');
+$order->setDeliveryTime('2018-02-28 14:00',
+                        '2018-02-28 15:20');
+$orderPosition = new OrderPosition(['oid' => '1',
+                                    'name' => 'position name1',
+                                    'price' => 555.0,
+                                    'type' => 'product'
+                                    ]);
+$order->addPosition($orderPosition);
+
+try {
+    $orderManager->updateOrder($order_id, $order);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Информация о заказе:
+
+```php
+<?php
+$orderManager = new OrderManager(client);
+$order_id = 1;
+
+try {
+  $info = $orderManager->getOrderInfo($order_id);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Удалить заказ:
+
+```php
+<?php
+$orderManager = new OrderManager(client);
+$order_id = 1;
+
+try {
+  $orderManager->deleteOrder($order_id);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Получить список заказов:
+
+```php
+<?php
+$orderManager = new OrderManager(client);
+$order_id = 1;
+
+try {
+  $orderList = $orderManager->getOrders();
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Получить список курьеров:
+
+```php
+<?php
+$courierManager = new CourierManager(client);
+
+try {
+  $courierList = $courierManager->getCouriers();
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
 ## Changelog
+
+### 2.1.0 (19.04.2019)
+
+- Добавлены классы `Order`, `OrderManager`, `OrderPosition` для работы с заказами.
+- Добавлен класс `CourierManager` для работы с курьерами.
+- Добавлено конвертирование типов НДС `Vat::RATE_18` и `Vat::RATE_118` в `Vat::RATE_20` и `Vat::RATE_120`
 
 ### 2.0.2 (16.04.2019)
 
