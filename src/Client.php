@@ -130,7 +130,7 @@ class Client
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        if ($method == 'POST') {
+        if (in_array($method, array('POST', 'PUT'))) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
         $response = curl_exec($ch);
