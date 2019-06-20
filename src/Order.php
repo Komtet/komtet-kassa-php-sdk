@@ -185,6 +185,61 @@ class Order
     /**
      * @return array
      */
+    public function getPositions()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @return int|float
+     */
+    public function getTotalPositionsSum()
+    {
+        $positionsTotal = 0;
+        foreach( $this->items as $item )
+        {
+            $positionsTotal += $item->getTotal();
+        }
+
+        return $positionsTotal;
+    }
+
+    /**
+     *
+     * Применение к позициям единой общей скидки на чек (например скидочного купона)
+     *
+     * @param float $checkDiscount
+     *
+     * @return Order
+     */
+    public function applyDiscount($checkDiscount)
+    {
+        $positionsTotal = $this->getTotalPositionsSum();
+        $checkPositions = $this->getPositions();
+
+        $positionsCount = count($checkPositions);
+        $accumulatedDiscount = 0;
+
+        foreach( $checkPositions as $index => $position )
+        {
+            if ($index < $positionsCount-1) {
+                $positionPricePercent = $position->getTotal() / $positionsTotal * 100;
+                $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100, 2);
+                $accumulatedDiscount += $curPositionDiscount;
+            }
+            else {
+                $curPositionDiscount = round($checkDiscount - $accumulatedDiscount, 2);
+            }
+
+            $position->setTotal($position->getTotal() - $curPositionDiscount);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
     public function asArray()
     {
         $result = [

@@ -94,6 +94,26 @@
     }
 
     /**
+     * @return int|float
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param float $total
+     *
+     * @return OrderPosition
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function asArray()

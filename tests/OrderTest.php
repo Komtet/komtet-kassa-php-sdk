@@ -15,8 +15,7 @@ use Komtet\KassaSdk\Vat;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOrder(){
-
+    public function testOrder() {
         $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
 
         $this->assertEquals($order->asArray()['order_id'], '123');
@@ -77,5 +76,22 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($order->asArray()['prepayment'], 200);
         $this->assertEquals($order->asArray()['payment_type'], 'cash');
+    }
+
+    public function testOrderApplyDiscount(){
+        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $orderPosition = new OrderPosition(['oid' => '1',
+                                            'name' => 'position name2',
+                                            'price' => 1500.0,
+                                            'type' => 'product',
+                                            'quantity' => 2,
+                                            'vat' => Vat::RATE_10,
+                                            'measure_name' => 'kg'
+                                            ]);
+        $order->addPosition($orderPosition);
+        $order->applyDiscount(100.0);
+
+        $this->assertEquals($order->asArray()['items'][0]['total'], 2900.0);
+
     }
 }
