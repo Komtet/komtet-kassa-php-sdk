@@ -80,18 +80,44 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function testOrderApplyDiscount(){
         $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
-        $orderPosition = new OrderPosition(['oid' => '1',
-                                            'name' => 'position name2',
-                                            'price' => 1500.0,
-                                            'type' => 'product',
-                                            'quantity' => 2,
-                                            'vat' => Vat::RATE_10,
-                                            'measure_name' => 'kg'
-                                            ]);
-        $order->addPosition($orderPosition);
-        $order->applyDiscount(100.0);
+        $position1 = new OrderPosition(['oid' => '1',
+                                        'name' => 'position name1',
+                                        'price' => 100.0,
+                                        'type' => 'product',
+                                        'quantity' => 1,
+                                        'total' => 100.0,
+                                        'vat' => Vat::RATE_10,
+                                        'measure_name' => 'kg'
+                                       ]);
+        $position2 = new OrderPosition(['oid' => '2',
+                                        'name' => 'position name2',
+                                        'price' => 20.0,
+                                        'type' => 'product',
+                                        'quantity' => 2,
+                                        'total' => 40.0,
+                                        'vat' => '18',
+                                        'measure_name' => 'kg'
+                                       ]);
+        $position3 = new OrderPosition(['oid' => '3',
+                                        'name' => 'position name3',
+                                        'price' => 5.0,
+                                        'type' => 'product',
+                                        'quantity' => 1,
+                                        'total' => 5.0,
+                                        'vat' => Vat::RATE_20,
+                                        'measure_name' => 'kg'
+                                       ]);
+        $order->addPosition($position1);
+        $order->addPosition($position2);
+        $order->addPosition($position3);
+        $order->applyDiscount(15.0);
 
-        $this->assertEquals($order->asArray()['items'][0]['total'], 2900.0);
+        $this->assertEquals($order->asArray()['items'][0]['price'], 100.0);
+        $this->assertEquals($order->asArray()['items'][1]['price'], 20.00);
+        $this->assertEquals($order->asArray()['items'][2]['price'], 5.0);
 
+        $this->assertEquals($order->asArray()['items'][0]['total'], 89.66);
+        $this->assertEquals($order->asArray()['items'][1]['total'], 35.86);
+        $this->assertEquals($order->asArray()['items'][2]['total'], 4.48);
     }
 }

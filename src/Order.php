@@ -220,14 +220,12 @@ class Order
         $positionsCount = count($checkPositions);
         $accumulatedDiscount = 0;
 
-        foreach( $checkPositions as $index => $position )
-        {
+        foreach( $checkPositions as $index => $position ) {
             if ($index < $positionsCount-1) {
                 $positionPricePercent = $position->getTotal() / $positionsTotal * 100;
                 $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100, 2);
                 $accumulatedDiscount += $curPositionDiscount;
-            }
-            else {
+            } else {
                 $curPositionDiscount = round($checkDiscount - $accumulatedDiscount, 2);
             }
 
