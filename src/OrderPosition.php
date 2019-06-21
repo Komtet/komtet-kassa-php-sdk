@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
- namespace Komtet\KassaSdk;
+namespace Komtet\KassaSdk;
 
- class OrderPosition
- {
+class OrderPosition
+{
     /**
      * @var string
      */
@@ -49,7 +49,7 @@
     /**
      * @var string
      */
-   private $measure_name;
+    private $measure_name;
 
     /**
      * @param string $oid Item identifier
@@ -62,7 +62,7 @@
      *
      * @return OrderPosition
      */
-    public function __construct($args=[])
+    public function __construct($args = [])
     {
         $defaultArgs = [
             'vat' =>  Vat::RATE_NO,
@@ -73,7 +73,7 @@
         ];
         $args = array_merge($defaultArgs, $args);
 
-        if ($args['total'] == null){
+        if ($args['total'] == null) {
             $args['total'] = $args['price'] * $args['quantity'];
         }
 
@@ -91,6 +91,26 @@
         if ($args['type'] !== null) {
             $this->type = $args['type'];
         }
+    }
+
+    /**
+     * @return int|float
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param float $total
+     *
+     * @return OrderPosition
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
     }
 
     /**
@@ -117,4 +137,4 @@
 
         return $result;
     }
- }
+}
