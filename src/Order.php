@@ -168,7 +168,7 @@ class Order
      * @param string $callback_url callback url for Order
      *
      */
-    public function setСallbackUrl($callback_url)
+    public function setCallbackUrl($callback_url)
     {
         $this->callback_url = $callback_url;
     }

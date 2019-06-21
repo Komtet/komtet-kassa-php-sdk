@@ -41,7 +41,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
                                             ]);
         $this->order->addPosition($orderPosition);
         $this->order->setCourierId(1);
-        $this->order->setСallbackUrl('https://calback_url.ru');
+        $this->order->setCallbackUrl('https://calback_url.ru');
     }
 
     public function testCreateOrderSucceded()
