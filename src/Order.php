@@ -29,17 +29,17 @@ class Order
     /**
      * @var bool
      */
-    private $is_paid=false;
+    private $is_paid = false;
 
     /**
      * @var string
      */
-    private $description='';
+    private $description = '';
 
     /**
      * @var OrderPosition[]
      */
-    private $items=[];
+    private $items = [];
 
     /**
      * @var string
@@ -121,7 +121,7 @@ class Order
      * @param string $name Name of the recipient
      *
      */
-    public function setClient($address, $phone, $email=null, $name=null)
+    public function setClient($address, $phone, $email = null, $name = null)
     {
         $this->client_address = $address;
         $this->client_phone = $phone;
@@ -196,8 +196,7 @@ class Order
     public function getTotalPositionsSum()
     {
         $positionsTotal = 0;
-        foreach( $this->items as $item )
-        {
+        foreach ($this->items as $item) {
             $positionsTotal += $item->getTotal();
         }
 
@@ -220,8 +219,8 @@ class Order
         $positionsCount = count($checkPositions);
         $accumulatedDiscount = 0;
 
-        foreach ( $checkPositions as $index => $position ) {
-            if ( $index < $positionsCount-1 ) {
+        foreach ($checkPositions as $index => $position) {
+            if ($index < $positionsCount - 1) {
                 $positionPricePercent = $position->getTotal() / $positionsTotal * 100;
                 $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100, 2);
                 $accumulatedDiscount += $curPositionDiscount;
@@ -290,5 +289,4 @@ class Order
 
         return $result;
     }
-
 }
