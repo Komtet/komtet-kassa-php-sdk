@@ -99,11 +99,11 @@ class Client
 
             $data = json_encode($data);
 
-            if($system_php_precision != False) {
+            if ($system_php_precision != False) {
                 ini_set('precision', $system_php_precision);
             }
 
-            if($system_php_serialize_precision != False) {
+            if ($system_php_serialize_precision != False) {
                 ini_set('serialize_precision', $system_php_serialize_precision);
             }
 
