@@ -9,6 +9,7 @@
 
 namespace {
     $curlMonkeyPatchEnabled = false;
+    $dataVariable = null;
 }
 
 namespace Komtet\KassaSdk {
@@ -23,16 +24,29 @@ namespace Komtet\KassaSdk {
             return call_user_func_array('\curl_exec', func_get_args());
         }
     }
-    
+
     function curl_getinfo($descriptor, $key) {
         global $curlMonkeyPatchEnabled;
-        if (isset($curlMonkeyPatchEnabled) && $curlMonkeyPatchEnabled === true) {
-            return 200;
+        if (isset($curlMonkeyPatchEnabled) &&
+            $curlMonkeyPatchEnabled === true &&
+            $key == CURLINFO_HTTP_CODE) {
+                return 200;
         }
         else
         {
             return call_user_func_array('\curl_getinfo', func_get_args());
         }
+    }
+
+    function curl_setopt($descriptor, $key, $option) {
+        global $curlMonkeyPatchEnabled;
+        if (isset($curlMonkeyPatchEnabled) &&
+            $curlMonkeyPatchEnabled === true &&
+            $key == CURLOPT_POSTFIELDS) {
+                global $dataVariable;
+                $dataVariable = $option;
+            }
+        return call_user_func_array('\curl_setopt', func_get_args());
     }
 
     class ClientTest extends \PHPUnit_Framework_TestCase
@@ -77,11 +91,10 @@ namespace Komtet\KassaSdk {
 
         public function testJsonEncode()
         {
-            ini_set('precision', 17);
-            ini_set('serialize_precision', -1);
+            $this->client->sendRequest($path, $this->check->asArray());
 
-            $encodedCheck = json_encode($this->check->asArray());
-            $decodedCheck = json_decode($encodedCheck);
+            global $dataVariable;
+            $decodedCheck = json_decode($dataVariable);
 
             $this->assertEquals($decodedCheck->positions[0]->total,
                                 $this->check->getPositions()[0]->getTotal());
