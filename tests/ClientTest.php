@@ -91,6 +91,7 @@ namespace Komtet\KassaSdk {
 
         public function testJsonEncode()
         {
+            $path = 'api/shop/v1/queues/queue-id/task';
             $this->client->sendRequest($path, $this->check->asArray());
 
             global $dataVariable;
