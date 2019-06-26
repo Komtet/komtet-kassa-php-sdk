@@ -1,0 +1,10 @@
+version: '2'
+services:
+    php_sdk:
+        container_name: php-sdk
+        build: .
+        ports:
+            - 8100:80
+        volumes:
+            - ../:/home/php_sdk
+        tty: true
