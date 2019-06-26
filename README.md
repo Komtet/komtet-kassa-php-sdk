@@ -267,6 +267,14 @@ try {
 }
 ```
 
+Применить общую скидку на заказ:
+
+```php
+<?php
+$discount = 250;
+$order->applyDiscount($discount);
+```
+
 Удалить заказ:
 
 ```php
