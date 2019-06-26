@@ -92,7 +92,21 @@ class Client
     public function sendRequest($path, $data = null, $method = null)
     {
         if (is_array($data)) {
+            $system_php_serialize_precision = ini_get('serialize_precision');
+            $system_php_precision = ini_get('precision');
+            ini_set('precision', 17);
+            ini_set('serialize_precision', -1);
+
             $data = json_encode($data);
+
+            if ($system_php_precision != False) {
+                ini_set('precision', $system_php_precision);
+            }
+
+            if ($system_php_serialize_precision != False) {
+                ini_set('serialize_precision', $system_php_serialize_precision);
+            }
+
         } elseif ($data) {
             throw new InvalidArgumentException('Unexpected type of $data, excepts array or null');
         }
