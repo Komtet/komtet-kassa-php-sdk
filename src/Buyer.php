@@ -27,10 +27,21 @@ class Buyer
      *
      * @return Buyer
      */
-    public function __construct($name, $inn)
+    public function __construct($name=null, $inn=null)
     {
         $this->name = $name;
         $this->inn = $inn;
+    }
+
+    /**
+     * @param string $inn
+     *
+     * @return Buyer
+     */
+    public function setINN($inn)
+    {
+      $this->inn = $inn;
+      return $this;
     }
 
     /**
@@ -38,9 +49,12 @@ class Buyer
      */
     public function asArray()
     {
-        return [
-            'name' => $this->name,
+        $data = [
             'inn' => $this->inn
         ];
+        if ($this->name) {
+          $data['name'] = $this->name;
+        }
+        return $data;
     }
 }
