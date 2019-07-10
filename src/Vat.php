@@ -50,7 +50,7 @@ class Vat
      */
     public function __construct($rate)
     {
-        if (is_float($rate) && ($rate < 1)) {
+        if (is_float($rate) && $rate < 1 && $rate != 0.0) {
             $rate = number_format($rate, 2);
         }
 
