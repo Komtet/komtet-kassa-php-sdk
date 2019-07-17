@@ -87,4 +87,29 @@ class CalculationSubject
      */
     const OTHER = 'other';
 
+    /**
+     * Передача имущественного права
+     */
+    const PROPERTY_RIGHT = 'property_right';
+
+    /**
+     * Внереализационный доход
+     */
+    const NON_OPERATING = 'non_operating';
+
+    /**
+     * Страховые взносы
+     */
+    const INSURANCE = 'insurance';
+
+    /**
+     * Торговый сбор
+     */
+    const SALES_TAX = 'sales_tax';
+
+    /**
+     * Курортный сбор
+     */
+    const RESORT_FEE = 'resort_fee';
+
 }
