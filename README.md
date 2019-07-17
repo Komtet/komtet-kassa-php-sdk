@@ -318,6 +318,10 @@ try {
 
 ## Changelog
 
+### 2.3.3 (17.07.2019)
+
+- Добавлены празнаки рассчета `PROPERTY_RIGHT`, `NON_OPERATING`, `INSURANCE`, `SALES_TAX`, `RESORT_FEE` у класса `CalculationSubject`
+
 ### 2.3.2 (10.07.2019)
 
 - Исправлена обработка НДС 0%
