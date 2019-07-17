@@ -297,7 +297,7 @@ $orderManager = new OrderManager(client);
 $order_id = 1;
 
 try {
-  $orderList = $orderManager->getOrders();
+    $orderList = $orderManager->getOrders();
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
@@ -310,7 +310,7 @@ try {
 $courierManager = new CourierManager(client);
 
 try {
-  $courierList = $courierManager->getCouriers();
+    $courierList = $courierManager->getCouriers();
 } catch (SdkException $e) {
     echo $e->getMessage();
 }

@@ -9,7 +9,6 @@
 
 namespace KomtetTest\KassaSdk;
 
-use Komtet\KassaSdk\Agent;
 use Komtet\KassaSdk\Buyer;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Payment;

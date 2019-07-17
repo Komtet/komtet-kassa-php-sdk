@@ -67,6 +67,11 @@ class Position
     private $agent = null;
 
     /**
+     * @var Nomenclature
+     */
+    private $nomenclature = null;
+
+    /**
      * @param string $name Item name
      * @param int|float $price Item price
      * @param int|float $quantity Item quanitity
@@ -147,6 +152,18 @@ class Position
     }
 
     /**
+     * @param Nomenclature $nomenclature
+     *
+     * @return Position
+     */
+    public function setNomenclature(Nomenclature $nomenclature)
+    {
+        $this->nomenclature = $nomenclature;
+
+        return $this;
+    }
+
+    /**
      * @return int|float
      */
     public function getTotal()
@@ -202,6 +219,10 @@ class Position
                 $result['supplier_info'] = $result['agent_info']['supplier_info'];
                 unset($result['agent_info']['supplier_info']);
             }
+        }
+
+        if ($this->nomenclature !== null) {
+            $result['nomenclature_code'] = $this->nomenclature->asArray();
         }
 
         return $result;
