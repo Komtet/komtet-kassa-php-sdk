@@ -17,6 +17,7 @@ use Komtet\KassaSdk\Cashier;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Correction;
 use Komtet\KassaSdk\CorrectionCheck;
+use Komtet\KassaSdk\Nomenclature;
 use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\Position;
 use Komtet\KassaSdk\QueueManager;
@@ -218,6 +219,9 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
         $position->setAgent($agent);
 
+        $nomenclature = new Nomenclature(Nomenclature::SHOES, '98765432101234', 'sgEKKPPcS25y5');
+        $position->setNomenclature($nomenclature);
+
         $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);
         $check->addPosition($position);
 
@@ -230,6 +234,10 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $data = $check->asArray();
         $this->assertTrue(array_key_exists('supplier_info', $data['positions'][0]));
         $this->assertFalse(array_key_exists('supplier_info', $data['positions'][0]['agent_info']));
+        $this->assertEquals(
+            json_encode($data['positions'][0]['nomenclature_code']),
+            '{"type":"shoes","gtin":"98765432101234","serial":"sgEKKPPcS25y5"}'
+        );
 
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'value'];

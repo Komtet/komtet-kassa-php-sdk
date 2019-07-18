@@ -297,7 +297,7 @@ $orderManager = new OrderManager(client);
 $order_id = 1;
 
 try {
-  $orderList = $orderManager->getOrders();
+    $orderList = $orderManager->getOrders();
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
@@ -310,13 +310,17 @@ try {
 $courierManager = new CourierManager(client);
 
 try {
-  $courierList = $courierManager->getCouriers();
+    $courierList = $courierManager->getCouriers();
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
 ```
 
 ## Changelog
+
+### 2.3.3 (17.07.2019)
+
+- Добавлены празнаки рассчета `PROPERTY_RIGHT`, `NON_OPERATING`, `INSURANCE`, `SALES_TAX`, `RESORT_FEE` у класса `CalculationSubject`
 
 ### 2.3.2 (10.07.2019)
 
