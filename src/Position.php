@@ -96,7 +96,7 @@ class Position
      *
      * @return Position
      */
-    public function __construct($name, $price, $quantity, $total, $discount, Vat $vat, $excise=null, $countryCode=null, $declarationNumber=null)
+    public function __construct($name, $price, $quantity, $total, $discount, Vat $vat)
     {
         $this->name = $name;
         $this->price = $price;
@@ -104,9 +104,6 @@ class Position
         $this->total = $total;
         $this->discount = $discount;
         $this->vat = $vat;
-        $this->excise = $excise;
-        $this->countryCode = $countryCode;
-        $this->declarationNumber = $declarationNumber;
     }
 
     /**
@@ -153,6 +150,42 @@ class Position
     public function setCalculationSubject($calc_subject)
     {
         $this->calcSubject = $calc_subject;
+
+        return $this;
+    }
+
+    /**
+     * @param int|float $value
+     *
+     * @return Position
+     */
+    public function setExcise($value)
+    {
+        $this->excise = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Position
+     */
+    public function setCountryCode($value)
+    {
+        $this->countryCode = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Position
+     */
+    public function setDeclarationNumber($value)
+    {
+        $this->declarationNumber = $value;
 
         return $this;
     }
