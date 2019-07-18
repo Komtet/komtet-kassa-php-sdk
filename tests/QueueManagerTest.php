@@ -211,7 +211,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, 0, $vat, 19.89, '643', '10129000/220817/0211234');
         $position->setId('123');
         $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
         $position->setCalculationSubject(CalculationSubject::PRODUCT);

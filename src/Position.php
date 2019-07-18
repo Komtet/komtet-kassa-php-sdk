@@ -62,6 +62,21 @@ class Position
     private $calcSubject = null;
 
     /**
+     * @var int|float
+     */
+    private $excise = null;
+
+    /**
+     * @var string
+     */
+    private $countryCode = null;
+
+    /**
+     * @var string
+     */
+    private $declarationNumber = null;
+
+    /**
      * @var Agent
      */
     private $agent = null;
@@ -81,7 +96,7 @@ class Position
      *
      * @return Position
      */
-    public function __construct($name, $price, $quantity, $total, $discount, Vat $vat)
+    public function __construct($name, $price, $quantity, $total, $discount, Vat $vat, $excise=null, $countryCode=null, $declarationNumber=null)
     {
         $this->name = $name;
         $this->price = $price;
@@ -89,6 +104,9 @@ class Position
         $this->total = $total;
         $this->discount = $discount;
         $this->vat = $vat;
+        $this->excise = $excise;
+        $this->countryCode = $countryCode;
+        $this->declarationNumber = $declarationNumber;
     }
 
     /**
@@ -195,6 +213,9 @@ class Position
             'total' => $this->total,
             'discount' => $this->discount,
             'vat' => $this->vat->getRate(),
+            'excise' => $this->excise,
+            'country_code' => $this->countryCode,
+            'declaration_number' => $this->declarationNumber
         ];
 
         if ($this->id !== null) {
