@@ -111,5 +111,4 @@ class CalculationSubject
      * Курортный сбор
      */
     const RESORT_FEE = 'resort_fee';
-
 }
