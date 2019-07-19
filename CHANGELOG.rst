@@ -2,10 +2,13 @@ Changelog
 =========
 
 
-2.3.3 (17.07.2019)
+2.3.3 (18.07.2019)
 ------------------
 
 - Добавлены празнаки рассчета `PROPERTY_RIGHT`, `NON_OPERATING`, `INSURANCE`, `SALES_TAX`, `RESORT_FEE` у класса `CalculationSubject`
+- Добавлен класс `Nomenclature` для создания маркировок
+- Добавлены новые методы `Position::setNomenclature`, `Position::setExcise`, `Position::setCountryCode` и `Position::setDeclarationNumber`
+
 
 2.3.2 (10.07.2019)
 ------------------
@@ -29,8 +32,8 @@ Changelog
 2.2.0 (19.04.2019)
 ------------------
 
-- Добавлены классы `Order`, `OrderManager`, `OrderPosition` для работы с заказами.
-- Добавлен класс `CourierManager` для работы с курьерами.
+- Добавлены классы `Order`, `OrderManager`, `OrderPosition` для работы с заказами
+- Добавлен класс `CourierManager` для работы с курьерами
 - Добавлено конвертирование типов НДС `Vat::RATE_18` и `Vat::RATE_118` в `Vat::RATE_20` и `Vat::RATE_120`.
 
 2.1.0 (05.06.2019)
@@ -63,7 +66,7 @@ Changelog
 1.3.0 (24.12.2018)
 ------------------
 
-- Добавлены новые методы `Agent::setSupplierInfo`, `Agent::setPayingAgentInfo`, `Agent::setReceivePaymentsOperatorInfo` и `Agent::setMoneyTransferOperatorInfo`.
+- Добавлены новые методы `Agent::setSupplierInfo`, `Agent::setPayingAgentInfo`, `Agent::setReceivePaymentsOperatorInfo` и `Agent::setMoneyTransferOperatorInfo`
 
 - Класс `Check` принимает необязательный параметр места расчета `$paymentAddress`
 

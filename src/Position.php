@@ -62,6 +62,21 @@ class Position
     private $calcSubject = null;
 
     /**
+     * @var int|float
+     */
+    private $excise = null;
+
+    /**
+     * @var string
+     */
+    private $countryCode = null;
+
+    /**
+     * @var string
+     */
+    private $declarationNumber = null;
+
+    /**
      * @var Agent
      */
     private $agent = null;
@@ -140,6 +155,42 @@ class Position
     }
 
     /**
+     * @param int|float $value
+     *
+     * @return Position
+     */
+    public function setExcise($value)
+    {
+        $this->excise = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Position
+     */
+    public function setCountryCode($value)
+    {
+        $this->countryCode = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Position
+     */
+    public function setDeclarationNumber($value)
+    {
+        $this->declarationNumber = $value;
+
+        return $this;
+    }
+
+    /**
      * @param Agent $agent
      *
      * @return Position
@@ -195,6 +246,9 @@ class Position
             'total' => $this->total,
             'discount' => $this->discount,
             'vat' => $this->vat->getRate(),
+            'excise' => $this->excise,
+            'country_code' => $this->countryCode,
+            'declaration_number' => $this->declarationNumber
         ];
 
         if ($this->id !== null) {

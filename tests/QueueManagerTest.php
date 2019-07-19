@@ -215,6 +215,9 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $position->setId('123');
         $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
         $position->setCalculationSubject(CalculationSubject::PRODUCT);
+        $position->setExcise(19.89);
+        $position->setCountryCode('643');
+        $position->setDeclarationNumber('10129000/220817/0211234');
 
         $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
         $position->setAgent($agent);
