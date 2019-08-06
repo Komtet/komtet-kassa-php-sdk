@@ -246,10 +246,13 @@ class Position
             'total' => $this->total,
             'discount' => $this->discount,
             'vat' => $this->vat->getRate(),
-            'excise' => $this->excise,
             'country_code' => $this->countryCode,
             'declaration_number' => $this->declarationNumber
         ];
+
+		if ($this->excise !== null) {
+			$result['excise'] = $this->excise;
+		}
 
         if ($this->id !== null) {
             $result['id'] = $this->id;
