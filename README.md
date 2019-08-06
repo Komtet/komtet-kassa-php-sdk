@@ -318,6 +318,10 @@ try {
 
 ## Changelog
 
+### 2.3.4 (06.08.2019)
+
+- Исправлены ошибки при серилиазации полей класса `Position`
+
 ### 2.3.3 (18.07.2019)
 
 - Добавлены празнаки рассчета `PROPERTY_RIGHT`, `NON_OPERATING`, `INSURANCE`, `SALES_TAX`, `RESORT_FEE` у класса `CalculationSubject`

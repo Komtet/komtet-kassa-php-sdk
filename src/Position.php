@@ -245,10 +245,7 @@ class Position
             'quantity' => $this->quantity,
             'total' => $this->total,
             'discount' => $this->discount,
-            'vat' => $this->vat->getRate(),
-            'excise' => $this->excise,
-            'country_code' => $this->countryCode,
-            'declaration_number' => $this->declarationNumber
+            'vat' => $this->vat->getRate()
         ];
 
         if ($this->id !== null) {
@@ -265,6 +262,18 @@ class Position
 
         if ($this->calcSubject !== null) {
             $result['calculation_subject'] = $this->calcSubject;
+        }
+        
+        if ($this->excise !== null) {
+            $result['excise'] = $this->excise;
+        }
+        
+        if ($this->countryCode !== null) {
+            $result['country_code'] = $this->countryCode;
+        }
+
+        if ($this->declarationNumber !== null) {
+            $result['declaration_number'] = $this->declarationNumber;
         }
 
         if ($this->agent !== null) {
