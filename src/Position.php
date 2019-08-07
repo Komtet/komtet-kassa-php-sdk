@@ -248,10 +248,6 @@ class Position
             'vat' => $this->vat->getRate()
         ];
 
-		if ($this->excise !== null) {
-			$result['excise'] = $this->excise;
-		}
-
         if ($this->id !== null) {
             $result['id'] = $this->id;
         }
