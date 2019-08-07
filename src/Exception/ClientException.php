@@ -11,4 +11,5 @@ namespace Komtet\KassaSdk\Exception;
 
 class ClientException extends \RuntimeException implements SdkException
 {
+    const EXTERNAL_ID_EXISTS = 1;
 }

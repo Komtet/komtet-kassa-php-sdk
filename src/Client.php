@@ -170,7 +170,7 @@ class Client
                 'error' => $error,
                 'response' => $response
             ]);
-            throw new ClientException($error);
+            throw new ClientException($error, self::getClientExceptionCodeByResponse($response));
         }
 
         $this->log($log_level_debug, 'response: {response}', ['response' => $response]);
@@ -200,5 +200,12 @@ class Client
             },
             $headers
         );
+    }
+
+    private static function getClientExceptionCodeByResponse($response) {
+        if (preg_match('~external_id: Чек с внешним идентификатором [0-9]+ уже существует~uim', $response)) {
+            return ClientException::EXTERNAL_ID_EXISTS;
+        }
+        return 0;
     }
 }
