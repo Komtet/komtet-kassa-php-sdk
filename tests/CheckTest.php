@@ -84,7 +84,26 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
     }
 
-    public function testAddBuyerWithoutName()
+    public function testAddBuyerWithName()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+
+        $vat = new Vat(0);
+        $position = new Position('position1', 100.0, 1, 100.0, 0, $vat);
+        $check->addPosition($position);
+
+        $payment = new Payment(Payment::TYPE_CARD, 100.0);
+        $check->addPayment($payment);
+
+        $buyer = new Buyer();
+        $buyer->setName('Пупкин П.П.');
+        $check->addBuyer($buyer);
+
+        $this->assertEquals($check->asArray()['client']['name'], 'Пупкин П.П.');
+        $this->assertArrayNotHasKey('inn', $check->asArray()['client']);
+    }
+
+    public function testAddBuyerWithINN()
     {
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
 

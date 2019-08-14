@@ -34,6 +34,17 @@ class Buyer
     }
 
     /**
+     * @param string $name
+     *
+     * @return Buyer
+     */
+    public function setName($name)
+    {
+      $this->name = $name;
+      return $this;
+    }
+
+    /**
      * @param string $inn
      *
      * @return Buyer
@@ -49,12 +60,16 @@ class Buyer
      */
     public function asArray()
     {
-        $data = [
-            'inn' => $this->inn
-        ];
+        $data = [];
+
         if ($this->name) {
           $data['name'] = $this->name;
         }
+
+        if ($this->inn) {
+          $data['inn'] = $this->inn;
+        }
+
         return $data;
     }
 }
