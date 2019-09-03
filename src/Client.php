@@ -94,8 +94,11 @@ class Client
         if (is_array($data)) {
             $system_php_serialize_precision = ini_get('serialize_precision');
             $system_php_precision = ini_get('precision');
-            ini_set('precision', 17);
-            ini_set('serialize_precision', -1);
+
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+                ini_set('precision', 10);
+                ini_set('serialize_precision', 10);
+            }
 
             $data = json_encode($data);
 
