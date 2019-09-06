@@ -95,10 +95,8 @@ class Client
             $system_php_serialize_precision = ini_get('serialize_precision');
             $system_php_precision = ini_get('precision');
 
-            if (version_compare(PHP_VERSION, '7.1.0') >= 0) {
-                ini_set('precision', 10);
-                ini_set('serialize_precision', 10);
-            }
+            ini_set('precision', 10);
+            ini_set('serialize_precision', 10);
 
             $data = json_encode($data);
 
