@@ -25,7 +25,7 @@ class CashierTest extends \PHPUnit_Framework_TestCase
     {
         $cashier = new Cashier('Иваров И.П.');
         $this->assertEquals($cashier->asArray()['name'], 'Иваров И.П.');
-        $this->assertEmpty($cashier->asArray()['inn']);
+        $this->assertArrayNotHasKey('inn',$cashier->asArray());
     }
 
     public function testAuthorisedPersonNameWithInn()
@@ -39,7 +39,7 @@ class CashierTest extends \PHPUnit_Framework_TestCase
     {
         $cashier = new AuthorisedPerson('Иваров И.П.');
         $this->assertEquals($cashier->asArray()['name'], 'Иваров И.П.');
-        $this->assertEmpty($cashier->asArray()['inn']);
+        $this->assertArrayNotHasKey('inn',$cashier->asArray());
     }
 }
 
