@@ -27,7 +27,7 @@ class AuthorisedPerson
      *
      * @return AuthorisedPerson
      */
-    public function __construct($name, $inn)
+    public function __construct($name, $inn=null)
     {
         $this->name = $name;
         $this->inn = $inn;
@@ -37,10 +37,13 @@ class AuthorisedPerson
      * @return array
      */
     public function asArray()
-    {
-        return [
-            'name' => $this->name,
-            'inn' => $this->inn
-        ];
+    {    
+        $result = ['name' => $this->name];
+
+        if ($this->inn !== null) {
+            $result['inn'] = $this->inn;
+        }
+
+        return $result;
     }
 }
