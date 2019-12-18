@@ -52,6 +52,11 @@ class OrderPosition
     private $measure_name;
 
     /**
+     * @var Agent
+     */
+    private $agent = null;
+
+    /**
      * @param string $oid Item identifier
      * @param string $name Item
      * @param int|float $price Item price in the check
@@ -69,7 +74,8 @@ class OrderPosition
             'total' => null,
             'measure_name' => null,
             'type' => null,
-            'quantity' => 1
+            'quantity' => 1,
+            'agent' => null
         ];
         $args = array_merge($defaultArgs, $args);
 
@@ -90,6 +96,10 @@ class OrderPosition
 
         if ($args['type'] !== null) {
             $this->type = $args['type'];
+        }
+
+        if ($args['agent'] !== null) {
+            $this->agent = $args['agent'];
         }
     }
 
@@ -133,6 +143,14 @@ class OrderPosition
 
         if ($this->type !== null) {
             $result['type'] = $this->type;
+        }
+        
+        if ($this->agent !== null) {
+            $result['agent_info'] = $this->agent->asArray();
+            if (array_key_exists('supplier_info', $result['agent_info'])) {
+                $result['supplier_info'] = $result['agent_info']['supplier_info'];
+                unset($result['agent_info']['supplier_info']);
+            }
         }
 
         return $result;
