@@ -35,24 +35,42 @@ class Nomenclature
     const SHOES = 'shoes';
 
     /**
-     * @var array
+     * @var string
      */
-    private $nomenclature_code;
+    private $type;
+
+    /**
+     * @var string
+     */
+    private $code;
+
+    /**
+     * @var string
+     */
+    private $byte_code;
 
 
-    public function __construct($nomenclature_type, $code)
-    {
-        $this->nomenclature_code = [
-            'type' => $nomenclature_type,
-            'code' => $code,
-        ];
+    public function __construct($nomenclature_type, $code, $byte_code=null)
+    {   
+        $this->type = $nomenclature_type;
+        $this->code = $code;
+        $this->byte_code = $byte_code;
     }
 
     /**
      * @return array
      */
     public function asArray()
-    {
-        return $this->nomenclature_code;
+    {   
+        $result = [
+            'type' => $this->type,
+            'code' => $this->code
+        ];
+
+        if ($this->byte_code !== null) {
+            $result['byte_code'] = $this->byte_code;
+        }
+
+        return $result;
     }
 }

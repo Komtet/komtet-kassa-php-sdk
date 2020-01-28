@@ -222,7 +222,11 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
         $position->setAgent($agent);
 
-        $nomenclature = new Nomenclature(Nomenclature::SHOES, '019876543210123421sgEKKPPcS25y5');
+        $nomenclature = new Nomenclature(
+            Nomenclature::SHOES, 
+            '019876543210123421sgEKKPPcS25y5',
+            '444D00000096b43f303132333432317367454b4b5050635332357935'
+        );
         $position->setNomenclature($nomenclature);
 
         $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);
@@ -239,7 +243,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(array_key_exists('supplier_info', $data['positions'][0]['agent_info']));
         $this->assertEquals(
             json_encode($data['positions'][0]['nomenclature_code']),
-            '{"type":"shoes","code":"019876543210123421sgEKKPPcS25y5"}'
+            '{"type":"shoes","code":"019876543210123421sgEKKPPcS25y5","byte_code":"444D00000096b43f303132333432317367454b4b5050635332357935"}'
         );
 
         $path = 'api/shop/v1/queues/queue-id/task';
