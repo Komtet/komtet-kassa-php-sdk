@@ -47,14 +47,14 @@ class Nomenclature
     /**
      * @var string
      */
-    private $byte_code;
+    private $hex_code;
 
 
-    public function __construct($nomenclature_type, $code, $byte_code=null)
+    public function __construct($nomenclature_type, $code, $hex_code=null)
     {   
         $this->type = $nomenclature_type;
         $this->code = $code;
-        $this->byte_code = $byte_code;
+        $this->hex_code = $hex_code;
     }
 
     /**
@@ -67,8 +67,8 @@ class Nomenclature
             'code' => $this->code
         ];
 
-        if ($this->byte_code !== null) {
-            $result['byte_code'] = $this->byte_code;
+        if ($this->hex_code !== null) {
+            $result['hex_code'] = $this->hex_code;
         }
 
         return $result;

@@ -5,7 +5,7 @@ Changelog
 -------------------
 
 - Заменены параметры `gtin` и `serial` класса `Nomenclature` на `code`
-- Добавлен параметр `byte_code` в класс `Nomenclature`
+- Добавлен параметр `hex_code` в класс `Nomenclature`
 
 2.6.0 (16.12.2019)
 ------------------
