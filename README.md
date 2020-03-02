@@ -318,6 +318,10 @@ try {
 
 ## Changelog
 
+### 3.1.0 (02.03.2020)
+
+- Для заказов добавлена поддержка `exices`, `country_code`, `declaration_number`
+
 ### 3.0.0 (20.01.2020)
 
 - Заменены параметры `gtin` и `serial` класса `Nomenclature` на `code`
