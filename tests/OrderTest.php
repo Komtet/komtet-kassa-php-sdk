@@ -180,4 +180,29 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($order->asArray()['items'][0]['supplier_info']['name'], "ООО 'Лютик'");
         $this->assertEquals($order->asArray()['items'][0]['supplier_info']['inn'], "12345678901");
     }
+
+    public function testOrderWithExice()
+    {
+        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+
+        $position = new OrderPosition([
+            'oid' => '1',
+            'name' => 'position name1',
+            'price' => 100.0,
+            'type' => 'product',
+            'quantity' => 1,
+            'total' => 100.0,
+            'vat' => Vat::RATE_10,
+            'measure_name' => 'kg',
+            'excise' => 19.89,
+            'country_code' => '643',
+            'declaration_number' => '10129000/220817/0211234'
+        ]);
+
+        $order->addPosition($position);
+
+        $this->assertEquals($order->asArray()['items'][0]['excise'], 19.89);
+        $this->assertEquals($order->asArray()['items'][0]['country_code'], '643');
+        $this->assertEquals($order->asArray()['items'][0]['declaration_number'],'10129000/220817/0211234');  
+    }
 }

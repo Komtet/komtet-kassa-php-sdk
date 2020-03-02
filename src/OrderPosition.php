@@ -57,6 +57,21 @@ class OrderPosition
     private $agent = null;
 
     /**
+     * @var int|float
+     */
+    private $excise;
+
+    /**
+     * @var string
+     */
+    private $country_code;
+
+    /**
+     * @var string
+     */
+    private $declaration_number;
+
+    /**
      * @param string $oid Item identifier
      * @param string $name Item
      * @param int|float $price Item price in the check
@@ -75,7 +90,10 @@ class OrderPosition
             'measure_name' => null,
             'type' => null,
             'quantity' => 1,
-            'agent' => null
+            'agent' => null,
+            'excise' => null,
+            'country_code' => null,
+            'declaration_number' => null
         ];
         $args = array_merge($defaultArgs, $args);
 
@@ -100,6 +118,18 @@ class OrderPosition
 
         if ($args['agent'] !== null) {
             $this->agent = $args['agent'];
+        }
+
+        if ($args['excise'] !== null) {
+            $this->excise = $args['excise'];
+        }
+
+        if ($args['country_code'] !== null) {
+            $this->country_code = $args['country_code'];
+        }
+
+        if ($args['declaration_number'] !== null) {
+            $this->declaration_number = $args['declaration_number'];
         }
     }
 
@@ -151,6 +181,18 @@ class OrderPosition
                 $result['supplier_info'] = $result['agent_info']['supplier_info'];
                 unset($result['agent_info']['supplier_info']);
             }
+        }
+
+        if ($this->excise !== null) {
+            $result['excise'] = $this->excise;
+        }
+
+        if ($this->country_code !== null) {
+            $result['country_code'] = $this->country_code;
+        }
+
+        if ($this->declaration_number !== null) {
+            $result['declaration_number'] = $this->declaration_number;
         }
 
         return $result;
