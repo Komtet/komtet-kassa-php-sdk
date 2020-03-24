@@ -42,9 +42,9 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $vat = new Vat(0);
         $payment1 = new Payment(Payment::TYPE_CARD, 110.0);
         $payment2 = new Payment(Payment::TYPE_CARD, 20.0);
-        $position1 = new Position('position1', 100.0, 1, 100.0, 0, $vat);
-        $position2 = new Position('position2', 25.0, 2, 40.0, 10.0, $vat);
-        $position3 = new Position('position3', 5.0, 1, 5.0, 0, $vat);
+        $position1 = new Position('position1', 100.0, 1, 100.0, $vat);
+        $position2 = new Position('position2', 25.0, 2, 40.0, $vat);
+        $position3 = new Position('position3', 5.0, 1, 5.0, $vat);
 
         $check->addPayment($payment1);
         $check->addPayment($payment2);
@@ -71,7 +71,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
 
         $vat = new Vat(0);
-        $position = new Position('position1', 100.0, 1, 100.0, 0, $vat);
+        $position = new Position('position1', 100.0, 1, 100.0, $vat);
         $check->addPosition($position);
 
         $payment = new Payment(Payment::TYPE_CARD, 100.0);
@@ -89,7 +89,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
 
         $vat = new Vat(0);
-        $position = new Position('position1', 100.0, 1, 100.0, 0, $vat);
+        $position = new Position('position1', 100.0, 1, 100.0, $vat);
         $check->addPosition($position);
 
         $payment = new Payment(Payment::TYPE_CARD, 100.0);
@@ -108,7 +108,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
 
         $vat = new Vat(0);
-        $position = new Position('position1', 100.0, 1, 100.0, 0, $vat);
+        $position = new Position('position1', 100.0, 1, 100.0, $vat);
         $check->addPosition($position);
 
         $payment = new Payment(Payment::TYPE_CARD, 100.0);

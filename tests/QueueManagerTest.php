@@ -125,7 +125,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
 
@@ -147,7 +147,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
 
         $vat = new Vat('no');
-        $position = (new Position('name', 100, 1, 100, 0, $vat))->setMeasureName('Kg');
+        $position = (new Position('name', 100, 1, 100, $vat))->setMeasureName('Kg');
         $payment = new Payment(Payment::TYPE_CASH, 100);
         $this->assertEquals($payment->getSum(), 100);
 
@@ -169,7 +169,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
 
@@ -190,7 +190,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
 
@@ -211,7 +211,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
         $position->setCalculationSubject(CalculationSubject::PRODUCT);

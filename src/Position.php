@@ -37,11 +37,6 @@ class Position
     private $total;
 
     /**
-     * @var int|float
-     */
-    private $discount;
-
-    /**
      * @var Vat
      */
     private $vat;
@@ -91,18 +86,16 @@ class Position
      * @param int|float $price Item price
      * @param int|float $quantity Item quanitity
      * @param int|float $total Total cost
-     * @param int|float $discount Discount size in RUB
      * @param Vat $vat VAT
      *
      * @return Position
      */
-    public function __construct($name, $price, $quantity, $total, $discount, Vat $vat)
+    public function __construct($name, $price, $quantity, $total, Vat $vat)
     {
         $this->name = $name;
         $this->price = $price;
         $this->quantity = $quantity;
         $this->total = $total;
-        $this->discount = $discount;
         $this->vat = $vat;
     }
 
@@ -244,7 +237,6 @@ class Position
             'price' => $this->price,
             'quantity' => $this->quantity,
             'total' => $this->total,
-            'discount' => $this->discount,
             'vat' => $this->vat->getRate()
         ];
 
