@@ -121,4 +121,12 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
         $this->assertArrayNotHasKey('name', $check->asArray()['client']);
     }
+
+    public function testAddAdditionalCheckProps()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+        $check->addAdditionalCheckProps("Дополнительный реквизит");
+
+        $this->assertEquals($check->asArray()['additional_check_props'], 'Дополнительный реквизит');
+    }
 }
