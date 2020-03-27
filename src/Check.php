@@ -67,6 +67,11 @@ class Check
     private $cashier;
 
     /**
+     * @var string
+     */
+    private $additionalCheckProps;
+
+    /**
      * @param string $id An unique ID provided by an online store
      * @param string $userContact User E-Mail or phone
      * @param string $intent Check::INTENT_SELL, Check::INTENT_SELL_RETURN, Check::INTENT_BUY, or Check::INTENT_BUY_RETURN
@@ -199,6 +204,18 @@ class Check
     }
 
     /**
+     * @param string $value
+     *
+     * @return Check
+     */
+    public function addAdditionalCheckProps($value)
+    {   
+        $this->additionalCheckProps = $value;
+
+        return $this;
+    }
+
+    /**
      * @return int|float
      */
     public function getTotalPositionsSum()
@@ -288,6 +305,10 @@ class Check
 
         if ($this->paymentAddress !== null) {
             $result['payment_address'] = $this->paymentAddress;
+        }
+
+        if ($this->additionalCheckProps !== null) {
+            $result['additional_check_props'] = $this->additionalCheckProps;
         }
 
         return $result;
