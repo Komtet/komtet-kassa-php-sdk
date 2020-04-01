@@ -318,6 +318,11 @@ try {
 
 ## Changelog
 
+### 4.0.0 (26.03.2020)
+
+- В классе `Position` убрана поддержка `discount` 
+- В класс `Check` добавлен метод `addAdditionalCheckProps` для поддержки дополнительного реквизита чека
+
 ### 3.1.0 (02.03.2020)
 
 - Для заказов добавлена поддержка `exices`, `country_code`, `declaration_number`
