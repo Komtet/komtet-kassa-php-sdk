@@ -61,7 +61,7 @@ namespace Komtet\KassaSdk {
             $this->check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
             
             $payment = new Payment(Payment::TYPE_CARD, 110.98);
-            $position = new Position('position', 110.98, 1, 110.98, 0, new Vat(0));
+            $position = new Position('position', 110.98, 1, 110.98, new Vat(0));
             
             $this->check->addPayment($payment);
             $this->check->addPosition($position);
