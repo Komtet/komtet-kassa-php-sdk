@@ -40,12 +40,11 @@ class Nomenclature
     private $nomenclature_code;
 
 
-    public function __construct($nomenclature_type, $gtin, $serial_number)
+    public function __construct($nomenclature_type, $code)
     {
         $this->nomenclature_code = [
             'type' => $nomenclature_type,
-            'gtin' => $gtin,
-            'serial' => $serial_number
+            'code' => $code,
         ];
     }
 

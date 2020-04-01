@@ -125,7 +125,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
 
@@ -147,7 +147,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
 
         $vat = new Vat('no');
-        $position = (new Position('name', 100, 1, 100, 0, $vat))->setMeasureName('Kg');
+        $position = (new Position('name', 100, 1, 100, $vat))->setMeasureName('Kg');
         $payment = new Payment(Payment::TYPE_CASH, 100);
         $this->assertEquals($payment->getSum(), 100);
 
@@ -169,7 +169,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
 
@@ -190,7 +190,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $payment = new Payment(Payment::TYPE_CARD, 100);
 
@@ -211,7 +211,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->qm->setDefaultQueue('my-queue');
 
         $vat = new Vat('20%');
-        $position = new Position('name', 100, 1, 100, 0, $vat);
+        $position = new Position('name', 100, 1, 100, $vat);
         $position->setId('123');
         $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
         $position->setCalculationSubject(CalculationSubject::PRODUCT);
@@ -222,7 +222,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
         $position->setAgent($agent);
 
-        $nomenclature = new Nomenclature(Nomenclature::SHOES, '98765432101234', 'sgEKKPPcS25y5');
+        $nomenclature = new Nomenclature(Nomenclature::SHOES, '019876543210123421sgEKKPPcS25y5');
         $position->setNomenclature($nomenclature);
 
         $check = Check::createSell('id', 'user@host', TaxSystem::COMMON);
@@ -239,7 +239,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(array_key_exists('supplier_info', $data['positions'][0]['agent_info']));
         $this->assertEquals(
             json_encode($data['positions'][0]['nomenclature_code']),
-            '{"type":"shoes","gtin":"98765432101234","serial":"sgEKKPPcS25y5"}'
+            '{"type":"shoes","code":"019876543210123421sgEKKPPcS25y5"}'
         );
 
         $path = 'api/shop/v1/queues/queue-id/task';
