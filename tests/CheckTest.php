@@ -129,4 +129,12 @@ class CheckTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($check->asArray()['additional_check_props'], 'Дополнительный реквизит');
     }
+
+    public function testSetCallbackUrl()
+    {
+        $check = new Check('id5', 'tests@tests.test', Check::INTENT_SELL, 1);
+        $check->setCallbackUrl("http://localhost:8110/index.php/shop/komtetkassa/success/");
+        $this->assertEquals($check->asArray()['callback_url'],
+                            'http://localhost:8110/index.php/shop/komtetkassa/success/');
+    }
 }
