@@ -9,7 +9,6 @@
 
 namespace Komtet\KassaSdk;
 
-use Komtet\KassaSdk\Exception\CheckExistsException;
 use Komtet\KassaSdk\Exception\ClientException;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
@@ -172,11 +171,7 @@ class Client
                 'error' => $error,
                 'response' => $response
             ]);
-            if (preg_match('~external_id: Чек с внешним идентификатором [0-9]+ уже существует~uim', $response)) {
-                throw new CheckExistsException($error);
-            } else {
-                throw new ClientException($error);
-            }
+            new ClientException($response['title'], $response['code'], $response['description']);
         }
 
         $this->log($log_level_debug, 'response: {response}', ['response' => $response]);
