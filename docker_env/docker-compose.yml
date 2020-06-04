@@ -2,9 +2,12 @@ version: '2'
 services:
     php_sdk:
         container_name: php-sdk
-        build: .
+        build:
+            context: ../
+            dockerfile: ./docker_env/Dockerfile
         ports:
             - 8100:80
         volumes:
-            - ../:/home/php_sdk
+            - ../src/:/home/php_sdk/src
+            - ../tests/:/home/php_sdk/tests
         tty: true
