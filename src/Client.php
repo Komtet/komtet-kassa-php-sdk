@@ -10,6 +10,7 @@
 namespace Komtet\KassaSdk;
 
 use Komtet\KassaSdk\Exception\ClientException;
+use Komtet\KassaSdk\Exception\ApiValidationException;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 
@@ -156,23 +157,30 @@ class Client
             'data' => $data
         ]);
 
-        $error = null;
+
         if ($response === false) {
-            $error = curl_error($ch);
+            throw new ClientException(curl_error($ch));
         } else {
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($status !== 200) {
-                $error = sprintf('Unexpected status (%s)', $status);
+                $this->log($log_level_warning, 'error: {error} {response}', [
+                    'error' => $status,
+                    'response' => $response
+                ]);
+
+                if (in_array($status, [422, 403])) {
+                    $resp_data = json_decode($response, true);
+                    throw new ApiValidationException($resp_data['title'],
+                                                     $resp_data['code'],
+                                                     $resp_data['description'],
+                                                     $status);
+                } else {
+                    throw new ClientException(sprintf('Unexpected status (%s)', $status), $status);
+                }
             }
         }
+
         curl_close($ch);
-        if ($error !== null) {
-            $this->log($log_level_warning, 'error: {error} {response}', [
-                'error' => $error,
-                'response' => $response
-            ]);
-            throw new ClientException($error);
-        }
 
         $this->log($log_level_debug, 'response: {response}', ['response' => $response]);
 

@@ -12,7 +12,10 @@ namespace {
     $dataVariable = null;
 }
 
+
 namespace Komtet\KassaSdk {
+
+    use Komtet\KassaSdk\Exception\ApiValidationException;
 
     function curl_exec($descriptor) {
         global $curlMonkeyPatchEnabled;
@@ -57,12 +60,12 @@ namespace Komtet\KassaSdk {
         protected function setUp()
         {
             $this->client = new Client('key', 'secret');
-            
+
             $this->check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
-            
+
             $payment = new Payment(Payment::TYPE_CARD, 110.98);
             $position = new Position('position', 110.98, 1, 110.98, new Vat(0));
-            
+
             $this->check->addPayment($payment);
             $this->check->addPosition($position);
 
@@ -99,6 +102,22 @@ namespace Komtet\KassaSdk {
 
             $this->assertEquals($decodedCheck->positions[0]->total,
                                 $this->check->getPositions()[0]->getTotal());
+        }
+
+        public function testAPIValidationException()
+        {
+            $title = 'Чек с внешнем идентификатором test123 существует';
+            $code = 'VLD11';
+            $description = 'Проверьте корректность передаваемых идентификаторов. Измените идентификатор, либо прекратите попытки по передаче данного чека в очередь.';
+            $status = 422;
+
+            try {
+                throw new ApiValidationException($title, $code, $description, $status);
+            } catch (ApiValidationException $e) {
+                $this->assertEquals($e->getMessage(), $title);
+                $this->assertEquals($e->getVLDCode(), $code);
+                $this->assertEquals($e->getDescription(), $description);
+            }
         }
     }
 }
