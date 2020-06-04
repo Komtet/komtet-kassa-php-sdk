@@ -72,6 +72,11 @@ class Check
     private $additionalCheckProps;
 
     /**
+     * @var string
+     */
+    private $callback_url;
+
+    /**
      * @param string $id An unique ID provided by an online store
      * @param string $userContact User E-Mail or phone
      * @param string $intent Check::INTENT_SELL, Check::INTENT_SELL_RETURN, Check::INTENT_BUY, or Check::INTENT_BUY_RETURN
@@ -209,7 +214,7 @@ class Check
      * @return Check
      */
     public function addAdditionalCheckProps($value)
-    {   
+    {
         $this->additionalCheckProps = $value;
 
         return $this;
@@ -271,6 +276,15 @@ class Check
     }
 
     /**
+     * @param string $callback_url callback url for Order
+     *
+     */
+    public function setCallbackUrl($callback_url)
+    {
+        $this->callback_url = $callback_url;
+    }
+
+    /**
      * @return array
      */
     public function asArray()
@@ -309,6 +323,10 @@ class Check
 
         if ($this->additionalCheckProps !== null) {
             $result['additional_check_props'] = $this->additionalCheckProps;
+        }
+
+        if ($this->callback_url !== null) {
+            $result['callback_url'] = $this->callback_url;
         }
 
         return $result;
