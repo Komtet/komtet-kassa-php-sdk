@@ -174,9 +174,9 @@ class Client
                                                      $resp_data['code'],
                                                      $resp_data['description'],
                                                      $status);
-                } else {
-                    throw new ClientException(sprintf('Unexpected status (%s)', $status), $status);
                 }
+
+                throw new ClientException(sprintf('Unexpected status (%s)', $status), $status);
             }
         }
 
