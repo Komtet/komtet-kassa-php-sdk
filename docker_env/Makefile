@@ -7,7 +7,7 @@ build: ## Сборка проекта
 	docker-compose build
 
 test: ## Тестирование проекта
-	@docker-compose run php_sdk bash -c "./vendor/bin/phpunit"
+	@docker-compose run php_sdk bash -c "composer test"
 
 .PHONY: help build test
 .DEFAULT_GOAL := help
