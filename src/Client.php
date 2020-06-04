@@ -168,7 +168,7 @@ class Client
                     'response' => $response
                 ]);
 
-                if (in_array($status, [422, 403])) {
+                if (in_array($status, [500, 422, 403])) {
                     $resp_data = json_decode($response, true);
                     throw new ApiValidationException($resp_data['title'],
                                                      $resp_data['code'],
