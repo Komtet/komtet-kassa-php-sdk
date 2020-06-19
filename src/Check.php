@@ -290,7 +290,7 @@ class Check
     public function asArray()
     {
         $result = [
-            'task_id' => $this->id,
+            'external_id' => $this->id,
             'user' => $this->userContact,
             'print' => $this->shouldPrint,
             'intent' => $this->intent,
