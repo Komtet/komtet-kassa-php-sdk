@@ -15,35 +15,14 @@ namespace Komtet\KassaSdk;
 class Nomenclature
 {
     /**
-     * Меховые изделия
-     */
-    const FURS = 'furs';
-
-    /**
-     * Лекарства
-     */
-    const MEDICINES = 'medicines';
-
-    /**
-     * Табачная продукция
-     */
-    const TOBACCO = 'tobacco';
-
-    /**
-     * Обувь
-     */
-    const SHOES = 'shoes';
-
-    /**
      * @var array
      */
     private $nomenclature_code;
 
 
-    public function __construct($nomenclature_type, $code)
+    public function __construct($code)
     {
         $this->nomenclature_code = [
-            'type' => $nomenclature_type,
             'code' => $code,
         ];
     }
