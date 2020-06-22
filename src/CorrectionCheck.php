@@ -140,7 +140,7 @@ class CorrectionCheck
     {
         return [
             'intent' => $this->intent,
-            'task_id' => $this->id,
+            'external_id' => $this->id,
             'printer_number' => $this->printerNumber,
             'sno' => $this->taxSystem,
             'payments' => [$this->payment->asArray()],
