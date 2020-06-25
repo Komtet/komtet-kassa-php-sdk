@@ -20,11 +20,35 @@ class Nomenclature
     private $nomenclature_code;
 
 
-    public function __construct($code)
+    public function __construct($code=null, $hex_code=null)
     {
-        $this->nomenclature_code = [
-            'code' => $code,
-        ];
+        $this->nomenclature_code = [];
+
+        if ($code !== null) {
+            $this->setStrCode($code);
+        }
+
+        if ($hex_code !== null) {
+            $this->setHexCode($hex_code);
+        }
+    }
+
+    /**
+     * @param string $code
+     *
+     */
+    public function setStrCode($code) 
+    {
+        $this->nomenclature_code['code'] = $code;
+    }
+
+    /**
+     * @param string $code
+     *
+     */
+    public function setHexCode($code)
+    {
+        $this->nomenclature_code['hex_code'] = $code;
     }
 
     /**
