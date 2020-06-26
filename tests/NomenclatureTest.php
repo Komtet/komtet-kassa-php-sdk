@@ -23,7 +23,7 @@ class NomenclatureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($nomenclature->asArray(), ['code' => 'aabbcc', 'hex_code' =>'AABBCC']);
 
         $nomenclature = new Nomenclature();
-        $nomenclature->setStrCode('aabbcc');
+        $nomenclature->setCode('aabbcc');
         $this->assertEquals($nomenclature->asArray(), ['code' => 'aabbcc']);
 
         $nomenclature = new Nomenclature();

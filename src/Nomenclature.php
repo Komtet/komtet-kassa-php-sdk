@@ -25,7 +25,7 @@ class Nomenclature
         $this->nomenclature_code = [];
 
         if ($code !== null) {
-            $this->setStrCode($code);
+            $this->setCode($code);
         }
 
         if ($hex_code !== null) {
@@ -37,7 +37,7 @@ class Nomenclature
      * @param string $code
      *
      */
-    public function setStrCode($code) 
+    public function setCode($code) 
     {
         $this->nomenclature_code['code'] = $code;
     }
