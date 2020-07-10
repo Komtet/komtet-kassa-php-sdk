@@ -72,6 +72,11 @@ class Check
     private $additionalCheckProps;
 
     /**
+     * @var AdditionalUserProps
+     */
+    private $additionalUserProps;
+
+    /**
      * @var string
      */
     private $callback_url;
@@ -213,9 +218,21 @@ class Check
      *
      * @return Check
      */
-    public function addAdditionalCheckProps($value)
+    public function setAdditionalCheckProps($value)
     {
         $this->additionalCheckProps = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param AdditionalUserProps $additionalUserProps
+     *
+     * @return Check
+     */
+    public function setAdditionalUserProps($additionalUserProps)
+    {
+        $this->additionalUserProps = $additionalUserProps;
 
         return $this;
     }
@@ -323,6 +340,10 @@ class Check
 
         if ($this->additionalCheckProps !== null) {
             $result['additional_check_props'] = $this->additionalCheckProps;
+        }
+
+        if ($this->additionalUserProps !== null) {
+            $result['additional_user_props'] = $this->additionalUserProps->asArray();
         }
 
         if ($this->callback_url !== null) {

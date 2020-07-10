@@ -9,6 +9,7 @@
 
 namespace KomtetTest\KassaSdk;
 
+use Komtet\KassaSdk\AdditionalUserProps;
 use Komtet\KassaSdk\Buyer;
 use Komtet\KassaSdk\Check;
 use Komtet\KassaSdk\Payment;
@@ -122,10 +123,10 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayNotHasKey('name', $check->asArray()['client']);
     }
 
-    public function testAddAdditionalCheckProps()
+    public function testSetAdditionalCheckProps()
     {
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
-        $check->addAdditionalCheckProps("Дополнительный реквизит");
+        $check->setAdditionalCheckProps("Дополнительный реквизит");
 
         $this->assertEquals($check->asArray()['additional_check_props'], 'Дополнительный реквизит');
     }
@@ -136,5 +137,14 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $check->setCallbackUrl("http://localhost:8110/index.php/shop/komtetkassa/success/");
         $this->assertEquals($check->asArray()['callback_url'],
                             'http://localhost:8110/index.php/shop/komtetkassa/success/');
+    }
+
+    public function testSetAdditionalUserProps()
+    {
+        $check = new Check('id5', 'tests@tests.test', Check::INTENT_SELL, 1);
+        $additional_user_props = new AdditionalUserProps('name_props', 'value_props');
+        $check->setAdditionalUserProps($additional_user_props);
+        $this->assertEquals($check->asArray()['additional_user_props'],
+                            ['name' => 'name_props', 'value' => 'value_props']);
     }
 }
