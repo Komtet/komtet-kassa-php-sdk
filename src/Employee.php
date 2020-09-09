@@ -55,7 +55,7 @@ class Employee
      * @var string
      */
     private $paymentAddress;
-    
+
     /**
      * @var bool
      */
@@ -83,8 +83,7 @@ class Employee
      *
      * @return Employee
      */
-    public function __construct($type, $name, $login, $password, $pos_id,
-                                $inn = null, $phone = null, $email=null)
+    public function __construct($type, $name, $login, $password, $pos_id, $inn = null, $phone = null, $email = null)
     {
         $this->type = $type;
         $this->name = $name;
@@ -93,7 +92,7 @@ class Employee
         $this->password = $password;
 
         $this->pos_id = $pos_id;
-        
+
         if ($inn) {
             $this->inn = $inn;
         }
@@ -101,11 +100,10 @@ class Employee
         if ($phone) {
             $this->phone = $phone;
         }
-        
+
         if ($email) {
             $this->email = $email;
         }
-
     }
 
     /**
@@ -123,8 +121,8 @@ class Employee
      * @param bool isAppFastBasket
      *
      */
-    public function setAccessSettings($isManager=null, $isCanAssignOrder=null, $isAppFastBasket=null)
-    {   
+    public function setAccessSettings($isManager = null, $isCanAssignOrder = null, $isAppFastBasket = null)
+    {
         if ($isManager) {
             $this->isManager = $isManager;
         }
@@ -132,11 +130,10 @@ class Employee
         if ($isCanAssignOrder) {
             $this->isCanAssignOrder = $isCanAssignOrder;
         }
-        
+
         if ($isAppFastBasket) {
             $this->isAppFastBasket = $isAppFastBasket;
         }
-        
     }
 
     /**
@@ -152,31 +149,31 @@ class Employee
             'pos_id' => $this->pos_id
         ];
 
-        if ($this->inn !==null) {
+        if ($this->inn !== null) {
             $result['inn'] = $this->inn;
         }
 
-        if ($this->phone !==null) {
+        if ($this->phone !== null) {
             $result['phone'] = $this->phone;
         }
 
-        if ($this->email !==null) {
+        if ($this->email !== null) {
             $result['email'] = $this->email;
         }
 
-        if ($this->paymentAddress !==null) {
+        if ($this->paymentAddress !== null) {
             $result['payment_address'] = $this->paymentAddress;
         }
 
-        if ($this->isManager !==null) {
+        if ($this->isManager !== null) {
             $result['is_manager'] = $this->isManager;
         }
 
-        if ($this->isCanAssignOrder !==null) {
+        if ($this->isCanAssignOrder !== null) {
             $result['is_can_assign_order'] = $this->isCanAssignOrder;
         }
 
-        if ($this->isAppFastBasket !==null) {
+        if ($this->isAppFastBasket !== null) {
             $result['is_app_fast_basket'] = $this->isAppFastBasket;
         }
 

@@ -1,11 +1,11 @@
 <?php
 
 /**
-* This file is part of the komtet/kassa-sdk library
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * This file is part of the komtet/kassa-sdk library
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace KomtetTest\KassaSdk;
 
@@ -28,8 +28,13 @@ class EmployeeManagerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->manager = new EmployeeManager($this->client);
 
-        $this->employee = new Employee(EmployeeType::CASHIER, 'Full Name', 
-                                       'test_login', 'test_password', 'POS_KEY');
+        $this->employee = new Employee(
+            EmployeeType::CASHIER,
+            'Full Name',
+            'test_login',
+            'test_password',
+            'POS_KEY'
+        );
 
         $this->employee->setPaymentAddress('payment address');
         $this->employee->setAccessSettings(true, true, true);

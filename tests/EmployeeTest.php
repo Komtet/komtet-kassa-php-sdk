@@ -6,6 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\Employee;
@@ -14,9 +15,14 @@ use Komtet\KassaSdk\EmployeeType;
 class EmployeeTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmployee()
-    {   
-        $employee = new Employee(EmployeeType::CASHIER, 'Full Name', 
-                                 'test_login', 'test_password', 'POS_KEY');
+    {
+        $employee = new Employee(
+            EmployeeType::CASHIER,
+            'Full Name',
+            'test_login',
+            'test_password',
+            'POS_KEY'
+        );
 
         $this->assertEquals($employee->asArray()['type'], EmployeeType::CASHIER);
         $this->assertEquals($employee->asArray()['name'], 'Full Name');

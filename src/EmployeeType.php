@@ -10,8 +10,8 @@
 namespace Komtet\KassaSdk;
 
 /**
-* Типы сотрудников
-*/
+ * Типы сотрудников
+ */
 class EmployeeType
 {
     /**

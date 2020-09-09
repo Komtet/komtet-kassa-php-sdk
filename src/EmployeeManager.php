@@ -1,11 +1,11 @@
 <?php
 
 /**
-* This file is part of the komtet/kassa-sdk library
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * This file is part of the komtet/kassa-sdk library
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Komtet\KassaSdk;
 
@@ -34,11 +34,11 @@ class EmployeeManager
      *
      * @return mixed
      */
-    public function getEmployees($start='0', $limit='10', $type=null)
+    public function getEmployees($start = '0', $limit = '10', $type = null)
     {
         $path = sprintf('api/shop/v1/employees?start=%s&limit=%s', $start, $limit);
         if ($type) {
-        $path .= sprintf('&type=%s', $type);
+            $path .= sprintf('&type=%s', $type);
         }
         return $this->client->sendRequest($path);
     }
@@ -98,5 +98,4 @@ class EmployeeManager
         $path = sprintf('api/shop/v1/employees/%s', $eid);
         return $this->client->sendRequest($path, null, 'DELETE');
     }
-
-}   
+}
