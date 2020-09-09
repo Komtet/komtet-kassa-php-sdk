@@ -13,7 +13,6 @@ use Komtet\KassaSdk\Employee;
 use Komtet\KassaSdk\EmployeeManager;
 use Komtet\KassaSdk\EmployeeType;
 
-
 class EmployeeManagerTest extends \PHPUnit_Framework_TestCase
 {
     private $client;

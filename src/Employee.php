@@ -9,8 +9,6 @@
 
 namespace Komtet\KassaSdk;
 
-use phpDocumentor\Reflection\Types\Null_;
-
 class Employee
 {
     /**
