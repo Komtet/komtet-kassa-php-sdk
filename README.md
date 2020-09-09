@@ -303,14 +303,85 @@ try {
 }
 ```
 
-Получить список курьеров:
+Получить список сотрудников:
 
 ```php
 <?php
-$courierManager = new CourierManager(client);
+use Komtet\KassaSdk\EmployeeManager;
+use Komtet\KassaSdk\EmployeeType;
+
+$employeeManager = new EmployeeManager(client);
 
 try {
-    $courierList = $courierManager->getCouriers();
+    $employeeList = $employeeManager->getEmployees(EmployeeType::COURIER);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Получить информацию по сотруднику:
+
+```php
+<?php
+
+$employeeManager = new EmployeeManager(client);
+$employeeID = 1;
+
+try {
+    $employee = $employeeManager->getEmployee($employeeID);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Создание сотрудника:
+
+```php
+<?php
+
+$employeeManager = new EmployeeManager(client);
+$employee = new Employee(EmployeeType::CASHIER, 'Full Name', 
+                         'login_employee', 'password', 'POS_KEY');
+$employee->setPaymentAddress('payment address');
+$employee->setAccessSettings(true, false, none);
+
+try {
+    $employeeManager->createEmployee($employee);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Обновление сотрудника:
+
+```php
+<?php
+
+$employeeManager = new EmployeeManager(client);
+$employee = new Employee(EmployeeType::CASHIER, 'Full Name', 
+                         'login_employee', 'new_password', 'POS_KEY');
+$employee->setPaymentAddress('new payment address');
+$employee->setAccessSettings(true, true, true);
+
+$employeeID = 1;
+
+try {
+    $employeeManager->updateEmployee($employeeID, $employee);
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+Удаление сотрудника:
+
+```php
+<?php
+
+$employeeManager = new EmployeeManager(client);
+$employeeID = 1;
+
+try {
+    $employeeManager->deleteEmployee($employeeID);
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
