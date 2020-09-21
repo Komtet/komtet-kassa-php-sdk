@@ -6,6 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace KomtetTest\KassaSdk;
 
 use Komtet\KassaSdk\Agent;
@@ -84,6 +85,23 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($order->asArray()['prepayment'], 200);
         $this->assertEquals($order->asArray()['payment_type'], 'cash');
+
+        $orderPosition = new OrderPosition([
+            'oid' => '3',
+            'name' => 'position name3',
+            'price' => 100.0,
+            'type' => 'product',
+            'quantity' => 5,
+            'vat' => Vat::RATE_10,
+            'measure_name' => 'kg',
+            'nomenclature_code' => '019876543210123421sgEKKPPcS25y5'
+        ]);
+        $order->addPosition($orderPosition);
+        $this->assertEquals(
+            $order->asArray()['items'][2]['nomenclature_code'],
+            '019876543210123421sgEKKPPcS25y5'
+        );
+        $this->assertEquals($order->asArray()['items'][2]['is_need_nomenclature_code'], false);
     }
 
     public function testOrderApplyDiscount()
@@ -203,6 +221,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($order->asArray()['items'][0]['excise'], 19.89);
         $this->assertEquals($order->asArray()['items'][0]['country_code'], '643');
-        $this->assertEquals($order->asArray()['items'][0]['declaration_number'],'10129000/220817/0211234');  
+        $this->assertEquals($order->asArray()['items'][0]['declaration_number'], '10129000/220817/0211234');
     }
 }
