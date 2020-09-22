@@ -72,13 +72,27 @@ class OrderPosition
     private $declaration_number;
 
     /**
+     * @var string
+     */
+    private $nomenclature_code;
+
+    /**
+     * @var boolean
+     */
+    private $is_need_nomenclature_code;
+
+    /**
      * @param string $oid Item identifier
      * @param string $name Item
      * @param int|float $price Item price in the check
      * @param int|float $quantity Number of items
      * @param int|float $total Item total value
      * @param string $vat Tax rate
-     * @param string $type Order type
+     * @param string $excise Excise tax
+     * @param string $country_code Country code
+     * @param string $declaration_number Number of customs declaration
+     * @param string $nomenclature_code Product code
+     * @param string $is_need_nomenclature_code It is required to read the marking
      *
      * @return OrderPosition
      */
@@ -93,7 +107,9 @@ class OrderPosition
             'agent' => null,
             'excise' => null,
             'country_code' => null,
-            'declaration_number' => null
+            'declaration_number' => null,
+            'nomenclature_code' => null,
+            'is_need_nomenclature_code' => false
         ];
         $args = array_merge($defaultArgs, $args);
 
@@ -107,6 +123,7 @@ class OrderPosition
         $this->quantity = $args['quantity'];
         $this->total = $args['total'];
         $this->vat = new Vat($args['vat']);
+        $this->is_need_nomenclature_code = $args['is_need_nomenclature_code'];
 
         if ($args['measure_name'] !== null) {
             $this->measure_name = $args['measure_name'];
@@ -130,6 +147,10 @@ class OrderPosition
 
         if ($args['declaration_number'] !== null) {
             $this->declaration_number = $args['declaration_number'];
+        }
+
+        if ($args['nomenclature_code'] !== null) {
+            $this->nomenclature_code = $args['nomenclature_code'];
         }
     }
 
@@ -164,7 +185,8 @@ class OrderPosition
             'price' => $this->price,
             'quantity' => $this->quantity,
             'total' => $this->total,
-            'vat' => $this->vat->getRate()
+            'vat' => $this->vat->getRate(),
+            'is_need_nomenclature_code' => $this->is_need_nomenclature_code,
         ];
 
         if ($this->measure_name !== null) {
@@ -174,7 +196,7 @@ class OrderPosition
         if ($this->type !== null) {
             $result['type'] = $this->type;
         }
-        
+
         if ($this->agent !== null) {
             $result['agent_info'] = $this->agent->asArray();
             if (array_key_exists('supplier_info', $result['agent_info'])) {
@@ -193,6 +215,10 @@ class OrderPosition
 
         if ($this->declaration_number !== null) {
             $result['declaration_number'] = $this->declaration_number;
+        }
+
+        if ($this->nomenclature_code !== null) {
+            $result['nomenclature_code'] = $this->nomenclature_code;
         }
 
         return $result;
