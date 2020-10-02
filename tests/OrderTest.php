@@ -14,6 +14,7 @@ use Komtet\KassaSdk\Order;
 use Komtet\KassaSdk\OrderPosition;
 use Komtet\KassaSdk\Payment;
 use Komtet\KassaSdk\Vat;
+use phpDocumentor\Reflection\Types\Null_;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,6 +103,39 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             '019876543210123421sgEKKPPcS25y5'
         );
         $this->assertEquals($order->asArray()['items'][2]['is_need_nomenclature_code'], false);
+
+        $orderPosition = new OrderPosition([
+            'oid' => '4',
+            'name' => 'position name4',
+            'price' => 100.0,
+            'type' => 'product',
+            'quantity' => 5,
+            'vat' => Vat::RATE_10,
+            'measure_name' => 'kg',
+        ]);
+        $orderPosition->setNomenclatureCode('019876543210123421sgEKKPPcS25y5');
+
+        $order->addPosition($orderPosition);
+        $this->assertEquals(
+            $order->asArray()['items'][3]['nomenclature_code'],
+            '019876543210123421sgEKKPPcS25y5'
+        );
+        $this->assertEquals($order->asArray()['items'][3]['is_need_nomenclature_code'], false);
+
+        $orderPosition = new OrderPosition([
+            'oid' => '5',
+            'name' => 'position name5',
+            'price' => 100.0,
+            'type' => 'product',
+            'quantity' => 5,
+            'vat' => Vat::RATE_10,
+            'measure_name' => 'kg',
+        ]);
+        $orderPosition->setNomenclatureCode(NULL);
+
+        $order->addPosition($orderPosition);
+        $this->assertEquals($order->asArray()['items'][4]['nomenclature_code'], NULL);
+        $this->assertEquals($order->asArray()['items'][4]['is_need_nomenclature_code'], true);
     }
 
     public function testOrderApplyDiscount()

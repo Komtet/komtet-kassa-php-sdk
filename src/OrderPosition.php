@@ -175,6 +175,21 @@ class OrderPosition
     }
 
     /**
+     * @param string $nomenclature_code
+     *
+     * @return OrderPosition
+     */
+    public function setNomenclatureCode($nomenclature_code)
+    {
+        if (is_null($nomenclature_code)) {
+            $this->is_need_nomenclature_code = true;
+        }
+        $this->nomenclature_code = $nomenclature_code;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function asArray()
