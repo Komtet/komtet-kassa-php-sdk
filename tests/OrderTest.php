@@ -257,4 +257,23 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($order->asArray()['items'][0]['country_code'], '643');
         $this->assertEquals($order->asArray()['items'][0]['declaration_number'], '10129000/220817/0211234');
     }
+
+    public function testOrderClientLatitudeLongitude()
+    {
+        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $order->setClient(
+            'г.Пенза, ул.Суворова д.144а',
+            '+79273784183',
+            'client@email.com',
+            'Иванов Иван Петрович',
+            '53.202838856701206',
+            '44.99768890421866'
+        );
+
+        $this->assertEquals($order->asArray()['client_name'], 'Иванов Иван Петрович');
+        $this->assertEquals($order->asArray()['client_email'], 'client@email.com');
+        
+        $this->assertEquals($order->asArray()['client_address_latitude'], '53.202838856701206');
+        $this->assertEquals($order->asArray()['client_address_longitude'], '44.99768890421866');
+    }
 }

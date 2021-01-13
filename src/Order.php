@@ -54,6 +54,16 @@ class Order
     /**
      * @var string
      */
+    private $client_address_latitude;
+
+    /**
+     * @var string
+     */
+    private $client_address_longitude;
+
+    /**
+     * @var string
+     */
     private $client_phone;
 
     /**
@@ -119,15 +129,20 @@ class Order
      * @param string $phone Phone of the recipient
      * @param string $email Email of the recipient
      * @param string $name Name of the recipient
+     * @param string $latitude Latitude coordinates
+     * @param string $longitude Longitude coordinates
      *
      */
-    public function setClient($address, $phone, $email = null, $name = null)
+    public function setClient($address, $phone, $email = null, $name = null, $latitude=null, $longitude=null)
     {
         $this->client_address = $address;
         $this->client_phone = $phone;
 
         $this->client_email = $email;
         $this->client_name = $name;
+
+        $this->client_address_latitude = $latitude;
+        $this->client_address_longitude = $longitude;
     }
     /**
      * @param string $date_start Initial order delivery time
@@ -285,6 +300,14 @@ class Order
 
         if ($this->prepayment !== null) {
             $result['prepayment'] = $this->prepayment;
+        }
+
+        if ($this->client_address_latitude !== null) {
+            $result['client_address_latitude'] = $this->client_address_latitude;
+        }
+
+        if ($this->client_address_longitude !== null) {
+            $result['client_address_longitude'] = $this->client_address_longitude;
         }
 
         return $result;
