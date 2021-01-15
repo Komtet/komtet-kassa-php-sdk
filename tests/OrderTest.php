@@ -274,10 +274,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($order->asArray()['client_email'], 'client@email.com');
 
         $this->assertEquals(
-            $order->asArray()['client_address_coordinate']['latitude'], '53.202838856701206'
+            $order->asArray()['client_coordinate']['latitude'], '53.202838856701206'
         );
         $this->assertEquals(
-            $order->asArray()['client_address_coordinate']['longitude'], '44.99768890421866'
+            $order->asArray()['client_coordinate']['longitude'], '44.99768890421866'
         );
     }
 }

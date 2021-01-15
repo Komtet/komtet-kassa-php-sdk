@@ -130,7 +130,7 @@ class Order
         $this->client_email = $email;
         $this->client_name = $name;
 
-        $this->client_address_coordinate = $coordinate;
+        $this->client_coordinate = $coordinate;
     }
     /**
      * @param string $date_start Initial order delivery time
@@ -290,8 +290,8 @@ class Order
             $result['prepayment'] = $this->prepayment;
         }
 
-        if ($this->client_address_coordinate !== null) {
-            $result['client_address_coordinate'] = $this->client_address_coordinate;
+        if ($this->client_coordinate !== null) {
+            $result['client_coordinate'] = $this->client_coordinate;
         }
 
         return $result;
