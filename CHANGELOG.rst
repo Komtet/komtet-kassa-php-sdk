@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+- Добавлены поля `client_address_latitude` и `client_address_longitude`
+
 7.2.0 (02.10.2020)
 -------------------
 
