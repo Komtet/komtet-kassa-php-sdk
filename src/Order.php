@@ -119,15 +119,18 @@ class Order
      * @param string $phone Phone of the recipient
      * @param string $email Email of the recipient
      * @param string $name Name of the recipient
+     * @param array $coordinate Coordinate latitude/longitude
      *
      */
-    public function setClient($address, $phone, $email = null, $name = null)
+    public function setClient($address, $phone, $email = null, $name = null, $coordinate=null)
     {
         $this->client_address = $address;
         $this->client_phone = $phone;
 
         $this->client_email = $email;
         $this->client_name = $name;
+
+        $this->client_coordinate = $coordinate;
     }
     /**
      * @param string $date_start Initial order delivery time
@@ -285,6 +288,10 @@ class Order
 
         if ($this->prepayment !== null) {
             $result['prepayment'] = $this->prepayment;
+        }
+
+        if ($this->client_coordinate !== null) {
+            $result['client_coordinate'] = $this->client_coordinate;
         }
 
         return $result;
