@@ -5,6 +5,7 @@ Unreleased
 ----------
 
 - Добавлены поля `client_address_latitude` и `client_address_longitude`
+- Добавлен признак расчёта `pay`
 
 7.2.0 (02.10.2020)
 -------------------
