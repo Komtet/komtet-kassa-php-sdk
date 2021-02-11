@@ -20,7 +20,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testOrder()
     {
-        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $this->assertEquals($order->asArray()['order_id'], '123');
         $this->assertEquals($order->asArray()['state'], 'new');
@@ -140,7 +140,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function testOrderApplyDiscount()
     {
-        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
         $position1 = new OrderPosition([
             'oid' => '1',
             'name' => 'position name1',
@@ -187,7 +187,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function testOrderWithAgent()
     {
-        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
 
@@ -235,7 +235,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function testOrderWithExice()
     {
-        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $position = new OrderPosition([
             'oid' => '1',
@@ -260,7 +260,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function testOrderClientLatitudeLongitude()
     {
-        $order = new Order('123', 'new', 0, false, 200, Payment::TYPE_CASH);
+        $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
         $order->setClient(
             'г.Пенза, ул.Суворова д.144а',
             '+79273784183',
