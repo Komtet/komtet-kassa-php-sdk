@@ -93,15 +93,15 @@ class Order
 
     /**
      * @param int $oid A unique order id in a shop
-     * @param string $state Order status
      * @param string $sno Tax system
+     * @param string $state Order status
      * @param bool $is_paid Payment status
      * @param int|float prepayment Prepayment
      * @param Payment $payment_type Payment type
      *
      * @return Order
      */
-    public function __construct($order_id, $state=null, $sno=null, $is_paid=false,
+    public function __construct($order_id, $sno, $state=null, $is_paid=false,
                                 $prepayment = 0, $payment_type = Payment::TYPE_CARD)
     {
         $this->order_id = $order_id;
@@ -244,6 +244,7 @@ class Order
     {
         $result = [
             'order_id' => $this->order_id,
+            'sno' => $this->sno,
             'client_address' => $this->client_address,
             'client_phone' => $this->client_phone,
             'is_paid' => $this->is_paid,
@@ -266,9 +267,6 @@ class Order
             $result['client_name'] = $this->client_name;
         }
 
-        if ($this->sno !== null) {
-            $result['sno'] = $this->sno;
-        }
 
         if ($this->state !== null) {
             $result['state'] = $this->state;
