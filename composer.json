@@ -11,7 +11,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Komtet\\KassaSdk\\": "src"
+            "Komtet\\KassaSdk": "src",
+            "Komtet\\KassaSdk\\v1": "src\\v1",
+            "Komtet\\KassaSdk\\v2": "src\\v2"
         }
     },
     "require": {
