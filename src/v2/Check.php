@@ -64,7 +64,7 @@ class Check
     /**
      * @var SectoralCheckProps
      */
-    private $sectoralCheckProps;
+    private $sectoralCheckProps = [];
 
     /**
      * @var OperatingCheckProps
@@ -343,7 +343,7 @@ class Check
         }
 
         if ($this->sectoralCheckProps !== null) {
-            $result['sectoral_check_props'] = $this->sectoralCheckProps->asArray();
+            $result['sectoral_check_props'] = [$this->sectoralCheckProps->asArray()];
         }
 
         if ($this->operatingCheckProps !== null) {

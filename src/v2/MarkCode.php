@@ -59,16 +59,6 @@ class MarkCode
      */
     const EGAIS30 = 'egais30';
 
-    // /**
-    //  * @var string
-    //  */
-    // private $mark_type;
-
-    // /**
-    //  * @var string
-    //  */
-    // private $value;
-
     /**
      * @var array
      */
@@ -77,26 +67,10 @@ class MarkCode
 
     public function __construct($mark_type, $value)
     {
-        # $this->mark_type = $mark_type;
-        # $this->value = $value;
         $this->mark_code = [
             $mark_type => $value
         ];
-
-        // $this->mark_code = [];
-        // $this->setMarkCode($mark_type, $value);
     }
-
-    // /**
-    //  * @param string $mark_type
-    //  * @param string $value
-    //  * 
-    //  */
-    // public function setMarkCode($mark_type, $value) 
-    // {
-    //     $this->mark_code[$mark_type] = $value;
-    // }
-
 
     /**
      * @return array

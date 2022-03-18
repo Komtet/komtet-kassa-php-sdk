@@ -37,17 +37,17 @@ class Position
     private $total;
 
     /**
-     * @var Measure
+     * @var int
      */
     private $measure;
 
     /**
-     * @var PaymentMethod
+     * @var string
      */
     private $paymentMethod;
 
     /**
-     * @var PaymentObject
+     * @var string
      */
     private $paymentObject;
 
@@ -59,7 +59,7 @@ class Position
     /**
      * @var string
      */
-    private $user_data = null;
+    private $userData = null;
 
     /**
      * @var int|float
@@ -109,7 +109,7 @@ class Position
      *
      * @return Position
      */
-    public function __construct($name, $price, $quantity, $total, Vat $vat, Measure $measure, PaymentMethod $paymentMethod, PaymentObject $paymentObject)
+    public function __construct($name, $price, $quantity, $total, Vat $vat, $measure, $paymentMethod, $paymentObject)
     {
         $this->name = $name;
         $this->price = $price;
@@ -129,42 +129,6 @@ class Position
     public function setId($value)
     {
         $this->id = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $measure
-     *
-     * @return Position
-     */
-    public function setmeasure($measure)
-    {
-        $this->measure = $measure;
-
-        return $this;
-    }
-
-    /**
-     * @param string $payment_method
-     *
-     * @return Position
-     */
-    public function setPaymentMethod($payment_method)
-    {
-        $this->paymentMethod = $payment_method;
-
-        return $this;
-    }
-
-    /**
-     * @param string $payment_object
-     *
-     * @return Position
-     */
-    public function setPaymentObject($payment_object)
-    {
-        $this->paymentObject = $payment_object;
 
         return $this;
     }
@@ -297,26 +261,14 @@ class Position
             'total' => $this->total,
             'vat' => $this->vat->getRate(),
             'measure' => $this->measure,
-            'paymentMethod' => $this->paymentMethod,
-            'paymentObject' => $this->paymentObject
+            'payment_method' => $this->paymentMethod,
+            'payment_object' => $this->paymentObject
         ];
 
         if ($this->id !== null) {
             $result['id'] = $this->id;
         }
 
-        if ($this->measure !== null) {
-            $result['measure'] = $this->measure;
-        }
-
-        if ($this->paymentMethod !== null) {
-            $result['payment_method'] = $this->paymentMethod;
-        }
-
-        if ($this->paymentObject !== null) {
-            $result['payment_object'] = $this->paymentObject;
-        }
-        
         if ($this->excise !== null) {
             $result['excise'] = $this->excise;
         }
@@ -350,7 +302,7 @@ class Position
         }
 
         if ($this->sectoralItemProps !== null) {
-            $result['sectoral_item_props'] = $this->sectoralItemProps->asArray();
+            $result['sectoral_item_props'] = [$this->sectoralItemProps->asArray()];
         }
 
         return $result;

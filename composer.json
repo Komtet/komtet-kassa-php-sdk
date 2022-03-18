@@ -11,16 +11,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "Komtet\\KassaSdk": "src",
-            "Komtet\\KassaSdk\\v1": "src\\v1",
-            "Komtet\\KassaSdk\\v2": "src\\v2"
+            "Komtet\\KassaSdk\\": "src",
+            "Komtet\\KassaSdk\\v1\\": "src//v1",
+            "Komtet\\KassaSdk\\v2\\": "src//v2"
         }
     },
     "require": {
         "psr/log": "^1.0"
     },
     "require-dev":{
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^8"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --coverage-text"

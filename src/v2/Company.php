@@ -11,7 +11,7 @@ namespace Komtet\KassaSdk\v2;
 
 class Company {
     /**
-     * @var TaxSystem
+     * @var string
      */
     private $sno;
 
@@ -36,7 +36,7 @@ class Company {
      *
      * @return Company
      */
-    public function __construct(TaxSystem $sno, $payment_address)
+    public function __construct($sno, $payment_address)
     {
         $this->sno = $sno;
         $this->paymentAddress = $payment_address;

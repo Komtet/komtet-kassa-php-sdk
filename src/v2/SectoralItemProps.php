@@ -52,11 +52,13 @@ class SectoralItemProps
      */
     public function asArray()
     {
-        return [
+        $result = [
             'federal_id' => $this->federal_id,
             'date' => $this->date,
             'number' => $this->number,
             'value' => $this->value
         ];
+
+        return $result;
     }
 }

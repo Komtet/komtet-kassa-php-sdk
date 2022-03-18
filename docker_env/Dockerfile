@@ -1,4 +1,4 @@
-FROM php:5.4-cli
+FROM php:7.2-cli
 WORKDIR /home/php_sdk
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -10,6 +10,6 @@ COPY ./ .
 
 RUN curl -s https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
-    composer require phpunit/phpunit --dev && \
+    composer require phpunit/phpunit ^8 --dev && \
     composer self-update --snapshot && \
     composer install

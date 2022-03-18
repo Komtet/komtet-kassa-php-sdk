@@ -29,14 +29,14 @@ git clone https://github.com/Komtet/komtet-kassa-php-sdk
 require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ```
 
-## Использование
+# Использование v1
 
 Первым делом необходимо создать менеджер очередей:
 ```php
 <?php
 
-use Komtet\KassaSdk\Client;
-use Komtet\KassaSdk\QueueManager;
+use Komtet\KassaSdk\v1\Client;
+use Komtet\KassaSdk\v1\QueueManager;
 
 $key = 'идентификатор магазина';
 $secret = 'секретный ключ';
@@ -385,4 +385,37 @@ try {
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
+```
+
+
+# Использование v2
+Первым делом необходимо создать менеджер очередей:
+```php
+<?php
+
+use Komtet\KassaSdk\v2\Client;
+use Komtet\KassaSdk\v2\QueueManager;
+
+$key = 'идентификатор магазина';
+$secret = 'секретный ключ';
+// PSR-совместимый логгер (опциональный параметр)
+$logger = null;
+$client = new Client($key, $secret, $logger);
+$manager = new QueueManager($client);
+```
+
+После чего зарегистрировать очереди:
+
+```php
+$manager->registerQueue('queue-name-1', 'queue-id-1');
+$manager->registerQueue('queue-name-2', 'queue-id-2');
+// 'queue-name-1' и 'queue-name-2' - произвольные псевдомимы для обращения к очередям.
+// 'queue-id-1' и 'queue-id-2' - идентификаторы очередей, созданных в личном кабинете.
+
+```
+
+Отправка чека на печать:
+```php
+
+
 ```

@@ -1,4 +1,5 @@
-version: '2'
+version: '3.4'
+
 services:
     php_sdk:
         container_name: php-sdk
