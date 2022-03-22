@@ -47,9 +47,9 @@ class CorrectionCheck
     private $positions = [];
 
     /**
-     * @var Payment
+     * @var Payment[]
      */
-    private $payment;
+    private $payments = [];
 
     /**
      * @var Cashier
@@ -67,9 +67,9 @@ class CorrectionCheck
     private $additionalUserProps;
 
     /**
-     * @var SectoralCheckProps
+     * @var SectoralCheckProps[]
      */
-    private $sectoralCheckProps;
+    private $sectoralCheckProps = [];
 
     /**
      * @var OperatingCheckProps
@@ -90,64 +90,64 @@ class CorrectionCheck
      * @param string $id An unique ID provided by an online store
      * @param string $intent One of CorrectionCheck::INTENT_* constants
      * @param Company $company
-     * @param CorrectionInfo $correction Correction data
+     * @param CorrectionInfo $correction_info Correction data
      *
      * @return CorrectionCheck
      */
-    public function __construct($id, $intent, Company $company, CorrectionInfo $correctionInfo)
+    public function __construct($id, $intent, Company $company, CorrectionInfo $correction_info)
     {
         $this->id = $id;
         $this->intent = $intent;
         $this->company = $company;
-        $this->correctionInfo = $correctionInfo;
+        $this->correctionInfo = $correction_info;
     }
 
     /**
      * @param string $id An unique ID provided by an online store
      * @param Company $company
-     * @param Correction $correction Correction data
+     * @param CorrectionInfo $correction_info Correction data
      *
      * @return CorrectionCheck
      */
-    public static function createSellCorrection($id, Company $company, CorrectionInfo $correctionInfo)
+    public static function createSellCorrection($id, Company $company, CorrectionInfo $correction_info)
     {
-        return new static($id, static::INTENT_SELL_CORRECTION, $company, $correctionInfo);
+        return new static($id, static::INTENT_SELL_CORRECTION, $company, $correction_info);
     }
 
     /**
      * @param string $id An unique ID provided by an online store
      * @param Company $company
-     * @param Correction $correction Correction data
+     * @param CorrectionInfo $correction_info Correction data
      *
      * @return CorrectionCheck
      */
-    public static function createSellReturnCorrection($id, Company $company, CorrectionInfo $correctionInfo)
+    public static function createSellReturnCorrection($id, Company $company, CorrectionInfo $correction_info)
     {
-        return new static($id, static::INTENT_SELL_RETURN_CORRECTION, $company, $correctionInfo);
+        return new static($id, static::INTENT_SELL_RETURN_CORRECTION, $company, $correction_info);
     }
 
     /**
      * @param string $id An unique ID provided by an online store
      * @param Company $company
-     * @param Correction $correction Correction data
+     * @param CorrectionInfo $correction_info Correction data
      *
      * @return CorrectionCheck
      */
-    public static function createBuyCorrection($id, Company $company, CorrectionInfo $correctionInfo)
+    public static function createBuyCorrection($id, Company $company, CorrectionInfo $correction_info)
     {
-        return new static($id, static::INTENT_BUY_CORRECTION, $company, $correctionInfo);
+        return new static($id, static::INTENT_BUY_CORRECTION, $company, $correction_info);
     }
 
     /**
      * @param string $id An unique ID provided by an online store
      * @param Company $company
-     * @param Correction $correction Correction data
+     * @param CorrectionInfo $correction_info Correction data
      *
      * @return CorrectionCheck
      */
-    public static function createBuyReturnCorrection($id, Company $company, CorrectionInfo $correctionInfo)
+    public static function createBuyReturnCorrection($id, Company $company, CorrectionInfo $correction_info)
     {
-        return new static($id, static::INTENT_BUY_RETURN_CORRECTION, $company, $correctionInfo);
+        return new static($id, static::INTENT_BUY_RETURN_CORRECTION, $company, $correction_info);
     }
 
     /**
@@ -229,7 +229,7 @@ class CorrectionCheck
      */
     public function setSectoralCheckProps(SectoralCheckProps $sectoral_check_props)
     {
-        $this->sectoralCheckProps = $sectoral_check_props;
+        $this->sectoralCheckProps[] = $sectoral_check_props;
 
         return $this;
     }
@@ -272,7 +272,7 @@ class CorrectionCheck
      */
     public function asArray()
     {
-        return [
+        $result = [
             'external_id' => $this->id,
             'intent' => $this->intent,
             'company' => $this->company->asArray(),
@@ -292,7 +292,7 @@ class CorrectionCheck
         ];
 
         if ($this->buyer !== null) {
-            $result['buyer'] = $this->buyer->asArray();
+            $result['client'] = $this->buyer->asArray();
         }
 
         if ($this->cashier !== null) {
@@ -308,7 +308,12 @@ class CorrectionCheck
         }
 
         if ($this->sectoralCheckProps !== null) {
-            $result['sectoral_check_props'] = $this->sectoralCheckProps->asArray();
+            $result['sectoral_check_props'] = array_map(
+                function($sectoral_check_props) {
+                    return $sectoral_check_props->asArray();
+                },
+                $this->sectoralCheckProps
+            );
         }
 
         if ($this->operatingCheckProps !== null) {

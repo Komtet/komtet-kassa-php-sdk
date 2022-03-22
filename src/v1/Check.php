@@ -57,7 +57,7 @@ class Check
     private $positions = [];
 
     /**
-     * @var buyer
+     * @var Buyer
      */
     private $buyer;
 

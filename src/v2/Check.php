@@ -62,7 +62,7 @@ class Check
     private $additionalUserProps;
 
     /**
-     * @var SectoralCheckProps
+     * @var SectoralCheckProps[]
      */
     private $sectoralCheckProps = [];
 
@@ -224,7 +224,7 @@ class Check
      */
     public function setSectoralCheckProps(SectoralCheckProps $sectoral_check_props)
     {
-        $this->sectoralCheckProps = $sectoral_check_props;
+        $this->sectoralCheckProps[] = $sectoral_check_props;
 
         return $this;
     }
@@ -343,7 +343,12 @@ class Check
         }
 
         if ($this->sectoralCheckProps !== null) {
-            $result['sectoral_check_props'] = [$this->sectoralCheckProps->asArray()];
+            $result['sectoral_check_props'] = array_map(
+                function($sectoral_check_props) {
+                    return $sectoral_check_props->asArray();
+                },
+                $this->sectoralCheckProps
+            );
         }
 
         if ($this->operatingCheckProps !== null) {

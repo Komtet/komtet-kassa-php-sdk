@@ -267,7 +267,6 @@ class Order
             $result['client_name'] = $this->client_name;
         }
 
-
         if ($this->state !== null) {
             $result['state'] = $this->state;
         }

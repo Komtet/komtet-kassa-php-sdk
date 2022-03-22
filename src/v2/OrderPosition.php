@@ -12,7 +12,7 @@ namespace Komtet\KassaSdk\v2;
 class OrderPosition
 {
     /**
-     * @var string
+     * @var string|integer
      */
     private $orderItemId;
 
@@ -92,9 +92,9 @@ class OrderPosition
     private $markCode = null;
 
     /**
-     * @var SectoralItemProps 
+     * @var SectoralItemProps[] 
      */
-    private $sectoralItemProps = null;
+    private $sectoralItemProps = [];
 
 
     /**
@@ -179,7 +179,7 @@ class OrderPosition
         }
 
         if ($args['mark_quantity'] !== null) {
-            $this->MarkQuantity = $args['mark_quantity'];
+            $this->markQuantity = $args['mark_quantity'];
         }
 
         if ($args['mark_code'] !== null) {
@@ -187,7 +187,7 @@ class OrderPosition
         }
 
         if ($args['sectoral_item_props'] !== null) {
-            $this->SectoralItemProps = $args['sectoral_item_props'];
+            $this->sectoralItemProps = $args['sectoral_item_props'];
         }
     }
 
@@ -212,11 +212,47 @@ class OrderPosition
     }
 
     /**
-     * @param string $mark_code
+     * @param Agent $agent
      *
      * @return OrderPosition
      */
-    public function setMarkCode($mark_code)
+    public function setAgent(Agent $agent)
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @param SectoralItemProps $sectoral_item_props
+     *
+     * @return OrderPosition
+     */
+    public function setSectoralItemProps(SectoralItemProps $sectoral_item_props)
+    {
+        $this->sectoralItemProps[] = $sectoral_item_props;
+
+        return $this;
+    }
+
+    /**
+     * @param MarkQuantity $mark_quantity
+     *
+     * @return OrderPosition
+     */
+    public function setMarkQuantity(MarkQuantity $mark_quantity)
+    {
+        $this->markQuantity = $mark_quantity;
+
+        return $this;
+    }
+
+    /**
+     * @param MarkCode $mark_code
+     *
+     * @return OrderPosition
+     */
+    public function setMarkCode(MarkCode $mark_code)
     {
         if (is_null($mark_code)) {
             $this->isNeedMarkCode = true;
@@ -282,7 +318,12 @@ class OrderPosition
         }
 
         if ($this->sectoralItemProps !== null) {
-            $result['sectoral_item_props'] = $this->sectoralItemProps->asArray();
+            $result['sectoral_item_props'] = array_map(
+                function($sectoral_item_props) {
+                    return $sectoral_item_props->asArray();
+                },
+                $this->sectoralItemProps
+            );
         }
 
         return $result;

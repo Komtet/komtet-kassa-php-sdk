@@ -10,7 +10,7 @@
 namespace Komtet\KassaSdk\v2;
 
 /**
-* Еденица измерения
+* Единица измерения
 */
 class Measure
 {

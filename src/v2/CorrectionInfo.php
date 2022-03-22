@@ -40,7 +40,7 @@ class CorrectionInfo
      * @param string $base_number Document number
      * @param string $base_name Document name
      *
-     * @return Correction
+     * @return CorrectionInfo
      */
     public function __construct($type, $base_date, $base_number, $base_name)
     {
@@ -55,7 +55,7 @@ class CorrectionInfo
      * @param string $base_number Document number
      * @param string $base_name Document name
      *
-     * @return Correction
+     * @return CorrectionInfo
      */
     public static function createSelf($base_date, $base_number, $base_name)
     {
@@ -67,7 +67,7 @@ class CorrectionInfo
      * @param string $base_number Document number
      * @param string $base_name Document name
      *
-     * @return Correction
+     * @return CorrectionInfo
      */
     public static function createInstruction($base_date, $base_number, $base_name)
     {

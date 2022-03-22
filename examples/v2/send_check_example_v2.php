@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/autoload.php';
+require __DIR__.'/../../autoload.php';
 
 use Komtet\KassaSdk\v2\AdditionalUserProps;
 use Komtet\KassaSdk\v2\Agent;
@@ -25,13 +25,13 @@ use Komtet\KassaSdk\Exception\SdkException;
 use Komtet\KassaSdk\Exception\ApiValidationException;
 
 
-$key = 'rsZD6x';
-$secret = '22YAffAbaD';
+$key = 'YOUR_SHOP_ID'; // идентификатор магазина
+$secret = 'YOUR_SHOP_SECRET'; // секретный ключ
 // PSR-совместимый логгер (опциональный параметр)
 $logger = null;
 $client = new Client($key, $secret, $logger);
 $manager = new QueueManager($client);
-$manager->registerQueue('queue', 13867); //int
+$manager->registerQueue('queue', 'YOUR_QUEUE_ID'); //int
 
 // ЧЕК
 
@@ -70,6 +70,10 @@ $check->setAdditionalUserProps($additional_user_props);
 // Отраслевой реквезит чека 
 $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
 $check->setSectoralCheckProps($sectoral_check_props);
+
+// // Возможность добавления нескольких SectoralCheckProps
+// $sectoral_check_props2 = new SectoralCheckProps('002', '01.01.2020', '2', 'значение отраслевого реквизита2');
+// $check->setSectoralCheckProps($sectoral_check_props2);
 
 // Операционный реквизит пользователя 
 $operating_check_props = new OperatingCheckProps('0', 'данные операции', '12.03.2020 16:55:25');
@@ -185,6 +189,10 @@ $position->setAgent($agent);
 $sectoral_item_props = new SectoralItemProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
 $position->setSectoralItemProps($sectoral_item_props);
 
+// // Возможность добавления нескольких SectoralItemProps
+// $sectoral_item_props2 = new SectoralItemProps('002', '26.01.1935', '15', 'значение отраслевого реквизита2');
+// $position->setSectoralItemProps($sectoral_item_props2);
+
 // Дополнительный реквизит предмета расчета
 $position->setUserData('Дополнительный реквизит предмета расчета');
 
@@ -208,7 +216,10 @@ $position->setMarkCode($mark_code);
 $check->addPosition($position);
 
 // Итоговая сумма расчёта
-$payment = new Payment(Payment::TYPE_CARD, 100);
+$payment = new Payment(Payment::TYPE_CARD, 50);
+$check->addPayment($payment);
+
+$payment = new Payment(Payment::TYPE_CASH, 50);
 $check->addPayment($payment);
 
 // Добавляем чек в очередь.

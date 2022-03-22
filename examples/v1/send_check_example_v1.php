@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/autoload.php';
+require __DIR__.'/../../autoload.php';
 
 use Komtet\KassaSdk\v1\Client;
 use Komtet\KassaSdk\v1\QueueManager;
@@ -11,6 +11,7 @@ use Komtet\KassaSdk\v1\TaxSystem;
 use Komtet\KassaSdk\v1\Vat;
 use Komtet\KassaSdk\Exception\SdkException;
 use Komtet\KassaSdk\Exception\ApiValidationException;
+
 
 $key = 'YOUR_SHOP_ID';
 $secret = 'YOUR_SHOP_SECRET';

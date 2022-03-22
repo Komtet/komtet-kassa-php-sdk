@@ -24,7 +24,7 @@ class Order
     /**
      * @var bool
      */
-    private $isPayToCourier = false;
+    private $isPayToCourier = true;
 
     /**
      * @var string
@@ -72,9 +72,9 @@ class Order
     private $operatingCheckProps;
 
     /**
-     * @var SectoralCheckProps
+     * @var SectoralCheckProps[]
      */
-    private $sectoralCheckProps;
+    private $sectoralCheckProps = [];
 
     /**
      * @var OrderBuyer
@@ -82,9 +82,9 @@ class Order
     private $orderBuyer;
 
     /**
-     * @var Company
+     * @var OrderCompany
      */
-    private $company;
+    private $orderCompany;
 
     /**
      * @var Payment
@@ -136,9 +136,9 @@ class Order
      * @param string $inn company inn
      *
      */
-    public function setCompany(Company $company)
+    public function setCompany(OrderCompany $order_company)
     {
-        $this->company = $company;
+        $this->orderCompany = $order_company;
     }
 
     /**
@@ -228,7 +228,7 @@ class Order
      */
     public function setSectoralCheckProps(SectoralCheckProps $sectoralCheckProps)
     {
-        $this->sectoralCheckProps = $sectoralCheckProps;
+        $this->sectoralCheckProps[] = $sectoralCheckProps;
     }
 
     /**
@@ -297,12 +297,12 @@ class Order
     public function asArray()
     {
         $result = [
-            'order_id' => $this->orderId,
+            'external_id' => $this->orderId,
             'is_pay_to_courier' => $this->isPayToCourier,
             'date_start' => $this->dateStart,
             'date_end' => $this->dateEnd,
             'client' => $this->orderBuyer->asArray(),
-            'company' => $this->company->asArray(),
+            'company' => $this->orderCompany->asArray(),
             'items' => array_map(
                 function ($item) {
                     return $item->asArray();
@@ -344,7 +344,12 @@ class Order
         }
 
         if ($this->sectoralCheckProps !== null) {
-            $result['sectoral_check_props'] = $this->sectoralCheckProps->asArray();
+            $result['sectoral_check_props'] = array_map(
+                function($sectoral_check_props) {
+                    return $sectoral_check_props->asArray();
+                },
+                $this->sectoralCheckProps
+            );
         }
 
         if ($this->operatingCheckProps !== null) {

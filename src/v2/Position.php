@@ -77,9 +77,9 @@ class Position
     private $declarationNumber = null;
 
     /**
-     * @var SectoralItemProps 
+     * @var SectoralItemProps[] 
      */
-    private $sectoralItemProps = null;
+    private $sectoralItemProps = [];
 
     /**
      * @var Agent
@@ -244,7 +244,7 @@ class Position
      */
     public function setSectoralItemProps(SectoralItemProps $sectoral_item_props)
     {
-        $this->sectoralItemProps = $sectoral_item_props;
+        $this->sectoralItemProps[] = $sectoral_item_props;
 
         return $this;
     }
@@ -302,7 +302,12 @@ class Position
         }
 
         if ($this->sectoralItemProps !== null) {
-            $result['sectoral_item_props'] = [$this->sectoralItemProps->asArray()];
+            $result['sectoral_item_props'] = array_map(
+                function($sectoral_item_props) {
+                    return $sectoral_item_props->asArray();
+                },
+                $this->sectoralItemProps
+            );
         }
 
         return $result;
