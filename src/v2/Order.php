@@ -358,5 +358,4 @@ class Order
 
         return $result;
     }
-
 }

@@ -62,5 +62,4 @@ class OrderBuyer
     {
         return $this->orderBuyer;
     }
-
 }

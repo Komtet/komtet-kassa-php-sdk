@@ -116,6 +116,8 @@ $orderPosition->setMarkCode($mark_code);
 
 $order->addPosition($orderPosition);
 
+$order->applyDiscount(100);
+
 try {
     $orderManager->createOrder($order);
 } catch (ApiValidationException $e) {
