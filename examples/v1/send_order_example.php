@@ -66,9 +66,9 @@ $order->addPosition($orderPosition);
 try {
     $orderManager->createOrder($order);
 } catch (ApiValidationException $e) {
-    echo $e->getMessage(), "\n";
-    echo $e->getVLDCode(), "\n";
-    echo $e->getDescription(), "\n";
+    echo $e->getMessage();
+    echo $e->getVLDCode();
+    echo $e->getDescription();
 } catch (SdkException $e) {
     echo $e->getMessage();
 }
