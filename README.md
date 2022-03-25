@@ -354,7 +354,7 @@ $order_id = 1;
 
 $order = new Order('12345', 'new', true);
 
-$orderCompany = new OrderCompany(TaxSystem::COMMON);
+$orderCompany = new OrderCompany(TaxSystem::COMMON, 'Улица Московская д.4');
 $order->setCompany($orderCompany);
 
 $orderBuyer = new OrderBuyer('+87654443322', 
