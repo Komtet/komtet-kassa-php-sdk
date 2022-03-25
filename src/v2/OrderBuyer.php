@@ -16,7 +16,7 @@ class OrderBuyer
      */
     private $orderBuyer;
 
-    public function __construct($phone, $address, $name=null, $inn=null, $email=null)
+    public function __construct($phone, $address, $name=null, $inn=null, $email=null, $coordinate=null)
     {
         $this->orderBuyer = [
             'phone' => $phone,
@@ -33,6 +33,10 @@ class OrderBuyer
 
         if ($email !== null) {
             $this->orderBuyer['email'] = $email;
+        }
+
+        if ($coordinate !== null) {
+            $this->orderBuyer['coordinate'] = $coordinate;
         }
     }
 

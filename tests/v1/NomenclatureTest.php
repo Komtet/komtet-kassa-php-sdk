@@ -7,12 +7,12 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\Nomenclature;
+use Komtet\KassaSdk\v1\Nomenclature;
+use PHPUnit\Framework\TestCase;
 
-
-class NomenclatureTest extends \PHPUnit_Framework_TestCase
+class NomenclatureTest extends TestCase
 {
     public function testCreateNomenclatureSuccess()
     {

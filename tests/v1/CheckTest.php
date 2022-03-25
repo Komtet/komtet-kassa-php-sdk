@@ -7,18 +7,24 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\AdditionalUserProps;
-use Komtet\KassaSdk\Buyer;
-use Komtet\KassaSdk\Check;
-use Komtet\KassaSdk\Payment;
-use Komtet\KassaSdk\Position;
-use Komtet\KassaSdk\Vat;
+use Komtet\KassaSdk\v1\AdditionalUserProps;
+use Komtet\KassaSdk\v1\Agent;
+use Komtet\KassaSdk\v1\Buyer;
+use Komtet\KassaSdk\v1\CalculationMethod;
+use Komtet\KassaSdk\v1\CalculationSubject;
+use Komtet\KassaSdk\v1\Cashier;
+use Komtet\KassaSdk\v1\Check;
+use Komtet\KassaSdk\v1\Nomenclature;
+use Komtet\KassaSdk\v1\Payment;
+use Komtet\KassaSdk\v1\Position;
+use Komtet\KassaSdk\v1\Vat;
+use PHPUnit\Framework\TestCase;
 
-class CheckTest extends \PHPUnit_Framework_TestCase
+class CheckTest extends TestCase
 {
-    public function testPaymentAddress()
+    public function testCreationCheckSuccess()
     {
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1, 'Адрес');
         $this->assertEquals($check->asArray()['payment_address'], 'Адрес');
@@ -36,6 +42,24 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($check->asArray()['payment_address'], 'ул.Московская, д.13');
     }
 
+    public function testSetShouldPrint()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+        $check->setShouldPrint(true);
+
+        $this->assertEquals($check->asArray()['print'], true);
+    }
+
+    public function testAddCashier()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+        $cashier = new Cashier('Иваров И.П.', '1234567890123');
+        $check->addCashier($cashier);
+
+        $this->assertEquals($check->asArray()['cashier']['name'], 'Иваров И.П.');
+        $this->assertEquals($check->asArray()['cashier']['inn'], '1234567890123');
+    }
+
     public function testApplyDiscount()
     {
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
@@ -46,7 +70,6 @@ class CheckTest extends \PHPUnit_Framework_TestCase
         $position1 = new Position('position1', 100.0, 1, 100.0, $vat);
         $position2 = new Position('position2', 25.0, 2, 40.0, $vat);
         $position3 = new Position('position3', 5.0, 1, 5.0, $vat);
-
         $check->addPayment($payment1);
         $check->addPayment($payment2);
         $check->addPosition($position1);
@@ -65,6 +88,58 @@ class CheckTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($positionsTotal, 130.0);
         $this->assertEquals($positions[0]->getTotal(), 89.66);
+    }
+
+    public function testCheckWithOptionalParams() 
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+
+        $vat = new Vat(0);
+        $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "502906602876");
+        $nomenclature = new Nomenclature('kjgldfjgdfklg234234');
+        $payment1 = new Payment(Payment::TYPE_CARD, 110.0);
+        $payment2 = new Payment(Payment::TYPE_CARD, 20.0);
+        $position1 = new Position('position1', 100.0, 1, 100.0, $vat);
+        $position1->setId('123');
+        $position1->setMeasureName('kg');
+        $position1->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
+        $position1->setCalculationSubject(CalculationSubject::PAY);
+        $position1->setExcise(1);
+        $position1->setCountryCode('123');
+        $position1->setDeclarationNumber('3456');
+        $position1->setAgent($agent);
+        $position1->setNomenclature($nomenclature);
+        $position2 = new Position('position2', 25.0, 2, 40.0, $vat);
+        $position3 = new Position('position3', 5.0, 1, 5.0, $vat);
+        $check->addPayment($payment1);
+        $check->addPayment($payment2);
+        $check->addPosition($position1);
+        $check->addPosition($position2);
+        $check->addPosition($position3);
+        $discount = 15.0;
+
+        $check->applyDiscount($discount);
+
+        $positionsTotal = 0;
+        $positions = $check->getPositions();
+        foreach( $positions as $position )
+        {
+            $positionsTotal += $position->getTotal();
+        }
+
+        $this->assertEquals($positionsTotal, 130.0);
+        $this->assertEquals($positions[0]->getTotal(), 89.66);
+        $this->assertEquals($position1->asArray()['id'], '123');
+        $this->assertEquals($position1->asArray()['calculation_method'], CalculationMethod::FULL_PAYMENT);
+        $this->assertEquals($position1->asArray()['calculation_subject'], CalculationSubject::PAY);
+        $this->assertEquals($position1->asArray()['excise'], 1);
+        $this->assertEquals($position1->asArray()['country_code'], '123');
+        $this->assertEquals($position1->asArray()['declaration_number'], '3456');
+        $this->assertEquals($position1->asArray()['agent_info']['type'], Agent::COMMISSIONAIRE);
+        $this->assertEquals($position1->asArray()['supplier_info']['phones'], ["+77777777777"]);
+        $this->assertEquals($position1->asArray()['supplier_info']['name'], "ООО 'Лютик'");
+        $this->assertEquals($position1->asArray()['supplier_info']['inn'], "502906602876");
+        $this->assertEquals($position1->asArray()['nomenclature_code']['code'], 'kjgldfjgdfklg234234');
     }
 
     public function testAddBuyerInfo()

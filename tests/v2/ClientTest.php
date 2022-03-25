@@ -12,8 +12,7 @@ namespace {
     $dataVariable = null;
 }
 
-
-namespace Komtet\KassaSdk {
+namespace Komtet\KassaSdk\v2 {
 
     use Komtet\KassaSdk\Exception\ApiValidationException;
 
@@ -52,7 +51,10 @@ namespace Komtet\KassaSdk {
         return call_user_func_array('\curl_setopt', func_get_args());
     }
 
-    class ClientTest extends \PHPUnit_Framework_TestCase
+
+use PHPUnit\Framework\TestCase;
+
+    class ClientTest extends TestCase
     {
         private $client;
         private $check;
@@ -61,10 +63,20 @@ namespace Komtet\KassaSdk {
         {
             $this->client = new Client('key', 'secret');
 
-            $this->check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+            $clientEmail = 'test@test.ru';
+            $payment_address = 'Офис 3';
+            $this->buyer = new Buyer($clientEmail);
+            $this->company = new Company(TaxSystem::COMMON, $payment_address);
+            $this->check = new Check('id1', Check::INTENT_SELL, $this->buyer, $this->company);
+    
 
             $payment = new Payment(Payment::TYPE_CARD, 110.98);
-            $position = new Position('position', 110.98, 1, 110.98, new Vat(0));
+
+            $vat = new Vat(Vat::RATE_20);
+            $measure = Measure::MILLILITER;
+            $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
+            $payment_object = PaymentObject::PROPERTY_RIGHT;
+            $position = new Position('name', 110.98, 1, 110.98, $vat, $measure, $payment_method, $payment_object);
 
             $this->check->addPayment($payment);
             $this->check->addPosition($position);
@@ -84,7 +96,7 @@ namespace Komtet\KassaSdk {
             $system_php_serialize_precision = ini_get('serialize_precision');
             $system_php_precision = ini_get('precision');
 
-            $path = 'api/shop/v1/queues/queue-id/task';
+            $path = 'api/shop/v2/queues/queue-id/task';
 
             $this->client->sendRequest($path, $this->check->asArray());
 
@@ -94,7 +106,7 @@ namespace Komtet\KassaSdk {
 
         public function testJsonEncode()
         {
-            $path = 'api/shop/v1/queues/queue-id/task';
+            $path = 'api/shop/v2/queues/queue-id/task';
             $this->client->sendRequest($path, $this->check->asArray());
 
             global $dataVariable;

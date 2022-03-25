@@ -19,7 +19,7 @@ $logger = null;
 $client = new Client($key, $secret, $logger);
 $orderManager = new OrderManager($client);
 
-$order = new Order('1234567', TaxSystem::COMMON,'new', false);
+$order = new Order('1234567', TaxSystem::COMMON, 'new', false);
 
 // Идентификатор курьера
 $order->setCourierId(5);

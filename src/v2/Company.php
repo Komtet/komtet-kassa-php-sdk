@@ -68,7 +68,7 @@ class Company {
     {
         $company = [
           'sno' => $this->sno,
-          'paymentAddress' => $this->paymentAddress
+          'payment_address' => $this->paymentAddress
         ];
 
         if ($this->placeAddress) {

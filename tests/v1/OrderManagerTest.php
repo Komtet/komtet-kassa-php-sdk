@@ -7,13 +7,15 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\Order;
-use Komtet\KassaSdk\OrderManager;
-use Komtet\KassaSdk\OrderPosition;
+use Komtet\KassaSdk\v1\Order;
+use Komtet\KassaSdk\v1\OrderManager;
+use Komtet\KassaSdk\v1\OrderPosition;
+use Komtet\KassaSdk\v1\TaxSystem;
+use PHPUnit\Framework\TestCase;
 
-class OrderManagerTest extends \PHPUnit_Framework_TestCase
+class OrderManagerTest extends TestCase
 {
     private $client;
     private $om;
@@ -22,12 +24,12 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $this
-            ->getMockBuilder('\Komtet\KassaSdk\Client')
+            ->getMockBuilder('\Komtet\KassaSdk\v1\Client')
             ->disableOriginalConstructor()
             ->getMock();
         $this->om = new OrderManager($this->client);
 
-        $this->order = new Order('123', 'new', 0);
+        $this->order = new Order('1234567', TaxSystem::COMMON, 'new', false);
         $this->order->setClient('г.Пенза, ул.Суворова д.10 кв.25',
                                 '+87654443322',
                                 'client@email.com',
@@ -37,6 +39,7 @@ class OrderManagerTest extends \PHPUnit_Framework_TestCase
         $orderPosition = new OrderPosition(['oid' => '1',
                                             'name' => 'position name1',
                                             'price' => 555.0,
+                                            'quantity' => 1,
                                             'type' => 'product'
                                             ]);
         $this->order->addPosition($orderPosition);

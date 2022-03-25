@@ -38,7 +38,7 @@ class QueueManager
      * Registers an queue
      *
      * @param string $name Queue name
-     * @param string $id Queue ID
+     * @param int $id Queue ID
      *
      * @return QueueManager
      */

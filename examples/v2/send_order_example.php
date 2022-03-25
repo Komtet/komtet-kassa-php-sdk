@@ -26,11 +26,10 @@ $logger = null;
 $client = new Client($key, $secret, $logger);
 $orderManager = new OrderManager($client);
 
-$order = new Order('12345', 'new', true);
+$order = new Order('123456', 'new', true);
 
 // Информация о компании
-$orderCompany = new OrderCompany(TaxSystem::COMMON);
-$orderCompany->setPaymentAddress('Улица Московская д.4'); // Адрес расчетов
+$orderCompany = new OrderCompany(TaxSystem::COMMON, 'Улица Московская д.4');
 $orderCompany->setPlaceAddress('г. Москва'); // Адрес расчетов
 $orderCompany->setINN('502906602876'); // ИНН организации
 $order->setCompany($orderCompany);

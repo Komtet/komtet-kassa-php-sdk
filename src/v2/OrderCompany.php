@@ -33,24 +33,17 @@ class OrderCompany {
     /**
      * @param string $sno
      * @param string $payment_address
+     * @param string $place_address
+     * @param string $inn
      *
      * @return Company
      */
-    public function __construct($sno)
+    public function __construct($sno, $payment_address ,$place_address=null, $inn=null)
     {
         $this->sno = $sno;
-    }
-
-    /**
-     * @param string $place_address
-     *
-     * @return Company
-     */
-    public function setPaymentAddress($payment_address)
-    {
-      $this->paymentAddress = $payment_address;
-
-      return $this;
+        $this->paymentAddress = $payment_address;
+        $this->placeAddress = $place_address;
+        $this->inn = $inn;
     }
 
     /**

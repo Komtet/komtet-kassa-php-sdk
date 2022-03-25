@@ -16,7 +16,6 @@ use Komtet\KassaSdk\Exception\SdkException;
 use Komtet\KassaSdk\Exception\ApiValidationException;
 
 
-
 $key = 'YOUR_SHOP_ID';
 $secret = 'YOUR_SHOP_SECRET';
 // PSR-совместимый логгер (опциональный параметр)
@@ -35,7 +34,7 @@ $correction = Correction::createSelf(
     'description' // Описание коррекции
 );
 
-$correctionCheck = CorrectionCheck::createSellCorrection('', TaxSystem::COMMON, $correction); // Чек коррекции прихода
+$correctionCheck = CorrectionCheck::createSellCorrection('12345', TaxSystem::COMMON, $correction); // Чек коррекции прихода
 // $correctionCheck = CorrectionCheck::createSellReturnCorrection('123', TaxSystem::COMMON, $correction); // Чек возврата коррекции прихода
 // $correctionCheck = CorrectionCheck::createBuyCorrection('123', TaxSystem::COMMON, $correction); // Чек коррекции расхода
 // $correctionCheck = CorrectionCheck::createBuyReturnCorrection('123', TaxSystem::COMMON, $correction); // Чек возврата коррекции прихода

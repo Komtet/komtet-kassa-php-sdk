@@ -7,12 +7,12 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v2;
 
-use Komtet\KassaSdk\AuthorisedPerson;
-use Komtet\KassaSdk\Cashier;
+use Komtet\KassaSdk\v2\Cashier;
+use PHPUnit\Framework\TestCase;
 
-class CashierTest extends \PHPUnit_Framework_TestCase
+class CashierTest extends TestCase
 {
     public function testCashierNameWithInn()
     {
@@ -24,20 +24,6 @@ class CashierTest extends \PHPUnit_Framework_TestCase
     public function testCashierNameWithoutInn()
     {
         $cashier = new Cashier('Иваров И.П.');
-        $this->assertEquals($cashier->asArray()['name'], 'Иваров И.П.');
-        $this->assertArrayNotHasKey('inn',$cashier->asArray());
-    }
-
-    public function testAuthorisedPersonNameWithInn()
-    {
-        $cashier = new AuthorisedPerson('Иваров И.П.', '1234567890123');
-        $this->assertEquals($cashier->asArray()['name'], 'Иваров И.П.');
-        $this->assertEquals($cashier->asArray()['inn'], '1234567890123');
-    }
-
-    public function testAuthorisedPersonNameWithoutInn()
-    {
-        $cashier = new AuthorisedPerson('Иваров И.П.');
         $this->assertEquals($cashier->asArray()['name'], 'Иваров И.П.');
         $this->assertArrayNotHasKey('inn',$cashier->asArray());
     }

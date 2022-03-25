@@ -36,7 +36,7 @@ $manager->registerQueue('queue', 'YOUR_QUEUE_ID'); //int
 // ЧЕК
 
 // уникальный ID, предоставляемый магазином
-$checkID = '';
+$checkID = '123456';
 // E-Mail клиента, на который будет отправлен E-Mail с чеком.
 $clientEmail = 'test@test.ru';
 
@@ -92,22 +92,19 @@ $check->setShouldPrint(true);
 $cashier = new Cashier('Иванов И.П.', '012345678912');
 $check->addCashier($cashier);
 
-// Применение к позициям единой общей скидки на чек (например скидочного купона)
-$check->applyDiscount(50);
-
 
 // ПОЗИЦИИ ЧЕКА
 
 // Ставка налога
-// $vat = new Vat(Vat::RATE_NO);
+$vat = new Vat(Vat::RATE_NO);
 // $vat = new Vat(Vat::RATE_0);
 // $vat = new Vat(Vat::RATE_10);
-$vat = new Vat(Vat::RATE_20);
+// $vat = new Vat(Vat::RATE_20);
 // $vat = new Vat(Vat::RATE_110);
 // $vat = new Vat(Vat::RATE_120);
 
 // Еденица измерения
-// $measure = Measure::PIECE;
+$measure = Measure::PIECE;
 // $measure = Measure::GRAMM;
 // $measure = Measure::KILOGRAMM;
 // $measure = Measure::TON;
@@ -117,7 +114,7 @@ $vat = new Vat(Vat::RATE_20);
 // $measure = Measure::SQUARE_CENTIMETER;
 // $measure = Measure::SQUARE_DECIMETER;
 // $measure = Measure::SQUARE_METER;
-$measure = Measure::MILLILITER;
+// $measure = Measure::MILLILITER;
 // $measure = Measure::LITER;
 // $measure = Measure::CUBIC_METER;
 // $measure = Measure::KILOWATT_HOUR;
@@ -133,8 +130,8 @@ $measure = Measure::MILLILITER;
 // $measure = Measure::OTHER_MEASURMENTS;
 
 // Cпособ расчета
-// $payment_method = PaymentMethod::FULL_PAYMENT;
-$payment_method = PaymentMethod::PRE_PAYMENT_FULL;
+$payment_method = PaymentMethod::FULL_PAYMENT;
+// $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
 // $payment_method = PaymentMethod::PRE_PAYMENT_PART;
 // $payment_method = PaymentMethod::ADVANCE;
 // $payment_method = PaymentMethod::CREDIT_PART;
@@ -142,7 +139,7 @@ $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
 // $payment_method = PaymentMethod::CREDIT;
 
 // Предмет расчета
-// $payment_object = PaymentObject::PRODUCT;
+$payment_object = PaymentObject::PRODUCT;
 // $payment_object = PaymentObject::PRODUCT_PRACTICAL;
 // $payment_object = PaymentObject::WORK;
 // $payment_object = PaymentObject::SERVICE;
@@ -156,7 +153,7 @@ $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
 // $payment_object = PaymentObject::COMPOSITE;
 // $payment_object = PaymentObject::PAY;
 // $payment_object = PaymentObject::OTHER;
-$payment_object = PaymentObject::PROPERTY_RIGHT;
+// $payment_object = PaymentObject::PROPERTY_RIGHT;
 // $payment_object = PaymentObject::NON_OPERATING;
 // $payment_object = PaymentObject::INSURANCE;
 // $payment_object = PaymentObject::SALES_TAX;
@@ -215,10 +212,10 @@ $position->setMarkCode($mark_code);
 
 $check->addPosition($position);
 
-// Итоговая сумма расчёта
-$payment = new Payment(Payment::TYPE_CARD, 50);
-$check->addPayment($payment);
+// Применение к позициям единой общей скидки на чек (например скидочного купона)
+$check->applyDiscount(50);
 
+// Итоговая сумма расчёта
 $payment = new Payment(Payment::TYPE_CASH, 50);
 $check->addPayment($payment);
 

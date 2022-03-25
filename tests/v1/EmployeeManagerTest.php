@@ -7,13 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\Employee;
-use Komtet\KassaSdk\EmployeeManager;
-use Komtet\KassaSdk\EmployeeType;
+use Komtet\KassaSdk\v1\Employee;
+use Komtet\KassaSdk\v1\EmployeeManager;
+use Komtet\KassaSdk\v1\EmployeeType;
+use PHPUnit\Framework\TestCase;
 
-class EmployeeManagerTest extends \PHPUnit_Framework_TestCase
+class EmployeeManagerTest extends TestCase
 {
     private $client;
     private $manager;
@@ -23,7 +24,7 @@ class EmployeeManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $this
-            ->getMockBuilder('\Komtet\KassaSdk\Client')
+            ->getMockBuilder('\Komtet\KassaSdk\v1\Client')
             ->disableOriginalConstructor()
             ->getMock();
         $this->manager = new EmployeeManager($this->client);

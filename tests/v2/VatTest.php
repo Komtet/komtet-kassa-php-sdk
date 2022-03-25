@@ -7,11 +7,12 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v2;
 
-use Komtet\KassaSdk\Vat;
+use Komtet\KassaSdk\v2\Vat;
+use PHPUnit\Framework\TestCase;
 
-class VatTest extends \PHPUnit_Framework_TestCase
+class VatTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException
@@ -27,18 +28,26 @@ class VatTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((new Vat(0.0))->getRate(), '0');
         $this->assertEquals((new Vat(0))->getRate(), '0');
         $this->assertEquals((new Vat(10))->getRate(), '10');
+        $this->assertEquals((new Vat(10.0))->getRate(), '10');
         $this->assertEquals((new Vat(0.2))->getRate(), '20');
         $this->assertEquals((new Vat(0.20))->getRate(), '20');
         $this->assertEquals((new Vat(20.0))->getRate(), '20');
         $this->assertEquals((new Vat(110))->getRate(), '110');
+        $this->assertEquals((new Vat(110.0))->getRate(), '110');
         $this->assertEquals((new Vat(120))->getRate(), '120');
+        $this->assertEquals((new Vat(120.0))->getRate(), '120');
+        $this->assertEquals((new Vat('0'))->getRate(), '0');
         $this->assertEquals((new Vat('0.0'))->getRate(), '0');
         $this->assertEquals((new Vat('10'))->getRate(), '10');
         $this->assertEquals((new Vat('10%'))->getRate(), '10');
+        $this->assertEquals((new Vat('20'))->getRate(), '20');
+        $this->assertEquals((new Vat('20%'))->getRate(), '20');
         $this->assertEquals((new Vat('0.20'))->getRate(), '20');
         $this->assertEquals((new Vat('110'))->getRate(), '110');
         $this->assertEquals((new Vat('10/110'))->getRate(), '110');
         $this->assertEquals((new Vat('120'))->getRate(), '120');
+        $this->assertEquals((new Vat('120.0'))->getRate(), '120');
+        $this->assertEquals((new Vat('120%'))->getRate(), '120');
         $this->assertEquals((new Vat('20/120'))->getRate(), '120');
 
         $this->assertEquals((new Vat(18))->getRate(), '20');

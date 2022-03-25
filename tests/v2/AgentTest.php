@@ -7,11 +7,12 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v2;
 
-use Komtet\KassaSdk\Agent;
+use Komtet\KassaSdk\v2\Agent;
+use PHPUnit\Framework\TestCase;
 
-class AgentTest extends \PHPUnit_Framework_TestCase
+class AgentTestv2 extends TestCase
 {
     public function test()
     {

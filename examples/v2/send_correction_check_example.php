@@ -38,7 +38,7 @@ $manager->registerQueue('queue', 'YOUR_QUEUE_ID'); //int
 // ЧЕК КОРРЕКЦИИ
 
 // уникальный ID, предоставляемый магазином
-$checkID = '';
+$checkID = '12345';
 // E-Mail клиента, на который будет отправлен E-Mail с чеком.
 $clientEmail = 'test@test.ru';
 
@@ -46,21 +46,21 @@ $clientEmail = 'test@test.ru';
 $payment_address = 'Офис 3';
 
 // Данные коррекции
-$correctionInfo = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+$correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
 // // createSelf для самостоятельной коррекции
-// $correctionInfo = CorrectionInfo::createSelf('31.01.2021', '1', 'Наименование документа основания для коррекции');
+// $correction_info = correction_info::createSelf('31.01.2021', '1', 'Наименование документа основания для коррекции');
 // // createInstruction для коррекции по предписанию
-// $correctionInfo = CorrectionInfo::createInstruction('31.01.2021', '1', 'Наименование документа основания для коррекции');
+// $correction_info = correction_info::createInstruction('31.01.2021', '1', 'Наименование документа основания для коррекции');
 
 // Информация о компании
 $company = new Company(TaxSystem::COMMON, $payment_address);
 $company->setPlaceAddress('г. Москва'); // Адрес расчетов
 $company->setINN('502906602876'); // ИНН организации
 
-$correctionCheck = CorrectionCheck::createSellCorrection($checkID, $company, $correctionInfo); // Чек коррекции прихода
-// $correctionCheck = CorrectionCheck::createSellReturnCorrection($checkID, $company, $correctionInfo); // Чек коррекции возврата прихода
-// $correctionCheck = CorrectionCheck::createBuyCorrection($checkID, $company, $correctionInfo); // Чек коррекции расхода
-// $correctionCheck = CorrectionCheck::createBuyReturnCorrection($checkID, $company, $correctionInfo); // Чек возврата коррекции расхода
+$correctionCheck = CorrectionCheck::createSellCorrection($checkID, $company, $correction_info); // Чек коррекции прихода
+// $correctionCheck = CorrectionCheck::createSellReturnCorrection($checkID, $company, $correction_info); // Чек коррекции возврата прихода
+// $correctionCheck = CorrectionCheck::createBuyCorrection($checkID, $company, $correction_info); // Чек коррекции расхода
+// $correctionCheck = CorrectionCheck::createBuyReturnCorrection($checkID, $company, $correction_info); // Чек возврата коррекции расхода
 
 // Данные уполномоченного лица
 $authorised_person = new AuthorisedPerson('name', 'inn');

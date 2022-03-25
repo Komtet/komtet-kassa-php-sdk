@@ -7,24 +7,22 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\Agent;
-use Komtet\KassaSdk\AuthorisedPerson;
-use Komtet\KassaSdk\CalculationMethod;
-use Komtet\KassaSdk\CalculationSubject;
-use Komtet\KassaSdk\Cashier;
-use Komtet\KassaSdk\Check;
-use Komtet\KassaSdk\Correction;
-use Komtet\KassaSdk\CorrectionCheck;
-use Komtet\KassaSdk\Nomenclature;
-use Komtet\KassaSdk\Payment;
-use Komtet\KassaSdk\Position;
-use Komtet\KassaSdk\QueueManager;
-use Komtet\KassaSdk\TaxSystem;
-use Komtet\KassaSdk\Vat;
+use Komtet\KassaSdk\v1\Agent;
+use Komtet\KassaSdk\v1\CalculationMethod;
+use Komtet\KassaSdk\v1\CalculationSubject;
+use Komtet\KassaSdk\v1\Cashier;
+use Komtet\KassaSdk\v1\Check;
+use Komtet\KassaSdk\v1\Nomenclature;
+use Komtet\KassaSdk\v1\Payment;
+use Komtet\KassaSdk\v1\Position;
+use Komtet\KassaSdk\v1\QueueManager;
+use Komtet\KassaSdk\v1\TaxSystem;
+use Komtet\KassaSdk\v1\Vat;
+use PHPUnit\Framework\TestCase;
 
-class QueueManagerTest extends \PHPUnit_Framework_TestCase
+class QueueManagerTest extends TestCase
 {
     private $client;
     private $qm;
@@ -32,7 +30,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $this
-            ->getMockBuilder('\Komtet\KassaSdk\Client')
+            ->getMockBuilder('\Komtet\KassaSdk\v1\Client')
             ->disableOriginalConstructor()
             ->getMock();
         $this->qm = new QueueManager($this->client);
@@ -105,7 +103,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutCheckFailedWithoutDefaultQueue()
     {
-        $check = $this->getMockBuilder('\Komtet\KassaSdk\Check')->disableOriginalConstructor()->getMock();
+        $check = $this->getMockBuilder('\Komtet\KassaSdk\v1\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check);
     }
 
@@ -115,7 +113,7 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutCheckFailedWithUnregisteredQueue()
     {
-        $check = $this->getMockBuilder('\Komtet\KassaSdk\Check')->disableOriginalConstructor()->getMock();
+        $check = $this->getMockBuilder('\Komtet\KassaSdk\v1\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check, 'my-queue');
     }
 
@@ -247,39 +245,5 @@ class QueueManagerTest extends \PHPUnit_Framework_TestCase
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
         $this->assertEquals($this->qm->putCheck($check), $rep);
-    }
-
-    public function testPutSellCorrectionCheckSucceded()
-    {
-        $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createSelf('2012-12-21', '4815162342', 'description');
-        $check = CorrectionCheck::createSell('4815162342', '4815162342', TaxSystem::PATENT, $correction);
-        $payment = new Payment(Payment::TYPE_CARD, 4815);
-        $vat = new Vat('120');
-        $check->setPayment($payment, $vat);
-        $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
-        $check->setAuthorisedPerson($authorised_person);
-        $data = $check->asArray();
-        $path = 'api/shop/v1/queues/queue-id/task';
-        $rep = ['key' => 'val'];
-        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
-        $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
-    }
-
-    public function testPutSellReturnCorrectionCheckSucceded()
-    {
-        $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createForced('2012-12-21', '4815162342', 'description');
-        $check = CorrectionCheck::createSellReturn('4815162342', '4815162342', TaxSystem::PATENT, $correction);
-        $payment = new Payment(Payment::TYPE_CARD, 4815);
-        $vat = new Vat('120');
-        $check->setPayment($payment, $vat);
-        $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
-        $check->setAuthorisedPerson($authorised_person);
-        $data = $check->asArray();
-        $path = 'api/shop/v1/queues/queue-id/task';
-        $rep = ['key' => 'val'];
-        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
-        $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
     }
 }

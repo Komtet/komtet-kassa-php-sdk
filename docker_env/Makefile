@@ -6,20 +6,26 @@ help:
 build: ## Сборка проекта
 	docker-compose build
 
-start: stop  ## Запустить контейнер
-	@docker-compose up -d php_sdk
+start_php_5: stop  ## Запустить контейнер с php 5
+	@docker-compose up -d php_sdk_5
+
+start_php_7: stop  ## Запустить контейнер с php 7
+	@docker-compose up -d php_sdk_7
 
 stop:  ## Остановить все контейнеры
 	@docker-compose down
 
-cli: build  ## Запуск командной строки
-	@docker-compose run php_sdk bash
+cli_php_5: ## Запуск командной строки с php 5
+	@docker-compose run php_sdk_5 bash
 
-# test: ## Запуск тестов
-# 	@vendor/bin/phpunit tests
+cli_php_7: ## Запуск командной строки с php 7
+	@docker-compose run php_sdk_7 bash
 
-test: ## Тестирование проекта
-	@docker-compose run php_sdk bash -c "composer test"
+test_php_5: ## Тестирование проекта с php 5
+	@docker-compose run php_sdk_5 bash -c "composer test"
+
+test_php_7: ## Тестирование проекта с php 7
+	@docker-compose run php_sdk_7 bash -c "composer test"
 
 .PHONY: help build test
 .DEFAULT_GOAL := help

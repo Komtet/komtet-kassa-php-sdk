@@ -254,9 +254,6 @@ class OrderPosition
      */
     public function setMarkCode(MarkCode $mark_code)
     {
-        if (is_null($mark_code)) {
-            $this->isNeedMarkCode = true;
-        }
         $this->markCode = $mark_code;
 
         return $this;

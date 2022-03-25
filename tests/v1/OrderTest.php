@@ -7,24 +7,26 @@
  * file that was distributed with this source code.
  */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\Agent;
-use Komtet\KassaSdk\Order;
-use Komtet\KassaSdk\OrderPosition;
-use Komtet\KassaSdk\Payment;
-use Komtet\KassaSdk\Vat;
-use phpDocumentor\Reflection\Types\Null_;
+use Komtet\KassaSdk\v1\Agent;
+use Komtet\KassaSdk\v1\Order;
+use Komtet\KassaSdk\v1\OrderPosition;
+use Komtet\KassaSdk\v1\Payment;
+use Komtet\KassaSdk\v1\Vat;
+use PHPUnit\Framework\TestCase;
 
-class OrderTest extends \PHPUnit_Framework_TestCase
+class OrderTest extends TestCase
 {
     public function testOrder()
     {
         $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $this->assertEquals($order->asArray()['order_id'], '123');
-        $this->assertEquals($order->asArray()['state'], 'new');
         $this->assertEquals($order->asArray()['sno'], 0);
+        $this->assertEquals($order->asArray()['state'], 'new');
+        $this->assertEquals($order->asArray()['is_paid'], false);
+        $this->assertEquals($order->asArray()['prepayment'], 200);        $this->assertEquals($order->asArray()['payment_type'], Payment::TYPE_CASH);
 
         $order->setClient(
             'г.Пенза, ул.Суворова д.10 кв.25',

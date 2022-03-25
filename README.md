@@ -29,6 +29,14 @@ git clone https://github.com/Komtet/komtet-kassa-php-sdk
 require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ```
 
+Для отправки примеров из examples из php-cli:
+
+```
+make build
+make cli_php_5 или make cli_php_7
+php -f examples/v1/send_check_example.php
+```
+
 # Использование v1
 
 Первым делом необходимо создать менеджер очередей:
@@ -58,9 +66,9 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 
 # Чек
 
-## Отправка чека на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_check_example_v1.php)
+## Отправка чека на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_check_example.php)
 
-## Отправка чека коррекции на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_correction_check_example_v1.php)
+## Отправка чека коррекции на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_correction_check_example.php)
 ---
 
 Чтобы не указывать каждый раз имя очереди, установите очередь по умолчанию:
@@ -95,7 +103,7 @@ try {
 ```
 
 # Заказ
-## Создание заказа на доставку - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_order_example_v1.php)
+## Создание заказа на доставку - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_order_example.php)
 
 Обновление заказа на доставку:
 
@@ -295,9 +303,9 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 
 # Чек
 
-## Отправка чека на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_check_example_v2.php)
+## Отправка чека на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_check_example.php)
 
-## Отправка чека коррекции на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_correction_check_example_v2.php)
+## Отправка чека коррекции на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_correction_check_example.php)
 ---
 
 Чтобы не указывать каждый раз имя очереди, установите очередь по умолчанию:
@@ -334,7 +342,7 @@ try {
 ---
 
 # Заказ
-## Создание заказа на доставку - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_order_example_v2.php)
+## Создание заказа на доставку - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_order_example.php)
 
 ## Обновление заказа на доставку:
 

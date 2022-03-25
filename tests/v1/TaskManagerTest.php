@@ -7,11 +7,12 @@
 * file that was distributed with this source code.
 */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v1;
 
-use Komtet\KassaSdk\TaskManager;
+use Komtet\KassaSdk\v1\TaskManager;
+use PHPUnit\Framework\TestCase;
 
-class TaskManagerTest extends \PHPUnit_Framework_TestCase
+class TaskManagerTest extends TestCase
 {
     private $client;
     private $tm;
@@ -19,7 +20,7 @@ class TaskManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $this
-            ->getMockBuilder('\Komtet\KassaSdk\Client')
+            ->getMockBuilder('\Komtet\KassaSdk\v1\Client')
             ->disableOriginalConstructor()
             ->getMock();
         $this->tm = new TaskManager($this->client);

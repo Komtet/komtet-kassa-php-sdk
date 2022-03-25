@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-namespace KomtetTest\KassaSdk;
+namespace KomtetTest\KassaSdk\v2;
 
-use Komtet\KassaSdk\AdditionalUserProps;
+use Komtet\KassaSdk\v2\AdditionalUserProps;
+use PHPUnit\Framework\TestCase;
 
-
-class AdditionalUserPropsTest extends \PHPUnit_Framework_TestCase
+class AdditionalUserPropsTest extends TestCase
 {
-    public function testCreateAdditionalUserPropsSuccess()
+    public function testAdditionalUserPropsSuccess()
     {
         $additional_user_props = new AdditionalUserProps('props_name', 'props_value');
         $this->assertEquals($additional_user_props->asArray(), 
