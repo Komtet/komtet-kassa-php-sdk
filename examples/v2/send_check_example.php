@@ -71,7 +71,7 @@ $check->setAdditionalUserProps($additional_user_props);
 $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
 $check->setSectoralCheckProps($sectoral_check_props);
 
-// // Возможность добавления нескольких SectoralCheckProps
+// Возможность добавления нескольких SectoralCheckProps
 // $sectoral_check_props2 = new SectoralCheckProps('002', '01.01.2020', '2', 'значение отраслевого реквизита2');
 // $check->setSectoralCheckProps($sectoral_check_props2);
 
@@ -186,7 +186,7 @@ $position->setAgent($agent);
 $sectoral_item_props = new SectoralItemProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
 $position->setSectoralItemProps($sectoral_item_props);
 
-// // Возможность добавления нескольких SectoralItemProps
+// Возможность добавления нескольких SectoralItemProps
 // $sectoral_item_props2 = new SectoralItemProps('002', '26.01.1935', '15', 'значение отраслевого реквизита2');
 // $position->setSectoralItemProps($sectoral_item_props2);
 

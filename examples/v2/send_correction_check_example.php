@@ -47,9 +47,9 @@ $payment_address = 'Офис 3';
 
 // Данные коррекции
 $correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
-// // createSelf для самостоятельной коррекции
+// createSelf для самостоятельной коррекции
 // $correction_info = correction_info::createSelf('31.01.2021', '1', 'Наименование документа основания для коррекции');
-// // createInstruction для коррекции по предписанию
+// createInstruction для коррекции по предписанию
 // $correction_info = correction_info::createInstruction('31.01.2021', '1', 'Наименование документа основания для коррекции');
 
 // Информация о компании
@@ -110,12 +110,12 @@ $correctionCheck->addCashier($cashier);
  $vat = new Vat(Vat::RATE_NO);
 // $vat = new Vat(Vat::RATE_0);
 // $vat = new Vat(Vat::RATE_10);
-//$vat = new Vat(Vat::RATE_20);
+// $vat = new Vat(Vat::RATE_20);
 // $vat = new Vat(Vat::RATE_110);
 // $vat = new Vat(Vat::RATE_120);
 
 // Еденица измерения
- $measure = Measure::PIECE;
+$measure = Measure::PIECE;
 // $measure = Measure::GRAMM;
 // $measure = Measure::KILOGRAMM;
 // $measure = Measure::TON;
@@ -125,7 +125,7 @@ $correctionCheck->addCashier($cashier);
 // $measure = Measure::SQUARE_CENTIMETER;
 // $measure = Measure::SQUARE_DECIMETER;
 // $measure = Measure::SQUARE_METER;
-//$measure = Measure::MILLILITER;
+// $measure = Measure::MILLILITER;
 // $measure = Measure::LITER;
 // $measure = Measure::CUBIC_METER;
 // $measure = Measure::KILOWATT_HOUR;

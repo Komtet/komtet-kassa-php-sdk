@@ -69,34 +69,34 @@ $position = new Position('name', 100, 1, 100, $vat);
 
 $correctionCheck->addPosition($position);
 
-// // Опционально можно установить:
-// // Идентификатор позиции
+// Опционально можно установить:
+// Идентификатор позиции
 // $position->setId('123');
 
-// // Единицу измерения
+// Единицу измерения
 // $position->setMeasureName('Кг.');
 
-// // Cпособ рассчета
+// Cпособ рассчета
 // $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
 
-// // Признак рассчета
+// Признак рассчета
 // $position->setCalculationSubject(CalculationSubject::PRODUCT);
 
-// // Агента по предмету расчета
+// Агента по предмету расчета
 // $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
 // $position->setAgent($agent);
 
-// // Код маркировки
+// Код маркировки
 // $nomenclature = new Nomenclature('kjgldfjgdfklg234234');
 // $position->setNomenclature($nomenclature);
 
-// // Сумма акциза
+// Сумма акциза
 // $position->setExcise(25);
 
-// // Цифровой код страны происхождения товара
+// Цифровой код страны происхождения товара
 // $position->setCountryCode('5');
 
-// // Номер таможенной декларации
+// Номер таможенной декларации
 // $position->setDeclarationNumber('15');
 
 // Итоговая сумма расчёта
