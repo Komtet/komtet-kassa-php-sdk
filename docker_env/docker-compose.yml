@@ -1,13 +1,30 @@
-version: '2'
+version: '3.4'
+
 services:
-    php_sdk:
-        container_name: php-sdk
+    php_sdk_7:
+        container_name: php-sdk_7
         build:
             context: ../
             dockerfile: ./docker_env/Dockerfile
+            target: php7
         ports:
             - 8100:80
         volumes:
+            - ../examples/:/home/php_sdk/examples
+            - ../src/:/home/php_sdk/src
+            - ../tests/:/home/php_sdk/tests
+        tty: true
+
+    php_sdk_5:
+        container_name: php-sdk_5
+        build:
+            context: ../
+            dockerfile: ./docker_env/Dockerfile
+            target: php5
+        ports:
+            - 8100:80
+        volumes:
+            - ../examples/:/home/php_sdk/examples
             - ../src/:/home/php_sdk/src
             - ../tests/:/home/php_sdk/tests
         tty: true

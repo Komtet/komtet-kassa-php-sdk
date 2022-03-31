@@ -29,14 +29,22 @@ git clone https://github.com/Komtet/komtet-kassa-php-sdk
 require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 ```
 
-## Использование
+Для отправки примеров из examples из php-cli:
+
+```
+make build
+make cli_php_5 или make cli_php_7
+php -f examples/v1/send_check_example.php
+```
+
+# Использование v1
 
 Первым делом необходимо создать менеджер очередей:
 ```php
 <?php
 
-use Komtet\KassaSdk\Client;
-use Komtet\KassaSdk\QueueManager;
+use Komtet\KassaSdk\v1\Client;
+use Komtet\KassaSdk\v1\QueueManager;
 
 $key = 'идентификатор магазина';
 $secret = 'секретный ключ';
@@ -56,118 +64,12 @@ $manager->registerQueue('queue-name-2', 'queue-id-2');
 
 ```
 
-Отправка чека на печать:
+# Чек
 
-```php
-<?php
-use Komtet\KassaSdk\Agent;
-use Komtet\KassaSdk\Buyer;
-use Komtet\KassaSdk\Check;
-use Komtet\KassaSdk\Cashier;
-use Komtet\KassaSdk\Payment;
-use Komtet\KassaSdk\Position;
-use Komtet\KassaSdk\TaxSystem;
-use Komtet\KassaSdk\Vat;
-use Komtet\KassaSdk\Exception\SdkException;
+## Отправка чека на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_check_example.php)
 
-// уникальный ID, предоставляемый магазином
-$checkID = 'id';
-// E-Mail клиента, на который будет отправлен E-Mail с чеком.
-$clientEmail = 'user@host';
-
-$check = Check::createSell($checkID, $clientEmail, TaxSystem::COMMON); // или Check::createSellReturn для оформления возврата
-// Говорим, что чек нужно распечатать
-$check->setShouldPrint(true);
-
-$vat = new Vat(Vat::RATE_20);
-
-// Позиция в чеке: имя, цена, кол-во, общая стоимость, налог
-$position = new Position('name', 100, 1, 100, $vat);
-
-// Опционально можно установить:
-// Идентификатор позиции
-// $position->setId('123');
-
-// Единицу измерения
-// $position->setMeasureName('Кг.');
-
-// Cпособ рассчета
-// $position->setCalculationMethod(CalculationMethod::FULL_PAYMENT);
-
-// Признак рассчета
-// $position->setCalculationSubject(CalculationSubject::PRODUCT);
-
-// Агента по предмету расчета
-// $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
-// $position->setAgent($agent);
-
-$check->addPosition($position);
-
-// Итоговая сумма расчёта
-$payment = new Payment(Payment::TYPE_CARD, 100);
-$check->addPayment($payment);
-
-// Добавление данных покупателя (опционально)
-$buyer = new Buyer('Пупкин П.П.', '123412341234');
-$check->addBuyer($buyer);
-
-// Добавление кассира (опционально)
-$cashier = new Cashier('Иваров И.П.', '1234567890123');
-$check->addCashier($cashier);
-
-// Добавляем чек в очередь.
-try {
-    $manager->putCheck($check, 'queue-name-1');
-} catch (SdkException $e) {
-    echo $e->getMessage();
-}
-```
-
-Отправка чека коррекции:
-
-```php
-<?php
-use Komtet\KassaSdk\Correction;
-use Komtet\KassaSdk\CorrectionCheck;
-use Komtet\KassaSdk\AuthorisedPerson;
-
-// Данные коррекции
-// createSelf для самостоятельной коррекции
-// createForced для коррекции по предписанию
-$correction = Correction::createSelf(
-    '2012-12-21', // Дата документа коррекции в формате yyyy-mm-dd
-    '4815162342', // Номер документа коррекции
-    'description' // Описание коррекции
-);
-
-// createSell для коррекции прихода
-// createSellReturn для коррекции расхода
-$check = CorrectionCheck::createSell(
-    '4815162342', // Номер операции в вашей системе
-    '4815162342', // Серийный номер принтера
-    TaxSystem::COMMON, // Система налогообложения
-    $correction // Данные коррекции
-);
-
-$check->setPayment(
-    new Payment(Payment::TYPE_CARD, 4815), // Общая сумма по чеку
-    new Vat('120') // Ставка налога
-);
-
-$authorised_person = new AuthorisedPerson(
-  'Иваров И.И.', // ФИО
-  '123456789012' // ИНН
-);
-$check->setAuthorisedPerson($authorised_person);
-
-// Добавляем чек в очередь.
-try {
-    $manager->putCheck($check, 'queue-name-1');
-} catch (SdkException $e) {
-    echo $e->getMessage();
-}
-
-```
+## Отправка чека коррекции на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_correction_check_example.php)
+---
 
 Чтобы не указывать каждый раз имя очереди, установите очередь по умолчанию:
 
@@ -183,6 +85,7 @@ $manager->putCheck($check);
 
 ```php
 <?php
+
 $manager->isQueueActive('queue-name-1');
 ```
 
@@ -190,6 +93,7 @@ $manager->isQueueActive('queue-name-1');
 
 ```php
 <?php
+
 $taskManager = new TaskManager($client);
 try {
     $taskManager->getTaskInfo('task-id');
@@ -198,41 +102,18 @@ try {
 }
 ```
 
-Создание заказа на доставку:
-
-```php
-<?php
-$orderManager = new OrderManager(client);
-
-$order = new Order('123', 'new', 0);
-$order->setClient('г.Пенза, ул.Суворова д.10 кв.25',
-                  '+87654443322',
-                  'client@email.com',
-                  'Сергеев Виктор Сергеевич');
-$order->setDeliveryTime('2018-02-28 14:00',
-                        '2018-02-28 15:20');
-$orderPosition = new OrderPosition(['oid' => '1',
-                                    'name' => 'position name1',
-                                    'price' => 555.0,
-                                    'type' => 'product'
-                                    ]);
-$order->addPosition($orderPosition);
-
-try {
-    $orderManager->createOrder($order);
-} catch (SdkException $e) {
-    echo $e->getMessage();
-}
-```
+# Заказ
+## Создание заказа на доставку - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v1/send_order_example.php)
 
 Обновление заказа на доставку:
 
 ```php
 <?php
-$orderManager = new OrderManager(client);
+
+$orderManager = new OrderManager($client);
 $order_id = 1;
 
-$order = new Order('123', 'new', 0);
+$order = new Order('123', TaxSystem::COMMON, 'new', 0);
 $order->setClient('г.Пенза, ул.Суворова д.10 кв.25',
                   '+87654443322',
                   'client@email.com',
@@ -257,7 +138,8 @@ try {
 
 ```php
 <?php
-$orderManager = new OrderManager(client);
+
+$orderManager = new OrderManager($client);
 $order_id = 1;
 
 try {
@@ -271,6 +153,7 @@ try {
 
 ```php
 <?php
+
 $discount = 250;
 $order->applyDiscount($discount);
 ```
@@ -279,7 +162,8 @@ $order->applyDiscount($discount);
 
 ```php
 <?php
-$orderManager = new OrderManager(client);
+
+$orderManager = new OrderManager($client);
 $order_id = 1;
 
 try {
@@ -293,8 +177,8 @@ try {
 
 ```php
 <?php
-$orderManager = new OrderManager(client);
-$order_id = 1;
+
+$orderManager = new OrderManager($client);
 
 try {
     $orderList = $orderManager->getOrders();
@@ -307,6 +191,7 @@ try {
 
 ```php
 <?php
+
 use Komtet\KassaSdk\EmployeeManager;
 use Komtet\KassaSdk\EmployeeType;
 
@@ -386,3 +271,125 @@ try {
     echo $e->getMessage();
 }
 ```
+
+
+# Использование v2
+Первым делом необходимо создать менеджер очередей:
+```php
+<?php
+
+use Komtet\KassaSdk\v2\Client;
+use Komtet\KassaSdk\v2\QueueManager;
+
+$key = 'идентификатор магазина';
+$secret = 'секретный ключ';
+// PSR-совместимый логгер (опциональный параметр)
+$logger = null;
+$client = new Client($key, $secret, $logger);
+$manager = new QueueManager($client);
+```
+
+После чего зарегистрировать очереди:
+
+```php
+$manager->registerQueue('queue-name-1', 'queue-id-1');
+$manager->registerQueue('queue-name-2', 'queue-id-2');
+// 'queue-name-1' и 'queue-name-2' - произвольные псевдомимы для обращения к очередям.
+// 'queue-id-1' и 'queue-id-2' - идентификаторы очередей, созданных в личном кабинете.
+
+```
+
+---
+
+# Чек
+
+## Отправка чека на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_check_example.php)
+
+## Отправка чека коррекции на печать - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_correction_check_example.php)
+---
+
+Чтобы не указывать каждый раз имя очереди, установите очередь по умолчанию:
+
+```php
+<?php
+
+$manager->setDefaultQueue('queue-name-1');
+$manager->putCheck($check);
+```
+
+
+Получить состояние очереди:
+
+```php
+<?php
+
+$manager->isQueueActive('queue-name-1');
+```
+
+Получить информацию о поставленной на фискализацию задаче:
+
+```php
+<?php
+
+$taskManager = new TaskManager($client);
+try {
+    $taskManager->getTaskInfo('task-id');
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+---
+
+# Заказ
+## Создание заказа на доставку - [Пример](https://github.com/Komtet/komtet-kassa-php-sdk/tree/master/examples/v2/send_order_example.php)
+
+## Обновление заказа на доставку:
+
+```php
+<?php
+
+$orderManager = new OrderManager($client);
+$order_id = 1;
+
+$order = new Order('12345', 'new', true);
+
+$orderCompany = new OrderCompany(TaxSystem::COMMON, 'Улица Московская д.4');
+$order->setCompany($orderCompany);
+
+$orderBuyer = new OrderBuyer('+87654443322', 
+                             'г.Пенза, ул.Суворова д.10 кв.25')
+$order->setOrderBuyer($orderBuyer);
+
+$order->setDeliveryTime('20.02.2022 14:00',
+                        '20.02.2022 15:20');
+
+$orderPosition = new OrderPosition(['name' => 'position name1',
+                                    'price' => 555.0,
+                                    'quantity' => 1,
+                                    'total' => 555.0,
+                                    'vat' => '20',
+                                    ]);
+$order->addPosition($orderPosition);
+
+try {
+    $orderManager->updateOrder($order_id, $order);
+} catch (ApiValidationException $e) {
+    echo $e->getMessage();
+    echo $e->getVLDCode();
+    echo $e->getDescription();
+} catch (SdkException $e) {
+    echo $e->getMessage();
+}
+```
+
+## Следующие операции в API v2 идентичны по вызову с API v1(примеры представлены выше в описании API v1):
+- Информация о заказе
+- Применить общую скидку на заказ
+- Удалить заказ
+- Получить список заказов
+- Получить список сотрудников
+- Получить информацию по сотруднику
+- Создание сотрудника
+- Обновление сотрудника
+- Удаление сотрудника
