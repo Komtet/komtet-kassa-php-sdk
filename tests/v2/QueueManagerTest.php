@@ -50,7 +50,8 @@ class QueueManagerTest extends TestCase
 
         $clientEmail = 'test@test.ru';
         $payment_address = 'Офис 3';
-        $this->buyer = new Buyer($clientEmail);
+        $this->buyer = new Buyer();
+        $this->buyer->setEmail($clientEmail);
         $this->company = new Company(TaxSystem::COMMON, $payment_address);
         $this->check = new Check('id1', Check::INTENT_SELL, $this->buyer, $this->company);
 
@@ -180,7 +181,8 @@ class QueueManagerTest extends TestCase
 
         $clientEmail = 'test@test.ru';
         $payment_address = 'Офис 3';
-        $buyer = new Buyer($clientEmail);
+        $buyer = new Buyer();
+        $buyer->setEmail($clientEmail);
         $company = new Company(TaxSystem::COMMON, $payment_address);
         $check = Check::createBuy('id1', $buyer, $company);
 
@@ -208,7 +210,8 @@ class QueueManagerTest extends TestCase
 
         $clientEmail = 'test@test.ru';
         $payment_address = 'Офис 3';
-        $buyer = new Buyer($clientEmail);
+        $buyer = new Buyer();
+        $buyer->setEmail($clientEmail);
         $company = new Company(TaxSystem::COMMON, $payment_address);
         $check = Check::createBuyReturn('id1', $buyer, $company);
 
@@ -238,7 +241,8 @@ class QueueManagerTest extends TestCase
         $clientEmail = 'test@test.ru';
         $payment_address = 'Офис 3';
 
-        $buyer = new Buyer($clientEmail);
+        $buyer = new Buyer();
+        $buyer->setEmail($clientEmail);
         $buyer->setName('name');
         $buyer->setINN('0123456789');
         $buyer->setPhone('+79099099999');

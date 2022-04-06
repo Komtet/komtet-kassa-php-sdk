@@ -67,7 +67,8 @@ $authorised_person = new AuthorisedPerson('name', 'inn');
 $correctionCheck->setAuthorisedPerson($authorised_person);
 
 // Информация о покупателе
-$buyer = new Buyer($clientEmail);
+$buyer = new Buyer();
+$buyer->setEmail($clientEmail); // Email
 // $buyer->setName('Иванов А.А.'); // Покупатель
 // $buyer->setPhone('79099099999'); // Телефон
 // $buyer->setBirthdate('20.10.2000'); // Дата рождения покупателя

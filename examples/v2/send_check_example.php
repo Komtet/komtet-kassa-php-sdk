@@ -44,7 +44,8 @@ $clientEmail = 'test@test.ru';
 $payment_address = 'Офис 3';
 
 // Информация о покупателе
-$buyer = new Buyer($clientEmail);
+$buyer = new Buyer();
+$buyer->setEmail($clientEmail); // Email
 $buyer->setName('Иванов А.А.'); // Покупатель
 $buyer->setPhone('79099099999'); // Телефон
 $buyer->setBirthdate('20.10.2000'); // Дата рождения покупателя

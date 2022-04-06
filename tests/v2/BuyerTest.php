@@ -16,14 +16,16 @@ class BuyerTest extends TestCase
 {
     public function testCreateBuyerSuccess()
     {
-        $buyer = new Buyer('test@test.ru');
+        $buyer = new Buyer();
+        $buyer->setEmail('test@test.ru');
         $this->assertEquals($buyer->asArray(), 
                             ['email' => 'test@test.ru']);
     }
 
     public function testCreateBuyerWithOptionalParams()
     {
-        $buyer = new Buyer('test@test.ru');
+        $buyer = new Buyer();
+        $buyer->setEmail('test@test.ru');
         $buyer->setName('name');
         $buyer->setINN('0123456789');
         $buyer->setPhone('+79099099999');
