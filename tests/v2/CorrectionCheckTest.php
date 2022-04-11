@@ -242,7 +242,8 @@ class CorrectionCheckTest extends TestCase
 
     public function testSetBuyer()
     {
-        $buyer = new Buyer('test@test.ru');
+        $buyer = new Buyer();
+        $buyer->setEmail('test@test.ru');
         $this->check->setBuyer($buyer);
 
         $this->assertEquals($this->check->asArray()['client']['email'], 'test@test.ru');
@@ -250,7 +251,8 @@ class CorrectionCheckTest extends TestCase
 
     public function testAddBuyerWithAllOptionalParams()
     {
-        $buyer = new Buyer('test@test.ru');
+        $buyer = new Buyer();
+        $buyer->setEmail('test@test.ru');
         $buyer->setName('name');
         $buyer->setINN('0123456789');
         $buyer->setPhone('+79099099999');

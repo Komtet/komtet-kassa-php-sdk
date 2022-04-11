@@ -57,13 +57,20 @@ class Buyer
     private $address;
 
     /**
+     *
+     * @return Buyer
+     */
+    public function __construct() {}
+
+    /**
      * @param string $email
      *
      * @return Buyer
      */
-    public function __construct($email)
+    public function setEmail($email)
     {
-        $this->email = $email;
+      $this->email = $email;
+      return $this;
     }
 
     /**
@@ -159,9 +166,11 @@ class Buyer
      */
     public function asArray()
     {
-        $buyer = [
-          'email' => $this->email
-        ];
+        $buyer = [];
+
+        if ($this->email) {
+          $buyer['email'] = $this->email;
+        }
 
         if ($this->name) {
           $buyer['name'] = $this->name;

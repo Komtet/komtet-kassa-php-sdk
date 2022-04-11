@@ -65,7 +65,8 @@ use PHPUnit\Framework\TestCase;
 
             $clientEmail = 'test@test.ru';
             $payment_address = 'Офис 3';
-            $this->buyer = new Buyer($clientEmail);
+            $this->buyer = new Buyer();
+            $this->buyer->setEmail($clientEmail);
             $this->company = new Company(TaxSystem::COMMON, $payment_address);
             $this->check = new Check('id1', Check::INTENT_SELL, $this->buyer, $this->company);
     
