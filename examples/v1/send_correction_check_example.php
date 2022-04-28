@@ -3,6 +3,7 @@ require __DIR__.'/../../autoload.php';
 
 use Komtet\KassaSdk\v1\AuthorisedPerson;
 use Komtet\KassaSdk\v1\AdditionalUserProps;
+use Komtet\KassaSdk\v1\Buyer;
 use Komtet\KassaSdk\v1\Cashier;
 use Komtet\KassaSdk\v1\Client;
 use Komtet\KassaSdk\v1\CorrectionCheck;
@@ -59,6 +60,10 @@ $correctionCheck->setCallbackUrl('https://test.ru/callback-url');
 // Дополнительный реквизит пользователя 
 $additional_user_props = new AdditionalUserProps('name', 'value');
 $correctionCheck->setAdditionalUserProps($additional_user_props);
+
+// Информация о покупателе
+$buyer = new Buyer('Пупкин П.П.', '123412341234');
+$check->addBuyer($buyer);
 
 // ПОЗИЦИИ ЧЕКА КОРРЕКЦИИ
 
