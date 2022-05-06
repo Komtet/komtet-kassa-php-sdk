@@ -57,6 +57,11 @@ class CorrectionCheck
     private $cashier;
 
     /**
+     * @var Buyer
+     */
+    private $buyer;
+
+    /**
      * @var string
      */
     private $paymentAddress;
@@ -183,6 +188,18 @@ class CorrectionCheck
     }
 
     /**
+     * @param Buyer $buyer
+     *
+     * @return Check
+     */
+    public function addBuyer(Buyer $buyer)
+    {
+        $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    /**
      * @param Cashier $cashier
      *
      * @return CorrectionCheck
@@ -262,6 +279,10 @@ class CorrectionCheck
             ),
             'correction' => $this->correction->asArray()
         ];
+
+        if ($this->buyer !== null) {
+            $result['client'] = $this->buyer->asArray();
+        }
 
         if ($this->shouldPrint !== null) {
             $result['print'] = $this->shouldPrint;

@@ -11,6 +11,7 @@ namespace KomtetTest\KassaSdk\v1;
 
 use Komtet\KassaSdk\v1\AdditionalUserProps;
 use Komtet\KassaSdk\v1\AuthorisedPerson;
+use Komtet\KassaSdk\v1\Buyer;
 use Komtet\KassaSdk\v1\Cashier;
 use Komtet\KassaSdk\v1\Correction;
 use Komtet\KassaSdk\v1\CorrectionCheck;
@@ -56,11 +57,15 @@ class CorrectionCheckTest extends TestCase
         $check->addPayment($payment);
         $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
         $check->setAuthorisedPerson($authorised_person);
+        $buyer = new Buyer('Пупкин П.П.', '123412341234');
+        $check->addBuyer($buyer);
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
+        $this->assertEquals($check->asArray()['client']['name'], 'Пупкин П.П.');
+        $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
     }
 
     public function testPutSellReturnCorrectionCheckSucceded()
@@ -77,11 +82,16 @@ class CorrectionCheckTest extends TestCase
         $check->addPayment($payment);
         $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
         $check->setAuthorisedPerson($authorised_person);
+        $buyer = new Buyer();
+        $buyer->setName('Пупкин П.П.');
+        $check->addBuyer($buyer);
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
+        $this->assertEquals($check->asArray()['client']['name'], 'Пупкин П.П.');
+        $this->assertArrayNotHasKey('inn', $check->asArray()['client']);
     }
 
     public function testPutBuyCorrectionCheckSucceded()
@@ -98,11 +108,16 @@ class CorrectionCheckTest extends TestCase
         $check->addPayment($payment);
         $authorised_person = new AuthorisedPerson('Иваров И.И.', '123456789012');
         $check->setAuthorisedPerson($authorised_person);
+        $buyer = new Buyer();
+        $buyer->setINN('123412341234');
+        $check->addBuyer($buyer);
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
+        $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
+        $this->assertArrayNotHasKey('name', $check->asArray()['client']);
     }
 
     public function testPutBuyReturnCorrectionCheckSucceded()
