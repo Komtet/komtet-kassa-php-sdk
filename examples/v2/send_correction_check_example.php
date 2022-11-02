@@ -42,15 +42,15 @@ $checkID = '12345';
 // E-Mail клиента, на который будет отправлен E-Mail с чеком.
 $clientEmail = 'test@test.ru';
 
-// Место расчетов 
+// Место расчетов
 $payment_address = 'Офис 3';
 
 // Данные коррекции
-$correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+$correction_info = new CorrectionInfo('self', '31.01.2021', '1');
 // createSelf для самостоятельной коррекции
-// $correction_info = correction_info::createSelf('31.01.2021', '1', 'Наименование документа основания для коррекции');
+// $correction_info = CorrectionInfo::createSelf('31.01.2021');
 // createInstruction для коррекции по предписанию
-// $correction_info = correction_info::createInstruction('31.01.2021', '1', 'Наименование документа основания для коррекции');
+// $correction_info = CorrectionInfo::createInstruction('31.01.2021', '1');
 
 // Информация о компании
 $company = new Company(TaxSystem::COMMON, $payment_address);
@@ -78,11 +78,11 @@ $buyer->setEmail($clientEmail); // Email
 // $buyer->setAddress('Город, Улица д.5'); // Адрес покупателя
 $correctionCheck->setBuyer($buyer);
 
-// Дополнительный реквизит пользователя 
+// Дополнительный реквизит пользователя
 $additional_user_props = new AdditionalUserProps('name', 'value');
 $correctionCheck->setAdditionalUserProps($additional_user_props);
 
-// Отраслевой реквезит чека 
+// Отраслевой реквезит чека
 $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
 $correctionCheck->setSectoralCheckProps($sectoral_check_props);
 
@@ -90,17 +90,17 @@ $correctionCheck->setSectoralCheckProps($sectoral_check_props);
 $sectoral_check_props2 = new SectoralCheckProps('002', '01.01.2020', '2', 'значение отраслевого реквизита2');
 $correctionCheck->setSectoralCheckProps($sectoral_check_props2);
 
-// Операционный реквизит пользователя 
+// Операционный реквизит пользователя
 $operating_check_props = new OperatingCheckProps('0', 'данные операции', '12.03.2020 16:55:25');
 $correctionCheck->setOperatingCheckProps($operating_check_props);
 
-// Дополнительный реквизит чека 
+// Дополнительный реквизит чека
 $correctionCheck->setAdditionalCheckProps('доп. реквизит чека');
 
 // Адрес для получения отчёта по чеку
 $correctionCheck->setCallbackUrl('https://test.ru/callback-url');
 
-// Добавление кассира 
+// Добавление кассира
 $cashier = new Cashier('Иванов И.П.', '012345678912');
 $correctionCheck->addCashier($cashier);
 
@@ -190,7 +190,7 @@ $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $
 // Задаём id позиции
 $position->setId('123456');
 
-// Агент по предмету расчета 
+// Агент по предмету расчета
 $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "502906602876");
 $position->setAgent($agent);
 

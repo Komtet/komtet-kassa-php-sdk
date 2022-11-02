@@ -48,7 +48,7 @@ class CorrectionCheckTest extends TestCase
 
         $payment_address = 'Офис 3';
         $this->company = new Company(TaxSystem::COMMON, $payment_address);
-        $correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+        $correction_info = new CorrectionInfo('self', '31.01.2021', '1');
         $this->check = CorrectionCheck::createSellCorrection('4815162342', $this->company, $correction_info);
 
         $vat = new Vat(Vat::RATE_20);
@@ -72,7 +72,7 @@ class CorrectionCheckTest extends TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $payment_address = 'Офис 3';
         $company = new Company(TaxSystem::COMMON, $payment_address);
-        $correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+        $correction_info = new CorrectionInfo('self', '31.01.2021', '1');
         $check = CorrectionCheck::createSellCorrection('4815162342', $company, $correction_info);
 
         $vat = new Vat(Vat::RATE_20);
@@ -89,14 +89,55 @@ class CorrectionCheckTest extends TestCase
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
-        $this->assertEquals($check->asArray()['company'], 
+        $this->assertEquals($check->asArray()['company'],
                             ['sno' => 0,
                             'payment_address' => 'Офис 3']);
-        $this->assertEquals($check->asArray()['correction_info'], 
+        $this->assertEquals($check->asArray()['correction_info'],
                             ['type' => 'self',
                             'base_date' => '31.01.2021',
-                            'base_number' => '1',
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_number' => '1']);
+        $this->assertEquals($position->asArray(),
+                            ['name' => 'name',
+                            'price' => 100,
+                            'quantity' => 1,
+                            'total' => 100,
+                            'vat' => Vat::RATE_20,
+                            'measure' => Measure::MILLILITER,
+                            'payment_method' => PaymentMethod::PRE_PAYMENT_FULL,
+                            'payment_object' => PaymentObject::PROPERTY_RIGHT,'sectoral_item_props' => []
+                            ]
+                        );
+
+    }
+
+    public function testSellCorrectionWithoutBaseNumberCheckSucceded()
+    {
+        $this->qm->registerQueue('my-queue', 'queue-id');
+        $payment_address = 'Офис 15';
+        $company = new Company(TaxSystem::COMMON, $payment_address);
+        $correction_info = new CorrectionInfo('self', '01.01.2021');
+        $check = CorrectionCheck::createSellCorrection('4815162342', $company, $correction_info);
+
+        $vat = new Vat(Vat::RATE_20);
+        $measure = Measure::MILLILITER;
+        $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
+        $payment_object = PaymentObject::PROPERTY_RIGHT;
+        $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $payment_object);
+        $payment = new Payment(Payment::TYPE_CARD, 100);
+        $check->addPosition($position);
+        $check->addPayment($payment);
+        $data = $check->asArray();
+        $path = 'api/shop/v2/queues/queue-id/task';
+        $rep = ['key' => 'val'];
+        $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
+
+        $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
+        $this->assertEquals($check->asArray()['company'],
+                            ['sno' => 0,
+                            'payment_address' => 'Офис 15']);
+        $this->assertEquals($check->asArray()['correction_info'],
+                            ['type' => 'self',
+                            'base_date' => '01.01.2021']);
         $this->assertEquals($position->asArray(),
                             ['name' => 'name',
                             'price' => 100,
@@ -116,7 +157,7 @@ class CorrectionCheckTest extends TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $payment_address = 'Офис 3';
         $company = new Company(TaxSystem::COMMON, $payment_address);
-        $correction_info = new CorrectionInfo('instruction', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+        $correction_info = new CorrectionInfo('instruction', '31.01.2021', '1');
         $check = CorrectionCheck::createSellReturnCorrection('4815162342', $company, $correction_info);
 
         $vat = new Vat(Vat::RATE_20);
@@ -133,14 +174,13 @@ class CorrectionCheckTest extends TestCase
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
-        $this->assertEquals($check->asArray()['company'], 
+        $this->assertEquals($check->asArray()['company'],
                             ['sno' => 0,
                             'payment_address' => 'Офис 3']);
-        $this->assertEquals($check->asArray()['correction_info'], 
+        $this->assertEquals($check->asArray()['correction_info'],
                             ['type' => 'instruction',
                             'base_date' => '31.01.2021',
-                            'base_number' => '1',
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_number' => '1']);
         $this->assertEquals($position->asArray(),
                             ['name' => 'name',
                             'price' => 100,
@@ -159,7 +199,7 @@ class CorrectionCheckTest extends TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $payment_address = 'Офис 3';
         $company = new Company(TaxSystem::COMMON, $payment_address);
-        $correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+        $correction_info = new CorrectionInfo('self', '31.01.2021', '1');
         $check = CorrectionCheck::createBuyCorrection('4815162342', $company, $correction_info);
 
         $vat = new Vat(Vat::RATE_20);
@@ -176,14 +216,13 @@ class CorrectionCheckTest extends TestCase
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
-        $this->assertEquals($check->asArray()['company'], 
+        $this->assertEquals($check->asArray()['company'],
                             ['sno' => 0,
                             'payment_address' => 'Офис 3']);
-        $this->assertEquals($check->asArray()['correction_info'], 
+        $this->assertEquals($check->asArray()['correction_info'],
                             ['type' => 'self',
                             'base_date' => '31.01.2021',
-                            'base_number' => '1',
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_number' => '1']);
         $this->assertEquals($position->asArray(),
                             ['name' => 'name',
                             'price' => 100,
@@ -202,7 +241,7 @@ class CorrectionCheckTest extends TestCase
         $this->qm->registerQueue('my-queue', 'queue-id');
         $payment_address = 'Офис 3';
         $company = new Company(TaxSystem::COMMON, $payment_address);
-        $correction_info = new CorrectionInfo('instruction', '31.01.2021', '1', 'Наименование документа основания для коррекции');
+        $correction_info = new CorrectionInfo('instruction', '31.01.2021', '1');
         $check = CorrectionCheck::createBuyReturnCorrection('4815162342', $company, $correction_info);
 
         $vat = new Vat(Vat::RATE_20);
@@ -219,14 +258,13 @@ class CorrectionCheckTest extends TestCase
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
 
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
-        $this->assertEquals($check->asArray()['company'], 
+        $this->assertEquals($check->asArray()['company'],
                             ['sno' => 0,
                             'payment_address' => 'Офис 3']);
-        $this->assertEquals($check->asArray()['correction_info'], 
+        $this->assertEquals($check->asArray()['correction_info'],
                             ['type' => 'instruction',
                             'base_date' => '31.01.2021',
-                            'base_number' => '1',
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_number' => '1']);
         $this->assertEquals($position->asArray(),
                             ['name' => 'name',
                             'price' => 100,
@@ -263,7 +301,7 @@ class CorrectionCheckTest extends TestCase
         $buyer->setAddress('ул. Московская');
         $this->check->setBuyer($buyer);
 
-        $this->assertEquals($this->check->asArray()['client'], 
+        $this->assertEquals($this->check->asArray()['client'],
                             ['email' => 'test@test.ru',
                             'name' => 'name',
                             'inn' => '0123456789',
