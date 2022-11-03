@@ -45,12 +45,10 @@ $clientEmail = 'test@test.ru';
 // Место расчетов
 $payment_address = 'Офис 3';
 
-// Данные коррекции
-$correction_info = new CorrectionInfo('self', '31.01.2021', '1');
-// createSelf для самостоятельной коррекции
-// $correction_info = CorrectionInfo::createSelf('31.01.2021');
-// createInstruction для коррекции по предписанию
-// $correction_info = CorrectionInfo::createInstruction('31.01.2021', '1');
+// Данные коррекции с опциональным параметром base_number(номером документа коррекции)
+$correction_info = new CorrectionInfo(CorrectionInfo::TYPE_SELF, '31.01.2021', '1');
+// Данные коррекции без опционального параметра base_number(номером документа коррекции)
+// $correction_info = new CorrectionInfo(CorrectionInfo::TYPE_INSTRUCTION, '31.01.2021');
 
 // Информация о компании
 $company = new Company(TaxSystem::COMMON, $payment_address);
