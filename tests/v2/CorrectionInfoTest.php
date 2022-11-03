@@ -16,32 +16,28 @@ class CorrectionInfoTest extends TestCase
 {
     public function testCorrectionInfo()
     {
-        $correction_info = new CorrectionInfo('self', '31.01.2021', '1', 'Наименование документа основания для коррекции');
-        $this->assertEquals($correction_info->asArray(), 
-                            ['type' => 'self', 
+        $correction_info = new CorrectionInfo('self', '31.01.2021', '1');
+        $this->assertEquals($correction_info->asArray(),
+                            ['type' => 'self',
                             'base_date' => '31.01.2021',
-                            'base_number' => '1', 
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_number' => '1']);
     }
 
     public function testCreateSelf()
     {
-        $correction_info = CorrectionInfo::createSelf('31.01.2021', '1', 'Наименование документа основания для коррекции');
-        $this->assertEquals($correction_info->asArray(), 
+        $correction_info = CorrectionInfo::createSelf('31.01.2021');
+        $this->assertEquals($correction_info->asArray(),
                             ['type' => 'self',
-                            'base_date' => '31.01.2021',
-                            'base_number' => '1', 
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_date' => '31.01.2021']);
     }
 
     public function testCreateInstruction()
     {
-        $correction_info = CorrectionInfo::createInstruction('31.01.2021', '1', 'Наименование документа основания для коррекции');
-        $this->assertEquals($correction_info->asArray(), 
+        $correction_info = CorrectionInfo::createInstruction('31.01.2021', '1');
+        $this->assertEquals($correction_info->asArray(),
                             ['type' => 'instruction',
                             'base_date' => '31.01.2021',
-                            'base_number' => '1', 
-                            'base_name' => 'Наименование документа основания для коррекции']);
+                            'base_number' => '1']);
     }
 
 }
