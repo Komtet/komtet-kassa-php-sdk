@@ -1,4 +1,4 @@
-FROM php:5.4-cli as php5
+FROM php:5.6-cli as php5
 WORKDIR /home/php_sdk
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
