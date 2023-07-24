@@ -34,11 +34,12 @@ class OrderTest extends TestCase
         $this->order = new Order('123', 'new', false);
 
         $this->order->setOrderBuyer(new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
-            'client@email.com'));
+            'client@email.com'
+        ));
 
         $this->order->setCompany(new OrderCompany(
             TaxSystem::COMMON,
@@ -47,22 +48,25 @@ class OrderTest extends TestCase
             '502906602876'
         ));
 
-        $this->order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $this->order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
 
-        $orderPosition = new OrderPosition(['order_item_id' => '1',
-                                            'name' => 'position name1',
-                                            'price' => 555.0,
-                                            'quantity' => 1,
-                                            'total' => 555.0,
-                                            'type' => 'service',
-                                            'vat' => '20',
-                                            'measure' => 0,
-                                            'excise' => 5,
-                                            'country_code' => '6',
-                                            'declaration_number' => '7',
-                                            'user_data' => 'доп. реквизит',
-                                            'is_need_mark_code' => false,
+        $orderPosition = new OrderPosition([
+            'order_item_id' => '1',
+            'name' => 'position name1',
+            'price' => 555.0,
+            'quantity' => 1,
+            'total' => 555.0,
+            'type' => 'service',
+            'vat' => '20',
+            'measure' => 0,
+            'excise' => 5,
+            'country_code' => '6',
+            'declaration_number' => '7',
+            'user_data' => 'доп. реквизит',
+            'is_need_mark_code' => false,
         ]);
         $this->order->addPosition($orderPosition);
     }
@@ -72,11 +76,12 @@ class OrderTest extends TestCase
         $order = new Order('123', 'new', false, 200, Payment::TYPE_CASH);
 
         $order->setOrderBuyer(new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
-            'client@email.com'));
+            'client@email.com'
+        ));
 
         $order->setCompany(new OrderCompany(
             TaxSystem::COMMON,
@@ -88,7 +93,8 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['external_id'], '123');
         $this->assertEquals($order->asArray()['state'], 'new');
         $this->assertEquals($order->asArray()['is_pay_to_courier'], false);
-        $this->assertEquals($order->asArray()['prepayment'], 200);        $this->assertEquals($order->asArray()['payment_type'], Payment::TYPE_CASH);
+        $this->assertEquals($order->asArray()['prepayment'], 200);
+        $this->assertEquals($order->asArray()['payment_type'], Payment::TYPE_CASH);
 
         $this->assertEquals($order->asArray()['client']['phone'], '+87654443322');
         $this->assertEquals($order->asArray()['client']['address'], 'г.Пенза, ул.Суворова д.10 кв.25');
@@ -101,27 +107,30 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['company']['place_address'], 'г. Москва');
         $this->assertEquals($order->asArray()['company']['inn'], '502906602876');
 
-        $order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
         $this->assertEquals($order->asArray()['date_start'], '20.02.2022 14:00');
         $this->assertEquals($order->asArray()['date_end'], '20.02.2022 15:20');
 
         $order->setDescription('Комментарий к заказу');
         $this->assertEquals($order->asArray()['description'], 'Комментарий к заказу');
 
-        $orderPosition = new OrderPosition(['order_item_id' => '1',
-                                            'name' => 'position name1',
-                                            'price' => 555.0,
-                                            'quantity' => 1,
-                                            'total' => 555.0,
-                                            'type' => 'service',
-                                            'vat' => '20',
-                                            'measure' => 0,
-                                            'excise' => 5,
-                                            'country_code' => '6',
-                                            'declaration_number' => '7',
-                                            'user_data' => 'доп. реквизит',
-                                            'is_need_mark_code' => false,
+        $orderPosition = new OrderPosition([
+            'order_item_id' => '1',
+            'name' => 'position name1',
+            'price' => 555.0,
+            'quantity' => 1,
+            'total' => 555.0,
+            'type' => 'product_practical',
+            'vat' => '20',
+            'measure' => 0,
+            'excise' => 5,
+            'country_code' => '6',
+            'declaration_number' => '7',
+            'user_data' => 'доп. реквизит',
+            'is_need_mark_code' => false,
         ]);
 
         $order->addPosition($orderPosition);
@@ -130,7 +139,7 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['items'][0]['price'], 555.0);
         $this->assertEquals($order->asArray()['items'][0]['quantity'], 1);
         $this->assertEquals($order->asArray()['items'][0]['total'], 555.0);
-        $this->assertEquals($order->asArray()['items'][0]['type'], 'service');
+        $this->assertEquals($order->asArray()['items'][0]['type'], 'product_practical');
         $this->assertEquals($order->asArray()['items'][0]['vat'], Vat::RATE_20);
         $this->assertEquals($order->asArray()['items'][0]['measure'], 0);
         $this->assertEquals($order->asArray()['items'][0]['excise'], 5);
@@ -185,23 +194,30 @@ class OrderTest extends TestCase
         );
         $this->assertEquals(
             $order->asArray()['items'][2]['mark_quantity'],
-            ['numerator' => 3,
-            'denominator' => 4]
+            [
+                'numerator' => 3,
+                'denominator' => 4
+            ]
         );
         $this->assertEquals($order->asArray()['items'][2]['is_need_mark_code'], false);
         $this->assertEquals(
             $order->asArray()['items'][2]['sectoral_item_props'],
-                             [0 => 
-                             ['federal_id' => '001',
-                             'date' => '25.10.2020',
-                             'number' => '1',
-                             'value' => 'значение отраслевого реквизита'],
-                             1 => 
-                             ['federal_id' => '002',
-                             'date' => '25.10.2020',
-                             'number' => '1',
-                             'value' => 'значение отраслевого реквизита'
-                             ]]
+            [
+                0 =>
+                [
+                    'federal_id' => '001',
+                    'date' => '25.10.2020',
+                    'number' => '1',
+                    'value' => 'значение отраслевого реквизита'
+                ],
+                1 =>
+                [
+                    'federal_id' => '002',
+                    'date' => '25.10.2020',
+                    'number' => '1',
+                    'value' => 'значение отраслевого реквизита'
+                ]
+            ]
         );
     }
 
@@ -228,19 +244,25 @@ class OrderTest extends TestCase
     {
         $additional_user_props = new AdditionalUserProps('order_name_props', 'order_value_props');
         $this->order->setAdditionalUserProps($additional_user_props);
-        $this->assertEquals($this->order->asArray()['additional_user_props'],
-                            ['name' => 'order_name_props', 'value' => 'order_value_props']);
+        $this->assertEquals(
+            $this->order->asArray()['additional_user_props'],
+            ['name' => 'order_name_props', 'value' => 'order_value_props']
+        );
     }
 
     public function testSetOneSectoralCheckProps()
     {
         $sectoral_check_props = new SectoralCheckProps('0015', '25.10.2020', '1', 'значение отраслевого реквизита');
         $this->order->setSectoralCheckProps($sectoral_check_props);
-        $this->assertEquals($this->order->asArray()['sectoral_check_props'][0],
-                            ['federal_id' => '0015',
-                            'date' => '25.10.2020',
-                            'number' => '1',
-                            'value' => 'значение отраслевого реквизита']);
+        $this->assertEquals(
+            $this->order->asArray()['sectoral_check_props'][0],
+            [
+                'federal_id' => '0015',
+                'date' => '25.10.2020',
+                'number' => '1',
+                'value' => 'значение отраслевого реквизита'
+            ]
+        );
     }
 
     public function testSetTwoSectoralCheckProps()
@@ -249,26 +271,38 @@ class OrderTest extends TestCase
         $sectoral_check_props1 = new SectoralCheckProps('002', '26.10.2020', '2', 'значение отраслевого реквизита2');
         $this->order->setSectoralCheckProps($sectoral_check_props);
         $this->order->setSectoralCheckProps($sectoral_check_props1);
-        $this->assertEquals($this->order->asArray()['sectoral_check_props'][0],
-                            ['federal_id' => '001',
-                            'date' => '25.10.2020',
-                            'number' => '1',
-                            'value' => 'значение отраслевого реквизита']);
-        $this->assertEquals($this->order->asArray()['sectoral_check_props'][1],
-                            ['federal_id' => '002',
-                            'date' => '26.10.2020',
-                            'number' => '2',
-                            'value' => 'значение отраслевого реквизита2']);
+        $this->assertEquals(
+            $this->order->asArray()['sectoral_check_props'][0],
+            [
+                'federal_id' => '001',
+                'date' => '25.10.2020',
+                'number' => '1',
+                'value' => 'значение отраслевого реквизита'
+            ]
+        );
+        $this->assertEquals(
+            $this->order->asArray()['sectoral_check_props'][1],
+            [
+                'federal_id' => '002',
+                'date' => '26.10.2020',
+                'number' => '2',
+                'value' => 'значение отраслевого реквизита2'
+            ]
+        );
     }
 
     public function testsetOperatingCheckProps()
     {
         $operating_check_props = new OperatingCheckProps('1', 'данные операции', '12.04.2020 16:55:25');
         $this->order->setOperatingCheckProps($operating_check_props);
-        $this->assertEquals($this->order->asArray()['operating_check_props'],
-                            ['name' => '1',
-                            'value' => 'данные операции',
-                            'timestamp' => '12.04.2020 16:55:25']);
+        $this->assertEquals(
+            $this->order->asArray()['operating_check_props'],
+            [
+                'name' => '1',
+                'value' => 'данные операции',
+                'timestamp' => '12.04.2020 16:55:25'
+            ]
+        );
     }
 
     public function testOrderApplyDiscount()
@@ -276,11 +310,12 @@ class OrderTest extends TestCase
         $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $order->setOrderBuyer(new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
-            'client@email.com'));
+            'client@email.com'
+        ));
 
         $order->setCompany(new OrderCompany(
             TaxSystem::COMMON,
@@ -289,8 +324,10 @@ class OrderTest extends TestCase
             '502906602876'
         ));
 
-        $order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
 
         $position1 = new OrderPosition([
             'order_item_id' => '1',
@@ -342,11 +379,12 @@ class OrderTest extends TestCase
         $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $order->setOrderBuyer(new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
-            'client@email.com'));
+            'client@email.com'
+        ));
 
         $order->setCompany(new OrderCompany(
             TaxSystem::COMMON,
@@ -355,8 +393,10 @@ class OrderTest extends TestCase
             '502906602876'
         ));
 
-        $order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
 
         $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "12345678901");
 
@@ -413,11 +453,12 @@ class OrderTest extends TestCase
         $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $order->setOrderBuyer(new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
-            'client@email.com'));
+            'client@email.com'
+        ));
 
         $order->setCompany(new OrderCompany(
             TaxSystem::COMMON,
@@ -426,8 +467,10 @@ class OrderTest extends TestCase
             '502906602876'
         ));
 
-        $order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
 
         $position = new OrderPosition([
             'order_item_id' => '1',
@@ -459,11 +502,12 @@ class OrderTest extends TestCase
         $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $orderBuyer = new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
-            'client@email.com');
+            'client@email.com'
+        );
         $orderBuyer->setCoordinate('53.202838856701206', '44.99768890421866');
         $order->setOrderBuyer($orderBuyer);
 
@@ -472,8 +516,10 @@ class OrderTest extends TestCase
             'Улица Московская д.4'
         ));
 
-        $order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
 
         $position = new OrderPosition([
             'order_item_id' => '1',
@@ -493,10 +539,12 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['client']['email'], 'client@email.com');
 
         $this->assertEquals(
-            $order->asArray()['client']['coordinate']['longitude'], '53.202838856701206'
+            $order->asArray()['client']['coordinate']['longitude'],
+            '53.202838856701206'
         );
         $this->assertEquals(
-            $order->asArray()['client']['coordinate']['latitude'], '44.99768890421866'
+            $order->asArray()['client']['coordinate']['latitude'],
+            '44.99768890421866'
         );
     }
 
@@ -505,13 +553,16 @@ class OrderTest extends TestCase
         $order = new Order('123', 0, 'new', false, 200, Payment::TYPE_CASH);
 
         $orderBuyer = new OrderBuyer(
-            '+87654443322', 
+            '+87654443322',
             'г.Пенза, ул.Суворова д.10 кв.25',
             'Сергеев Виктор Сергеевич',
             '502906602876',
             'client@email.com',
-            $coordinate = array('longitude' => '53.202838856701206',
-                                'latitude' => '44.99768890421866'));
+            $coordinate = array(
+                'longitude' => '53.202838856701206',
+                'latitude' => '44.99768890421866'
+            )
+        );
         $order->setOrderBuyer($orderBuyer);
 
         $order->setCompany(new OrderCompany(
@@ -519,8 +570,10 @@ class OrderTest extends TestCase
             'Улица Московская д.4'
         ));
 
-        $order->setDeliveryTime('20.02.2022 14:00',
-        '20.02.2022 15:20');
+        $order->setDeliveryTime(
+            '20.02.2022 14:00',
+            '20.02.2022 15:20'
+        );
 
         $position = new OrderPosition([
             'order_item_id' => '1',
@@ -539,10 +592,12 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['client']['inn'], '502906602876');
         $this->assertEquals($order->asArray()['client']['email'], 'client@email.com');
         $this->assertEquals(
-            $order->asArray()['client']['coordinate']['longitude'], '53.202838856701206'
+            $order->asArray()['client']['coordinate']['longitude'],
+            '53.202838856701206'
         );
         $this->assertEquals(
-            $order->asArray()['client']['coordinate']['latitude'], '44.99768890421866'
+            $order->asArray()['client']['coordinate']['latitude'],
+            '44.99768890421866'
         );
     }
 }
