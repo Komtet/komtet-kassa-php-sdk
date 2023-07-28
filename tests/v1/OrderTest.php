@@ -26,7 +26,8 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['sno'], 0);
         $this->assertEquals($order->asArray()['state'], 'new');
         $this->assertEquals($order->asArray()['is_paid'], false);
-        $this->assertEquals($order->asArray()['prepayment'], 200);        $this->assertEquals($order->asArray()['payment_type'], Payment::TYPE_CASH);
+        $this->assertEquals($order->asArray()['prepayment'], 200);
+        $this->assertEquals($order->asArray()['payment_type'], Payment::TYPE_CASH);
 
         $order->setClient(
             'г.Пенза, ул.Суворова д.10 кв.25',
@@ -54,7 +55,7 @@ class OrderTest extends TestCase
             'oid' => '1',
             'name' => 'position name1',
             'price' => 555.0,
-            'type' => 'product'
+            'type' => 'product_practical'
         ]);
 
         $order->addPosition($orderPosition);
@@ -62,12 +63,13 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['items'][0]['name'], 'position name1');
         $this->assertEquals($order->asArray()['items'][0]['vat'], Vat::RATE_NO);
         $this->assertEquals($order->asArray()['items'][0]['total'], 555.0);
+        $this->assertEquals($order->asArray()['items'][0]['type'], 'product_practical');
 
         $orderPosition = new OrderPosition([
             'oid' => '2',
             'name' => 'position name2',
             'price' => 100.0,
-            'type' => 'product',
+            'type' => 'service',
             'quantity' => 5,
             'vat' => Vat::RATE_10,
             'measure_name' => 'kg'
@@ -79,6 +81,7 @@ class OrderTest extends TestCase
         $this->assertEquals($order->asArray()['items'][1]['vat'], Vat::RATE_10);
         $this->assertEquals($order->asArray()['items'][1]['total'], 500.0);
         $this->assertEquals($order->asArray()['items'][1]['measure_name'], 'kg');
+        $this->assertEquals($order->asArray()['items'][1]['type'], 'service');
 
         $order->setCourierId(1);
         $this->assertEquals($order->asArray()['courier_id'], 1);
@@ -268,18 +271,22 @@ class OrderTest extends TestCase
             '+79273784183',
             'client@email.com',
             'Иванов Иван Петрович',
-            $coordinate = array('latitude' => '53.202838856701206',
-                                'longitude' => '44.99768890421866')
+            $coordinate = array(
+                'latitude' => '53.202838856701206',
+                'longitude' => '44.99768890421866'
+            )
         );
 
         $this->assertEquals($order->asArray()['client_name'], 'Иванов Иван Петрович');
         $this->assertEquals($order->asArray()['client_email'], 'client@email.com');
 
         $this->assertEquals(
-            $order->asArray()['client_coordinate']['latitude'], '53.202838856701206'
+            $order->asArray()['client_coordinate']['latitude'],
+            '53.202838856701206'
         );
         $this->assertEquals(
-            $order->asArray()['client_coordinate']['longitude'], '44.99768890421866'
+            $order->asArray()['client_coordinate']['longitude'],
+            '44.99768890421866'
         );
     }
 }
