@@ -42,6 +42,11 @@ class Check
     private $paymentAddress;
 
     /**
+     * @var string
+     */
+    private $placeAddress;
+
+    /**
      * @var bool
      */
     private $shouldPrint = false;
@@ -87,16 +92,18 @@ class Check
      * @param string $intent Check::INTENT_SELL, Check::INTENT_SELL_RETURN, Check::INTENT_BUY, or Check::INTENT_BUY_RETURN
      * @param int    $taxSystem See Check::TS_*
      * @param string $paymentAddress
+     * @param string $placeAddress
      *
      * @return Check
      */
-    public function __construct($id, $userContact, $intent, $taxSystem, $paymentAddress=null)
+    public function __construct($id, $userContact, $intent, $taxSystem, $paymentAddress=null, $placeAddress=null)
     {
         $this->id = $id;
         $this->userContact = $userContact;
         $this->intent = $intent;
         $this->taxSystem = $taxSystem;
         $this->paymentAddress = $paymentAddress;
+        $this->$placeAddress = $placeAddress
     }
 
     /**
@@ -104,12 +111,13 @@ class Check
      * @param string $userContact
      * @param int    $taxSystem
      * @param string $paymentAddress
+     * @param string $placeAddress
      *
      * @return Check
      */
-    public static function createSell($id, $userContact, $taxSystem, $paymentAddress=null)
+    public static function createSell($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
     {
-        return new static($id, $userContact, static::INTENT_SELL, $taxSystem, $paymentAddress);
+        return new static($id, $userContact, static::INTENT_SELL, $taxSystem, $paymentAddress, $placeAddress);
     }
 
     /**
@@ -117,13 +125,14 @@ class Check
      * @param string $userContact
      * @param int    $taxSystem
      * @param string $paymentAddress
+     * @param string $placeAddress
      *
      * @return Check
      */
-    public static function createSellReturn($id, $userContact, $taxSystem, $paymentAddress=null)
+    public static function createSellReturn($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
     {
         return new static($id, $userContact, static::INTENT_SELL_RETURN, $taxSystem,
-                          $paymentAddress);
+                          $paymentAddress, $placeAddress);
     }
 
     /**
@@ -131,12 +140,13 @@ class Check
      * @param string $userContact
      * @param int    $taxSystem
      * @param string $paymentAddress
+     * @param string $placeAddress
      *
      * @return Check
      */
-    public static function createBuy($id, $userContact, $taxSystem, $paymentAddress=null)
+    public static function createBuy($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
     {
-        return new static($id, $userContact, static::INTENT_BUY, $taxSystem, $paymentAddress);
+        return new static($id, $userContact, static::INTENT_BUY, $taxSystem, $paymentAddress, $placeAddress);
     }
 
     /**
@@ -144,13 +154,14 @@ class Check
      * @param string $userContact
      * @param int    $taxSystem
      * @param string $paymentAddress
+     * @param string $placeAddress
      *
      * @return Check
      */
-    public static function createBuyReturn($id, $userContact, $taxSystem, $paymentAddress=null)
+    public static function createBuyReturn($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
     {
         return new static($id, $userContact, static::INTENT_BUY_RETURN, $taxSystem,
-                          $paymentAddress);
+                          $paymentAddress, $placeAddress);
     }
 
     /**
@@ -336,6 +347,10 @@ class Check
 
         if ($this->paymentAddress !== null) {
             $result['payment_address'] = $this->paymentAddress;
+        }
+
+        if ($this->$placeAddress !== null) {
+            $result['place_address'] = $this->$placeAddress;
         }
 
         if ($this->additionalCheckProps !== null) {
