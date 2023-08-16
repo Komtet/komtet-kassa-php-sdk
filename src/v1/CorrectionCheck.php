@@ -69,6 +69,11 @@ class CorrectionCheck
     /**
      * @var string
      */
+    private $placeAddress;
+
+    /**
+     * @var string
+     */
     private $additionalCheckProps;
 
     /**
@@ -94,13 +99,14 @@ class CorrectionCheck
      *
      * @return CorrectionCheck
      */
-    public function __construct($id, $intent, $taxSystem, Correction $correction, $paymentAddress=null)
+    public function __construct($id, $intent, $taxSystem, Correction $correction, $paymentAddress=null, $placeAddress=null)
     {
         $this->id = $id;
         $this->intent = $intent;
         $this->taxSystem = $taxSystem;
         $this->correction = $correction;
         $this->paymentAddress = $paymentAddress;
+        $this->placeAddress = $placeAddress;
     }
 
     /**
@@ -298,6 +304,10 @@ class CorrectionCheck
 
         if ($this->paymentAddress !== null) {
             $result['payment_address'] = $this->paymentAddress;
+        }
+
+        if ($this->placeAddress !== null) {
+            $result['place_address'] = $this->placeAddress;
         }
 
         if ($this->additionalCheckProps !== null) {
