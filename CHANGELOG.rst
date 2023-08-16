@@ -3,6 +3,7 @@ Changelog
 
 Unreleased
 ----------
+- Поддержка place_address
 
 9.1.2 (25.07.2023)
 -------------------
