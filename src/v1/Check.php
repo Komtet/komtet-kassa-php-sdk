@@ -96,14 +96,14 @@ class Check
      *
      * @return Check
      */
-    public function __construct($id, $userContact, $intent, $taxSystem, $paymentAddress=null, $placeAddress=null)
+    public function __construct($id, $userContact, $intent, $taxSystem, $paymentAddress = null, $placeAddress = null)
     {
         $this->id = $id;
         $this->userContact = $userContact;
         $this->intent = $intent;
         $this->taxSystem = $taxSystem;
         $this->paymentAddress = $paymentAddress;
-        $this->$placeAddress = $placeAddress
+        $this->placeAddress = $placeAddress;
     }
 
     /**
@@ -115,7 +115,7 @@ class Check
      *
      * @return Check
      */
-    public static function createSell($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
+    public static function createSell($id, $userContact, $taxSystem, $paymentAddress = null, $placeAddress = null)
     {
         return new static($id, $userContact, static::INTENT_SELL, $taxSystem, $paymentAddress, $placeAddress);
     }
@@ -129,10 +129,16 @@ class Check
      *
      * @return Check
      */
-    public static function createSellReturn($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
+    public static function createSellReturn($id, $userContact, $taxSystem, $paymentAddress = null, $placeAddress = null)
     {
-        return new static($id, $userContact, static::INTENT_SELL_RETURN, $taxSystem,
-                          $paymentAddress, $placeAddress);
+        return new static(
+            $id,
+            $userContact,
+            static::INTENT_SELL_RETURN,
+            $taxSystem,
+            $paymentAddress,
+            $placeAddress
+        );
     }
 
     /**
@@ -144,7 +150,7 @@ class Check
      *
      * @return Check
      */
-    public static function createBuy($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
+    public static function createBuy($id, $userContact, $taxSystem, $paymentAddress = null, $placeAddress = null)
     {
         return new static($id, $userContact, static::INTENT_BUY, $taxSystem, $paymentAddress, $placeAddress);
     }
@@ -158,10 +164,16 @@ class Check
      *
      * @return Check
      */
-    public static function createBuyReturn($id, $userContact, $taxSystem, $paymentAddress=null, $placeAddress=null)
+    public static function createBuyReturn($id, $userContact, $taxSystem, $paymentAddress = null, $placeAddress = null)
     {
-        return new static($id, $userContact, static::INTENT_BUY_RETURN, $taxSystem,
-                          $paymentAddress, $placeAddress);
+        return new static(
+            $id,
+            $userContact,
+            static::INTENT_BUY_RETURN,
+            $taxSystem,
+            $paymentAddress,
+            $placeAddress
+        );
     }
 
     /**
@@ -254,8 +266,7 @@ class Check
     public function getTotalPositionsSum()
     {
         $positionsTotal = 0;
-        foreach( $this->positions as $position )
-        {
+        foreach ($this->positions as $position) {
             $positionsTotal += $position->getTotal();
         }
 
@@ -286,14 +297,12 @@ class Check
         $positionsCount = count($checkPositions);
         $accumulatedDiscount = 0;
 
-        foreach( $checkPositions as $index => $position )
-        {
-            if ($index < $positionsCount-1) {
+        foreach ($checkPositions as $index => $position) {
+            if ($index < $positionsCount - 1) {
                 $positionPricePercent = $position->getTotal() / $positionsTotal * 100;
                 $curPositionDiscount = round($checkDiscount * $positionPricePercent / 100, 2);
                 $accumulatedDiscount += $curPositionDiscount;
-            }
-            else {
+            } else {
                 $curPositionDiscount = round($checkDiscount - $accumulatedDiscount, 2);
             }
 
@@ -349,8 +358,8 @@ class Check
             $result['payment_address'] = $this->paymentAddress;
         }
 
-        if ($this->$placeAddress !== null) {
-            $result['place_address'] = $this->$placeAddress;
+        if ($this->placeAddress !== null) {
+            $result['place_address'] = $this->placeAddress;
         }
 
         if ($this->additionalCheckProps !== null) {

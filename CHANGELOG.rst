@@ -3,6 +3,7 @@ Changelog
 
 Unreleased
 ----------
+- Правка обработки place_address
 - Поддержка place_address
 
 9.1.2 (25.07.2023)
