@@ -47,7 +47,7 @@ $payment_address = 'Офис 3';
 $buyer = new Buyer();
 $buyer->setEmail($clientEmail); // Email
 $buyer->setName('Иванов А.А.'); // Покупатель
-$buyer->setPhone('79099099999'); // Телефон
+$buyer->setPhone('+79099099999'); // Телефон
 $buyer->setBirthdate('20.10.2000'); // Дата рождения покупателя
 $buyer->setCitizenship('123'); // Числовой код страны, гражданином которой является покупатель
 $buyer->setDocumentCode('12'); // Числовой код вида документа, удостоверяющего личность

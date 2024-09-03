@@ -27,7 +27,7 @@ class CorrectionCheckTest extends TestCase
     private $client;
     private $qm;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this
             ->getMockBuilder('\Komtet\KassaSdk\v1\Client')

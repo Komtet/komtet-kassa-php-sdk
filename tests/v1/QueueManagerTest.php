@@ -27,7 +27,7 @@ class QueueManagerTest extends TestCase
     private $client;
     private $qm;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this
             ->getMockBuilder('\Komtet\KassaSdk\v1\Client')
@@ -42,11 +42,9 @@ class QueueManagerTest extends TestCase
         $this->assertTrue($this->qm->registerQueue('my-queue', 'queue-id')->hasQueue('my-queue'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetDefaultQueueFailedWithUnregisteredQueue()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->qm->setDefaultQueue('my-queue');
     }
 
@@ -56,11 +54,9 @@ class QueueManagerTest extends TestCase
         $this->assertEquals($qm, $this->qm);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testIsQueueActiveFailedWithUnregisteredQueue()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->qm->isQueueActive('my-queue');
     }
 
@@ -97,22 +93,20 @@ class QueueManagerTest extends TestCase
         $this->assertFalse($this->qm->isQueueActive('my-queue'));
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Default queue is not set
-     */
     public function testPutCheckFailedWithoutDefaultQueue()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Default queue is not set');
+
         $check = $this->getMockBuilder('\Komtet\KassaSdk\v1\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown queue "my-queue"
-     */
     public function testPutCheckFailedWithUnregisteredQueue()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown queue "my-queue"');
+
         $check = $this->getMockBuilder('\Komtet\KassaSdk\v1\Check')->disableOriginalConstructor()->getMock();
         $this->qm->putCheck($check, 'my-queue');
     }

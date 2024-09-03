@@ -139,8 +139,8 @@ class OrderTest extends TestCase
         $orderPosition->setNomenclatureCode(NULL);
 
         $order->addPosition($orderPosition);
-        $this->assertEquals($order->asArray()['items'][4]['nomenclature_code'], NULL);
-        $this->assertEquals($order->asArray()['items'][4]['is_need_nomenclature_code'], true);
+        $this->assertArrayNotHasKey('nomenclature_code', $order->asArray()['items'][4]);
+        $this->assertTrue($order->asArray()['items'][4]['is_need_nomenclature_code']);
     }
 
     public function testOrderApplyDiscount()

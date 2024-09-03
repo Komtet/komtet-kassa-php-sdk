@@ -12,7 +12,7 @@ namespace Komtet\KassaSdk\Exception;
 class ApiValidationException extends \RuntimeException implements SdkException
 {
     protected $title = '';
-    protected $code = '';
+    protected $vldCode = '';
     protected $description = '';
 
     public function __construct($title, $vldCode, $description, $respCode, Exception $previous = null) {

@@ -37,7 +37,7 @@ class CheckTest extends TestCase
     private $position;
     private $payment;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $clientEmail = 'test@test.ru';
         $payment_address = 'Офис 3';
@@ -171,7 +171,7 @@ class CheckTest extends TestCase
                             ['sno' => 0,
                             'payment_address' => 'Офис 3',
                             'place_address' => 'г. Москва',
-                            'inn' => '+502906602876']);
+                            'inn' => '502906602876']);
         $this->assertEquals($check->asArray()['additional_user_props'], 
                             ['name' => 'name',
                             'value' => 'value']);
@@ -290,7 +290,7 @@ class CheckTest extends TestCase
                             ['sno' => 0,
                             'payment_address' => 'Офис 3',
                             'place_address' => 'г. Москва',
-                            'inn' => '+502906602876']);
+                            'inn' => '502906602876']);
     }
 
     public function testSetShouldPrint()

@@ -35,8 +35,8 @@ class EmployeeTest extends TestCase
         $this->assertEquals($employee->asArray()['payment_address'], 'payment address');
 
         $employee->setAccessSettings(true, true, true);
-        $this->assertEquals($employee->asArray()['is_manager'], true);
-        $this->assertEquals($employee->asArray()['is_can_assign_order'], true);
-        $this->assertEquals($employee->asArray()['is_app_fast_basket'], true);
+        $this->assertTrue($employee->asArray()['is_manager']);
+        $this->assertTrue($employee->asArray()['is_can_assign_order']);
+        $this->assertTrue($employee->asArray()['is_app_fast_basket']);
     }
 }
