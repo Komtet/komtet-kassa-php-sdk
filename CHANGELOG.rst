@@ -1,6 +1,12 @@
 Changelog
 =========
 
+10.0.0 (16.09.2024)
+-------------------
+- Исправлено "Deprecated function: Creation of dynamic property" в ApiValidationException->__construct()
+- Минимальная поддерживаемая версия PHP 7.2
+- Прекращена поддержка PHP 5.x
+
 9.2.0 (21.02.2024)
 -------------------
 - Поддержка place_address
