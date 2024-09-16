@@ -15,12 +15,12 @@ services:
             - ../tests/:/home/php_sdk/tests
         tty: true
 
-    php_sdk_5:
-        container_name: php-sdk_5
+    php_sdk_8:
+        container_name: php-sdk_8
         build:
             context: ../
             dockerfile: ./docker_env/Dockerfile
-            target: php5
+            target: php8
         ports:
             - 8100:80
         volumes:

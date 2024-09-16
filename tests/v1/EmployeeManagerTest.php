@@ -21,7 +21,7 @@ class EmployeeManagerTest extends TestCase
     private $employee;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this
             ->getMockBuilder('\Komtet\KassaSdk\v1\Client')

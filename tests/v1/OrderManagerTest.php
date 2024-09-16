@@ -21,7 +21,7 @@ class OrderManagerTest extends TestCase
     private $om;
     private $order;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this
             ->getMockBuilder('\Komtet\KassaSdk\v1\Client')

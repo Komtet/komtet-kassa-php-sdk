@@ -29,7 +29,7 @@ class OrderTest extends TestCase
 {
     private $order;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->order = new Order('123', 'new', false);
 

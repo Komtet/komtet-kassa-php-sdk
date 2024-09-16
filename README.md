@@ -4,7 +4,7 @@
 
 ## Требования
 
-* PHP >= 5.4
+* PHP >= 7.2
 * CURL
 
 ## Установка
@@ -31,7 +31,7 @@ require __DIR__.'/komtet-kassa-php-sdk/autoload.php';
 
 ```
 make build
-make cli_php_5 или make cli_php_7
+make cli_php_7 или make cli_php_8
 php -f examples/v1/send_check_example.php
 ```
 

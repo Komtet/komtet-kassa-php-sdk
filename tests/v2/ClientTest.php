@@ -58,8 +58,10 @@ use PHPUnit\Framework\TestCase;
     {
         private $client;
         private $check;
+        private $buyer;
+        private $company;
 
-        protected function setUp()
+        protected function setUp(): void
         {
             $this->client = new Client('key', 'secret');
 
@@ -86,7 +88,7 @@ use PHPUnit\Framework\TestCase;
             $curlMonkeyPatchEnabled = true;
         }
 
-        protected function tearDown()
+        protected function tearDown(): void
         {
             global $curlMonkeyPatchEnabled;
             $curlMonkeyPatchEnabled = false;

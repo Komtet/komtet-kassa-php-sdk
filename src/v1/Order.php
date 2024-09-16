@@ -92,6 +92,11 @@ class Order
     private $prepayment;
 
     /**
+     * @var string
+     */
+    private $client_coordinate = null;
+
+    /**
      * @param int $oid A unique order id in a shop
      * @param string $sno Tax system
      * @param string $state Order status

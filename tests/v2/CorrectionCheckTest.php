@@ -38,7 +38,7 @@ class CorrectionCheckTest extends TestCase
     private $position;
     private $payment;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this
             ->getMockBuilder('\Komtet\KassaSdk\v2\Client')

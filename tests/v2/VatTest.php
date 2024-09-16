@@ -14,12 +14,11 @@ use PHPUnit\Framework\TestCase;
 
 class VatTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown VAT rate: unknown
-     */
     public function testCreateVatWithUnknownRateFailed()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown VAT rate: unknown');
+
         new Vat('unknown');
     }
 
