@@ -70,9 +70,18 @@ class Vat
      */
     public function __construct($rate)
     {
-        if (is_float($rate) && $rate < 1) {
-            $rate = (string)(int)($rate * 100);
-        } else {
+        if (is_string($rate) && strpos($rate, '.') !== false) {
+            $rate = (float)$rate;
+        }
+    
+        if (is_float($rate)) {
+            if ($rate < 1) {
+                $rate = (string)(int)($rate * 100);
+            } else {
+                $rate = (string)(int)$rate;
+            }
+        }
+        else {
             $rate = str_replace('%', '', (string)$rate);
         }
 
