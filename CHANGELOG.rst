@@ -1,6 +1,10 @@
 Changelog
 =========
 
+10.1.0 (06.11.2024)
+-------------------
+- Поддержка НДС 5%, НДС 7%, НДС 5/105 и НДС 7/107
+
 10.0.0 (16.09.2024)
 -------------------
 - Исправлено "Deprecated function: Creation of dynamic property" в ApiValidationException->__construct()
