@@ -157,7 +157,7 @@ class CheckTest extends TestCase
         $payment = new Payment(Payment::TYPE_CASH, 50);
         $check->addPayment($payment);
 
-        $this->assertEquals($check->asArray()['client'], 
+        $this->assertEquals($check->asArray()['client'],
                             ['email' => 'test@test.ru',
                             'name' => 'name',
                             'inn' => '0123456789',
@@ -167,12 +167,12 @@ class CheckTest extends TestCase
                             'document_code' => '564',
                             'document_data' => '02.03.1995',
                             'address' => 'ул. Московская']);
-        $this->assertEquals($check->asArray()['company'], 
+        $this->assertEquals($check->asArray()['company'],
                             ['sno' => 0,
                             'payment_address' => 'Офис 3',
                             'place_address' => 'г. Москва',
                             'inn' => '502906602876']);
-        $this->assertEquals($check->asArray()['additional_user_props'], 
+        $this->assertEquals($check->asArray()['additional_user_props'],
                             ['name' => 'name',
                             'value' => 'value']);
         $this->assertEquals($check->asArray()['sectoral_check_props'][0],
@@ -211,13 +211,13 @@ class CheckTest extends TestCase
                             'supplier_info' => ['phones' => [+77777777777],
                                                 'name' => "ООО 'Лютик'",
                                                 'inn' => "502906602876"],
-                            'sectoral_item_props' => 
-                                               [0 => 
+                            'sectoral_item_props' =>
+                                               [0 =>
                                                ['federal_id' => '001',
                                                'date' => '25.10.2020',
                                                'number' => '1',
                                                'value' => 'значение отраслевого реквизита'],
-                                               1 => 
+                                               1 =>
                                                ['federal_id' => '002',
                                                 'date' => '25.10.2020',
                                                 'number' => '1',
@@ -257,7 +257,7 @@ class CheckTest extends TestCase
         $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $payment_object);
         $check->addPosition($position);
 
-        $this->assertEquals($check->asArray()['client'], 
+        $this->assertEquals($check->asArray()['client'],
                             ['email' => 'test@test.ru',
                             'name' => 'name',
                             'inn' => '0123456789',
@@ -286,11 +286,53 @@ class CheckTest extends TestCase
         $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $payment_object);
         $check->addPosition($position);
 
-        $this->assertEquals($check->asArray()['company'], 
+        $this->assertEquals($check->asArray()['company'],
                             ['sno' => 0,
                             'payment_address' => 'Офис 3',
                             'place_address' => 'г. Москва',
                             'inn' => '502906602876']);
+    }
+
+    public function testCreateWithTrueWholesaleFlag()
+    {
+        $buyer = new Buyer();
+        $buyer->setEmail('test@test.ru');
+        $company = new Company(TaxSystem::COMMON, 'Офис 3');
+        $company->setPlaceAddress('г. Москва');
+        $company->setINN('502906602876');
+
+        $check = Check::createSell('123', $buyer, $company);
+
+        $vat = new Vat(Vat::RATE_20);
+        $measure = Measure::MILLILITER;
+        $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
+        $payment_object = PaymentObject::PROPERTY_RIGHT;
+        $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $payment_object);
+        $position->setWholesale(true);
+        $check->addPosition($position);
+
+        $this->assertEquals($check->asArray()['positions'][0]['wholesale'], true);
+    }
+
+    public function testCreateWithFalseWholesaleFlag()
+    {
+        $buyer = new Buyer();
+        $buyer->setEmail('test@test.ru');
+        $company = new Company(TaxSystem::COMMON, 'Офис 3');
+        $company->setPlaceAddress('г. Москва');
+        $company->setINN('502906602876');
+
+        $check = Check::createSell('123', $buyer, $company);
+
+        $vat = new Vat(Vat::RATE_20);
+        $measure = Measure::MILLILITER;
+        $payment_method = PaymentMethod::PRE_PAYMENT_FULL;
+        $payment_object = PaymentObject::PROPERTY_RIGHT;
+        $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $payment_object);
+        $position->setWholesale(false);
+        $check->addPosition($position);
+
+        $this->assertEquals($check->asArray()['positions'][0]['wholesale'], false);
     }
 
     public function testSetShouldPrint()
@@ -321,7 +363,7 @@ class CheckTest extends TestCase
      public function testSetAdditionalCheckProps()
      {
          $this->check->setAdditionalCheckProps("Дополнительный реквизит");
- 
+
          $this->assertEquals($this->check->asArray()['additional_check_props'], 'Дополнительный реквизит');
      }
 

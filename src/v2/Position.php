@@ -77,7 +77,7 @@ class Position
     private $declarationNumber = null;
 
     /**
-     * @var SectoralItemProps[] 
+     * @var SectoralItemProps[]
      */
     private $sectoralItemProps = [];
 
@@ -87,14 +87,19 @@ class Position
     private $agent = null;
 
     /**
-     * @var MarkQuantity 
+     * @var MarkQuantity
      */
     private $markQuantity = null;
 
     /**
-     * @var MarkCode 
+     * @var MarkCode
      */
     private $markCode = null;
+
+    /**
+     * @var bool
+     */
+    private $wholesale = null;
 
 
     /**
@@ -202,6 +207,18 @@ class Position
     }
 
     /**
+     * @param bool $value
+     *
+     * @return Position
+     */
+    public function setWholesale($value)
+    {
+        $this->wholesale = (bool) $value;
+
+        return $this;
+    }
+
+    /**
      * @param Agent $agent
      *
      * @return Position
@@ -272,7 +289,7 @@ class Position
         if ($this->excise !== null) {
             $result['excise'] = $this->excise;
         }
-        
+
         if ($this->countryCode !== null) {
             $result['country_code'] = $this->countryCode;
         }
@@ -283,6 +300,10 @@ class Position
 
         if ($this->userData !== null) {
             $result['user_data'] = $this->userData;
+        }
+
+        if ($this->wholesale !== null) {
+            $result['wholesale'] = $this->wholesale;
         }
 
         if ($this->agent !== null) {

@@ -40,7 +40,7 @@ $checkID = '123456';
 // E-Mail клиента, на который будет отправлен E-Mail с чеком.
 $clientEmail = 'test@test.ru';
 
-// Место расчетов 
+// Место расчетов
 $payment_address = 'Офис 3';
 
 // Информация о покупателе
@@ -64,11 +64,11 @@ $check = Check::createSell($checkID, $buyer, $company); // Чек прихода
 // $check = Check::createBuy($checkID, $buyer, $company); // Чек Расхода
 // $check = Check::createBuyReturn($checkID, $buyer, $company); // Чек возврата расхода
 
-// Дополнительный реквизит пользователя 
+// Дополнительный реквизит пользователя
 $additional_user_props = new AdditionalUserProps('name', 'value');
 $check->setAdditionalUserProps($additional_user_props);
 
-// Отраслевой реквезит чека 
+// Отраслевой реквезит чека
 $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
 $check->setSectoralCheckProps($sectoral_check_props);
 
@@ -76,20 +76,20 @@ $check->setSectoralCheckProps($sectoral_check_props);
 // $sectoral_check_props2 = new SectoralCheckProps('002', '01.01.2020', '2', 'значение отраслевого реквизита2');
 // $check->setSectoralCheckProps($sectoral_check_props2);
 
-// Операционный реквизит пользователя 
+// Операционный реквизит пользователя
 $operating_check_props = new OperatingCheckProps('0', 'данные операции', '12.03.2020 16:55:25');
 $check->setOperatingCheckProps($operating_check_props);
 
-// Дополнительный реквизит чека 
+// Дополнительный реквизит чека
 $check->setAdditionalCheckProps('доп. реквизит чека');
 
 // Адрес для получения отчёта по чеку
 $check->setCallbackUrl('https://test.ru/callback-url');
 
-// Говорим, что чек нужно распечатать 
+// Говорим, что чек нужно распечатать
 $check->setShouldPrint(true);
 
-// Добавление кассира 
+// Добавление кассира
 $cashier = new Cashier('Иванов И.П.', '012345678912');
 $check->addCashier($cashier);
 
@@ -179,7 +179,7 @@ $position = new Position('name', 100, 1, 100, $vat, $measure, $payment_method, $
 // Задаём id позиции
 $position->setId('123456');
 
-// Агент по предмету расчета 
+// Агент по предмету расчета
 $agent = new Agent(Agent::COMMISSIONAIRE, "+77777777777", "ООО 'Лютик'", "502906602876");
 $position->setAgent($agent);
 
@@ -193,6 +193,10 @@ $position->setSectoralItemProps($sectoral_item_props);
 
 // Дополнительный реквизит предмета расчета
 $position->setUserData('Дополнительный реквизит предмета расчета');
+
+// Возможность добавления фрага работы по ОСУ(Объемно-сортовому учёту).
+// В случае передачи флага в true необходимо указать mark_code с типом ITF14, quantity > 1 и sectoral_item_props
+// $position->setWholesale(true);
 
 // Сумма акциза
 $position->setExcise(25);
