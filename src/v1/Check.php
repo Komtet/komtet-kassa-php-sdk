@@ -82,6 +82,16 @@ class Check
     private $additionalUserProps;
 
     /**
+     * @var bool
+     */
+    private $internet;
+
+    /**
+     * @var CashlessPayment[]
+     */
+    private $cashlessPayments = [];
+
+    /**
      * @var string
      */
     private $callback_url;
@@ -261,6 +271,30 @@ class Check
     }
 
     /**
+     * @param bool $value
+     *
+     * @return Check
+     */
+    public function setInternet($value)
+    {
+        $this->internet = (bool) $value;
+
+        return $this;
+    }
+
+    /**
+     * @param CashlessPayment $cashlessPayment
+     *
+     * @return Check
+     */
+    public function addCashlessPayment(CashlessPayment $cashlessPayment)
+    {
+        $this->cashlessPayments[] = $cashlessPayment;
+
+        return $this;
+    }
+
+    /**
      * @return int|float
      */
     public function getTotalPositionsSum()
@@ -368,6 +402,19 @@ class Check
 
         if ($this->additionalUserProps !== null) {
             $result['additional_user_props'] = $this->additionalUserProps->asArray();
+        }
+
+        if ($this->internet !== null) {
+            $result['internet'] = $this->internet;
+        }
+
+        if (!empty($this->cashlessPayments)) {
+            $result['cashless_payments'] = array_map(
+                function ($cashlessPayment) {
+                    return $cashlessPayment->asArray();
+                },
+                $this->cashlessPayments
+            );
         }
 
         if ($this->callback_url !== null) {

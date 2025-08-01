@@ -13,6 +13,7 @@ use Komtet\KassaSdk\v2\AdditionalUserProps;
 use Komtet\KassaSdk\v2\Agent;
 use Komtet\KassaSdk\v2\Buyer;
 use Komtet\KassaSdk\v2\Cashier;
+use Komtet\KassaSdk\v2\CashlessPayment;
 use Komtet\KassaSdk\v2\Check;
 use Komtet\KassaSdk\v2\Company;
 use Komtet\KassaSdk\v2\MarkCode;
@@ -22,10 +23,12 @@ use Komtet\KassaSdk\v2\OperatingCheckProps;
 use Komtet\KassaSdk\v2\Payment;
 use Komtet\KassaSdk\v2\PaymentMethod;
 use Komtet\KassaSdk\v2\PaymentObject;
+use Komtet\KassaSdk\v2\PlannedStatus;
 use Komtet\KassaSdk\v2\Position;
 use Komtet\KassaSdk\v2\SectoralCheckProps;
 use Komtet\KassaSdk\v2\SectoralItemProps;
 use Komtet\KassaSdk\v2\TaxSystem;
+use Komtet\KassaSdk\v2\TimeZone;
 use Komtet\KassaSdk\v2\Vat;
 use PHPUnit\Framework\TestCase;
 
@@ -131,6 +134,10 @@ class CheckTest extends TestCase
         $check->setShouldPrint(true);
         $cashier = new Cashier('Иванов И.П.', '012345678912');
         $check->addCashier($cashier);
+        $check->setInternet(true);
+        $cashlessPayment = new CashlessPayment(150.50, 1, 'payment123');
+        $check->addCashlessPayment($cashlessPayment);
+        $check->setTimeZone(TimeZone::TIME_ZONE_3);
 
         $vat = new Vat(Vat::RATE_20);
         $measure = Measure::MILLILITER;
@@ -196,6 +203,15 @@ class CheckTest extends TestCase
         $this->assertEquals($check->asArray()['cashier'],
                             ['name' => 'Иванов И.П.',
                              'inn' => '012345678912']);
+        $this->assertEquals($check->asArray()['internet'], true);
+        $this->assertEquals($check->asArray()['cashless_payments'], [
+            [
+                'sum' => 150.50,
+                'method' => 1,
+                'id' => 'payment123'
+            ]
+        ]);
+        $this->assertEquals($check->asArray()['timezone'], TimeZone::TIME_ZONE_3);
 
         $this->assertEquals($position->asArray(),
                             ['id' => '123456',
@@ -360,66 +376,66 @@ class CheckTest extends TestCase
         $this->assertArrayNotHasKey('inn',$cashier->asArray());
     }
 
-     public function testSetAdditionalCheckProps()
-     {
-         $this->check->setAdditionalCheckProps("Дополнительный реквизит");
+    public function testSetAdditionalCheckProps()
+    {
+        $this->check->setAdditionalCheckProps("Дополнительный реквизит");
 
-         $this->assertEquals($this->check->asArray()['additional_check_props'], 'Дополнительный реквизит');
-     }
+        $this->assertEquals($this->check->asArray()['additional_check_props'], 'Дополнительный реквизит');
+    }
 
-     public function testSetAdditionalUserProps()
-     {
-         $additional_user_props = new AdditionalUserProps('name_props', 'value_props');
-         $this->check->setAdditionalUserProps($additional_user_props);
-         $this->assertEquals($this->check->asArray()['additional_user_props'],
-                             ['name' => 'name_props', 'value' => 'value_props']);
-     }
+    public function testSetAdditionalUserProps()
+    {
+        $additional_user_props = new AdditionalUserProps('name_props', 'value_props');
+        $this->check->setAdditionalUserProps($additional_user_props);
+        $this->assertEquals($this->check->asArray()['additional_user_props'],
+                            ['name' => 'name_props', 'value' => 'value_props']);
+    }
 
-     public function testSetOneSectoralCheckProps()
-     {
-         $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
-         $this->check->setSectoralCheckProps($sectoral_check_props);
-         $this->assertEquals($this->check->asArray()['sectoral_check_props'][0],
-                             ['federal_id' => '001',
-                             'date' => '25.10.2020',
-                             'number' => '1',
-                             'value' => 'значение отраслевого реквизита']);
-     }
+    public function testSetOneSectoralCheckProps()
+    {
+        $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
+        $this->check->setSectoralCheckProps($sectoral_check_props);
+        $this->assertEquals($this->check->asArray()['sectoral_check_props'][0],
+                            ['federal_id' => '001',
+                            'date' => '25.10.2020',
+                            'number' => '1',
+                            'value' => 'значение отраслевого реквизита']);
+    }
 
-     public function testSetThreeSectoralCheckProps()
-     {
-         $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
-         $sectoral_check_props1 = new SectoralCheckProps('002', '26.10.2020', '2', 'значение отраслевого реквизита2');
-         $sectoral_check_props2 = new SectoralCheckProps('003', '27.10.2020', '3', 'значение отраслевого реквизита3');
-         $this->check->setSectoralCheckProps($sectoral_check_props);
-         $this->check->setSectoralCheckProps($sectoral_check_props1);
-         $this->check->setSectoralCheckProps($sectoral_check_props2);
-         $this->assertEquals($this->check->asArray()['sectoral_check_props'][0],
-                             ['federal_id' => '001',
-                             'date' => '25.10.2020',
-                             'number' => '1',
-                             'value' => 'значение отраслевого реквизита']);
-         $this->assertEquals($this->check->asArray()['sectoral_check_props'][1],
-                             ['federal_id' => '002',
-                             'date' => '26.10.2020',
-                             'number' => '2',
-                             'value' => 'значение отраслевого реквизита2']);
-         $this->assertEquals($this->check->asArray()['sectoral_check_props'][2],
-                             ['federal_id' => '003',
-                             'date' => '27.10.2020',
-                             'number' => '3',
-                             'value' => 'значение отраслевого реквизита3']);
-     }
+    public function testSetThreeSectoralCheckProps()
+    {
+        $sectoral_check_props = new SectoralCheckProps('001', '25.10.2020', '1', 'значение отраслевого реквизита');
+        $sectoral_check_props1 = new SectoralCheckProps('002', '26.10.2020', '2', 'значение отраслевого реквизита2');
+        $sectoral_check_props2 = new SectoralCheckProps('003', '27.10.2020', '3', 'значение отраслевого реквизита3');
+        $this->check->setSectoralCheckProps($sectoral_check_props);
+        $this->check->setSectoralCheckProps($sectoral_check_props1);
+        $this->check->setSectoralCheckProps($sectoral_check_props2);
+        $this->assertEquals($this->check->asArray()['sectoral_check_props'][0],
+                            ['federal_id' => '001',
+                            'date' => '25.10.2020',
+                            'number' => '1',
+                            'value' => 'значение отраслевого реквизита']);
+        $this->assertEquals($this->check->asArray()['sectoral_check_props'][1],
+                            ['federal_id' => '002',
+                            'date' => '26.10.2020',
+                            'number' => '2',
+                            'value' => 'значение отраслевого реквизита2']);
+        $this->assertEquals($this->check->asArray()['sectoral_check_props'][2],
+                            ['federal_id' => '003',
+                            'date' => '27.10.2020',
+                            'number' => '3',
+                            'value' => 'значение отраслевого реквизита3']);
+    }
 
-     public function testsetOperatingCheckProps()
-     {
-         $operating_check_props = new OperatingCheckProps('0', 'данные операции', '12.03.2020 16:55:25');
-         $this->check->setOperatingCheckProps($operating_check_props);
-         $this->assertEquals($this->check->asArray()['operating_check_props'],
-                             ['name' => '0',
-                             'value' => 'данные операции',
-                             'timestamp' => '12.03.2020 16:55:25']);
-     }
+    public function testsetOperatingCheckProps()
+    {
+        $operating_check_props = new OperatingCheckProps('0', 'данные операции', '12.03.2020 16:55:25');
+        $this->check->setOperatingCheckProps($operating_check_props);
+        $this->assertEquals($this->check->asArray()['operating_check_props'],
+                            ['name' => '0',
+                            'value' => 'данные операции',
+                            'timestamp' => '12.03.2020 16:55:25']);
+    }
 
     public function testApplyDiscount()
     {
@@ -461,7 +477,66 @@ class CheckTest extends TestCase
 
         $this->assertEquals($positionsTotal, 130.0);
         $this->assertEquals($positions[0]->getTotal(), 89.66);
-     }
+    }
+
+    public function testSetInternet()
+    {
+        $this->assertArrayNotHasKey('internet', $this->check->asArray());
+
+        $this->check->setInternet(true);
+        $this->assertTrue($this->check->asArray()['internet']);
+
+        $this->check->setInternet(false);
+        $this->assertFalse($this->check->asArray()['internet']);
+    }
+
+    public function testAddCashlessPayment()
+    {
+        $this->assertArrayNotHasKey('cashless_payments', $this->check->asArray());
+
+        $payment1 = new CashlessPayment(100.50, 1, 'payment_id_123');
+        $this->check->addCashlessPayment($payment1);
+
+        $result = $this->check->asArray();
+        $this->assertArrayHasKey('cashless_payments', $result);
+        $this->assertCount(1, $result['cashless_payments']);
+        $this->assertEquals([
+            'sum' => 100.50,
+            'method' => 1,
+            'id' => 'payment_id_123'
+        ], $result['cashless_payments'][0]);
+
+        $payment2 = new CashlessPayment(200, 2, 'payment_id_456');
+        $payment2->setAdditionalInfo('Дополнительная информация о платеже');
+        $this->check->addCashlessPayment($payment2);
+
+        $result = $this->check->asArray();
+        $this->assertCount(2, $result['cashless_payments']);
+        $this->assertEquals([
+            'sum' => 200,
+            'method' => 2,
+            'id' => 'payment_id_456',
+            'additionalInfo' => 'Дополнительная информация о платеже'
+        ], $result['cashless_payments'][1]);
+    }
+
+    public function testSetTimeZone()
+    {
+        $this->assertArrayNotHasKey('timezone', $this->check->asArray());
+
+        $this->check->setTimeZone(TimeZone::TIME_ZONE_3);
+
+        $this->assertEquals(TimeZone::TIME_ZONE_3, $this->check->asArray()['timezone']);
+    }
+
+    public function testSetPlannedStatus()
+    {
+        $this->position->setPlannedStatus(PlannedStatus::PLANNED_STATUS_1);
+        $this->assertEquals(PlannedStatus::PLANNED_STATUS_1, $this->position->asArray()['planned_status']);
+
+        $this->position->setPlannedStatus(PlannedStatus::PLANNED_STATUS_2);
+        $this->assertEquals(PlannedStatus::PLANNED_STATUS_2, $this->position->asArray()['planned_status']);
+    }
 
     public function testSetCallbackUrl()
     {
