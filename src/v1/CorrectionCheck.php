@@ -77,11 +77,6 @@ class CorrectionCheck
     private $additionalCheckProps;
 
     /**
-     * @var string
-     */
-    private $callbackUrl;
-
-    /**
      * @var AdditionalUserProps
      */
     private $additionalUserProps;
@@ -90,6 +85,16 @@ class CorrectionCheck
      * @var Payment[]
      */
     private $payments = [];
+
+    /**
+     * @var bool
+     */
+    private $internet;
+
+    /**
+     * @var string
+     */
+    private $callbackUrl;
 
     /**
      * @param string $id An unique ID provided by an online store
@@ -248,9 +253,21 @@ class CorrectionCheck
      */
     public function setAuthorisedPerson(AuthorisedPerson $authorised_person)
     {
-      $this->authorisedPerson = $authorised_person;
+        $this->authorisedPerson = $authorised_person;
 
-      return $this;
+        return $this;
+    }
+
+    /**
+     * @param bool $value
+     *
+     * @return Check
+     */
+    public function setInternet($value)
+    {
+        $this->internet = (bool) $value;
+
+        return $this;
     }
 
     /**
@@ -314,12 +331,16 @@ class CorrectionCheck
             $result['additional_check_props'] = $this->additionalCheckProps;
         }
 
-        if ($this->callbackUrl !== null) {
-            $result['callback_url'] = $this->callbackUrl;
-        }
-
         if ($this->additionalUserProps !== null) {
             $result['additional_user_props'] = $this->additionalUserProps->asArray();
+        }
+
+        if ($this->internet !== null) {
+            $result['internet'] = $this->internet;
+        }
+
+        if ($this->callbackUrl !== null) {
+            $result['callback_url'] = $this->callbackUrl;
         }
 
         return $result;

@@ -82,6 +82,16 @@ class CorrectionCheck
     private $authorisedPerson;
 
     /**
+     * @var bool
+     */
+    private $internet;
+
+    /**
+     * @var int
+     */
+    private $timeZone;
+
+    /**
      * @var string
      */
     private $callbackUrl;
@@ -253,9 +263,33 @@ class CorrectionCheck
      */
     public function setAuthorisedPerson(AuthorisedPerson $authorised_person)
     {
-      $this->authorisedPerson = $authorised_person;
+        $this->authorisedPerson = $authorised_person;
 
-      return $this;
+        return $this;
+    }
+
+    /**
+     * @param bool $value
+     *
+     * @return Check
+     */
+    public function setInternet($value)
+    {
+        $this->internet = (bool) $value;
+
+        return $this;
+    }
+
+    /**
+     * @param int $timeZone One of TimeZone::TIME_ZONE_* constants
+     *
+     * @return Check
+     */
+    public function setTimeZone($timeZone)
+    {
+        $this->timeZone = $timeZone;
+
+        return $this;
     }
 
     /**
@@ -322,6 +356,14 @@ class CorrectionCheck
 
         if ($this->authorisedPerson !== null) {
             $result['authorised_person'] = $this->authorisedPerson->asArray();
+        }
+
+        if ($this->internet !== null) {
+            $result['internet'] = $this->internet;
+        }
+
+        if ($this->timeZone !== null) {
+            $result['timezone'] = $this->timeZone;
         }
 
         if ($this->callbackUrl !== null) {

@@ -101,6 +101,11 @@ class Position
      */
     private $wholesale = null;
 
+    /**
+     * @var int
+     */
+    private $plannedStatus = null;
+
 
     /**
      * @param string $name Item name
@@ -267,6 +272,18 @@ class Position
     }
 
     /**
+     * @param int $plannedStatus One of PlannedStatus::PLANNED_STATUS_* constants
+     *
+     * @return Position
+     */
+    public function setPlannedStatus($plannedStatus)
+    {
+        $this->plannedStatus = $plannedStatus;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function asArray()
@@ -329,6 +346,10 @@ class Position
                 },
                 $this->sectoralItemProps
             );
+        }
+
+        if ($this->plannedStatus !== null) {
+            $result['planned_status'] = $this->plannedStatus;
         }
 
         return $result;

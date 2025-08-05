@@ -21,10 +21,12 @@ use Komtet\KassaSdk\v2\OperatingCheckProps;
 use Komtet\KassaSdk\v2\Payment;
 use Komtet\KassaSdk\v2\PaymentMethod;
 use Komtet\KassaSdk\v2\PaymentObject;
+use Komtet\KassaSdk\v2\PlannedStatus;
 use Komtet\KassaSdk\v2\Position;
 use Komtet\KassaSdk\v2\QueueManager;
 use Komtet\KassaSdk\v2\SectoralCheckProps;
 use Komtet\KassaSdk\v2\TaxSystem;
+use Komtet\KassaSdk\v2\TimeZone;
 use Komtet\KassaSdk\v2\Vat;
 use PHPUnit\Framework\TestCase;
 
@@ -406,6 +408,35 @@ class CorrectionCheckTest extends TestCase
         $this->assertEquals($this->check->asArray()['authorised_person'],
                             ['name' => 'name',
                              'inn' => 'inn']);
+    }
+
+    public function testSetInternet()
+    {
+        $this->assertArrayNotHasKey('internet', $this->check->asArray());
+
+        $this->check->setInternet(true);
+        $this->assertTrue($this->check->asArray()['internet']);
+
+        $this->check->setInternet(false);
+        $this->assertFalse($this->check->asArray()['internet']);
+    }
+
+    public function testSetTimeZone()
+    {
+        $this->assertArrayNotHasKey('timezone', $this->check->asArray());
+
+        $this->check->setTimeZone(TimeZone::TIME_ZONE_3);
+
+        $this->assertEquals(TimeZone::TIME_ZONE_3, $this->check->asArray()['timezone']);
+    }
+
+    public function testSetPlannedStatus()
+    {
+        $this->position->setPlannedStatus(PlannedStatus::PLANNED_STATUS_1);
+        $this->assertEquals(PlannedStatus::PLANNED_STATUS_1, $this->position->asArray()['planned_status']);
+
+        $this->position->setPlannedStatus(PlannedStatus::PLANNED_STATUS_2);
+        $this->assertEquals(PlannedStatus::PLANNED_STATUS_2, $this->position->asArray()['planned_status']);
     }
 
     public function testSetCallbackUrl()

@@ -15,6 +15,7 @@ use Komtet\KassaSdk\v1\Buyer;
 use Komtet\KassaSdk\v1\CalculationMethod;
 use Komtet\KassaSdk\v1\CalculationSubject;
 use Komtet\KassaSdk\v1\Cashier;
+use Komtet\KassaSdk\v1\CashlessPayment;
 use Komtet\KassaSdk\v1\Check;
 use Komtet\KassaSdk\v1\Nomenclature;
 use Komtet\KassaSdk\v1\Payment;
@@ -90,7 +91,7 @@ class CheckTest extends TestCase
         $this->assertEquals($positions[0]->getTotal(), 89.66);
     }
 
-    public function testCheckWithOptionalParams() 
+    public function testCheckWithOptionalParams()
     {
         $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
 
@@ -99,6 +100,12 @@ class CheckTest extends TestCase
         $nomenclature = new Nomenclature('kjgldfjgdfklg234234');
         $payment1 = new Payment(Payment::TYPE_CARD, 110.0);
         $payment2 = new Payment(Payment::TYPE_CARD, 20.0);
+
+        $cashlessPayment = new CashlessPayment(100.50, 1, 'payment_id_123');
+        $check->addCashlessPayment($cashlessPayment);
+
+        $check->setInternet(true);
+
         $position1 = new Position('position1', 100.0, 1, 100.0, $vat);
         $position1->setId('123');
         $position1->setMeasureName('kg');
@@ -109,37 +116,51 @@ class CheckTest extends TestCase
         $position1->setDeclarationNumber('3456');
         $position1->setAgent($agent);
         $position1->setNomenclature($nomenclature);
+
         $position2 = new Position('position2', 25.0, 2, 40.0, $vat);
+
         $position3 = new Position('position3', 5.0, 1, 5.0, $vat);
+
         $check->addPayment($payment1);
         $check->addPayment($payment2);
+
         $check->addPosition($position1);
         $check->addPosition($position2);
         $check->addPosition($position3);
-        $discount = 15.0;
 
+        $discount = 15.0;
         $check->applyDiscount($discount);
 
         $positionsTotal = 0;
         $positions = $check->getPositions();
-        foreach( $positions as $position )
-        {
+        foreach ($positions as $position) {
             $positionsTotal += $position->getTotal();
         }
 
         $this->assertEquals($positionsTotal, 130.0);
         $this->assertEquals($positions[0]->getTotal(), 89.66);
-        $this->assertEquals($position1->asArray()['id'], '123');
-        $this->assertEquals($position1->asArray()['calculation_method'], CalculationMethod::FULL_PAYMENT);
-        $this->assertEquals($position1->asArray()['calculation_subject'], CalculationSubject::PAY);
-        $this->assertEquals($position1->asArray()['excise'], 1);
-        $this->assertEquals($position1->asArray()['country_code'], '123');
-        $this->assertEquals($position1->asArray()['declaration_number'], '3456');
-        $this->assertEquals($position1->asArray()['agent_info']['type'], Agent::COMMISSIONAIRE);
-        $this->assertEquals($position1->asArray()['supplier_info']['phones'], ["+77777777777"]);
-        $this->assertEquals($position1->asArray()['supplier_info']['name'], "ООО 'Лютик'");
-        $this->assertEquals($position1->asArray()['supplier_info']['inn'], "502906602876");
-        $this->assertEquals($position1->asArray()['nomenclature_code']['code'], 'kjgldfjgdfklg234234');
+
+        $position1Array = $position1->asArray();
+        $this->assertEquals($position1Array['id'], '123');
+        $this->assertEquals($position1Array['calculation_method'], CalculationMethod::FULL_PAYMENT);
+        $this->assertEquals($position1Array['calculation_subject'], CalculationSubject::PAY);
+        $this->assertEquals($position1Array['excise'], 1);
+        $this->assertEquals($position1Array['country_code'], '123');
+        $this->assertEquals($position1Array['declaration_number'], '3456');
+        $this->assertEquals($position1Array['agent_info']['type'], Agent::COMMISSIONAIRE);
+        $this->assertEquals($position1Array['supplier_info']['phones'], ["+77777777777"]);
+        $this->assertEquals($position1Array['supplier_info']['name'], "ООО 'Лютик'");
+        $this->assertEquals($position1Array['supplier_info']['inn'], "502906602876");
+        $this->assertEquals($position1Array['nomenclature_code']['code'], 'kjgldfjgdfklg234234');
+
+        $result = $check->asArray();
+        $this->assertTrue($result['internet']);
+        $this->assertCount(1, $result['cashless_payments']);
+        $this->assertEquals([
+            'sum' => 100.50,
+            'method' => 1,
+            'id' => 'payment_id_123'
+        ], $result['cashless_payments'][0]);
     }
 
     public function testAddBuyerInfo()
@@ -221,5 +242,48 @@ class CheckTest extends TestCase
         $check->setAdditionalUserProps($additional_user_props);
         $this->assertEquals($check->asArray()['additional_user_props'],
                             ['name' => 'name_props', 'value' => 'value_props']);
+    }
+
+    public function testSetInternet()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+        $this->assertArrayNotHasKey('internet', $check->asArray());
+
+        $check->setInternet(true);
+        $this->assertTrue($check->asArray()['internet']);
+
+        $check->setInternet(false);
+        $this->assertFalse($check->asArray()['internet']);
+    }
+
+    public function testAddCashlessPayment()
+    {
+        $check = new Check('id1', 'test@test.test', Check::INTENT_SELL, 1);
+        $this->assertArrayNotHasKey('cashless_payments', $check->asArray());
+
+        $payment1 = new CashlessPayment(100.50, 1, 'payment_id_123');
+        $check->addCashlessPayment($payment1);
+
+        $result = $check->asArray();
+        $this->assertArrayHasKey('cashless_payments', $result);
+        $this->assertCount(1, $result['cashless_payments']);
+        $this->assertEquals([
+            'sum' => 100.50,
+            'method' => 1,
+            'id' => 'payment_id_123'
+        ], $result['cashless_payments'][0]);
+
+        $payment2 = new CashlessPayment(200, 2, 'payment_id_456');
+        $payment2->setAdditionalInfo('Дополнительная информация о платеже');
+        $check->addCashlessPayment($payment2);
+
+        $result = $check->asArray();
+        $this->assertCount(2, $result['cashless_payments']);
+        $this->assertEquals([
+            'sum' => 200,
+            'method' => 2,
+            'id' => 'payment_id_456',
+            'additionalInfo' => 'Дополнительная информация о платеже'
+        ], $result['cashless_payments'][1]);
     }
 }

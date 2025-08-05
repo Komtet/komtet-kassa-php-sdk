@@ -139,10 +139,13 @@ class CorrectionCheckTest extends TestCase
         $check->setAuthorisedPerson($authorised_person);
         $check->setShouldPrint(true);
         $check->setCallbackUrl("http://localhost:8110/index.php/shop/komtetkassa/success/");
+        $check->setInternet(true);
+
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
+        $this->assertTrue($check->asArray()['internet']);
     }
 }
