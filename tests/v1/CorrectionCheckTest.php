@@ -59,6 +59,9 @@ class CorrectionCheckTest extends TestCase
         $check->setAuthorisedPerson($authorised_person);
         $buyer = new Buyer('Пупкин П.П.', '123412341234');
         $check->addBuyer($buyer);
+        $check->setInternet(true);
+        $check->setUser('test@test.test');
+
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
@@ -66,6 +69,8 @@ class CorrectionCheckTest extends TestCase
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
         $this->assertEquals($check->asArray()['client']['name'], 'Пупкин П.П.');
         $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
+        $this->assertTrue($check->asArray()['internet']);
+        $this->assertEquals('test@test.test', $check->asArray()['user']);
     }
 
     public function testPutSellReturnCorrectionCheckSucceded()
@@ -85,6 +90,9 @@ class CorrectionCheckTest extends TestCase
         $buyer = new Buyer();
         $buyer->setName('Пупкин П.П.');
         $check->addBuyer($buyer);
+        $check->setInternet(true);
+        $check->setUser('test@test.test');
+
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
@@ -92,6 +100,8 @@ class CorrectionCheckTest extends TestCase
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
         $this->assertEquals($check->asArray()['client']['name'], 'Пупкин П.П.');
         $this->assertArrayNotHasKey('inn', $check->asArray()['client']);
+        $this->assertTrue($check->asArray()['internet']);
+        $this->assertEquals('test@test.test', $check->asArray()['user']);
     }
 
     public function testPutBuyCorrectionCheckSucceded()
@@ -111,6 +121,9 @@ class CorrectionCheckTest extends TestCase
         $buyer = new Buyer();
         $buyer->setINN('123412341234');
         $check->addBuyer($buyer);
+        $check->setInternet(true);
+        $check->setUser('test@test.test');
+
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
         $rep = ['key' => 'val'];
@@ -118,6 +131,8 @@ class CorrectionCheckTest extends TestCase
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
         $this->assertEquals($check->asArray()['client']['inn'], '123412341234');
         $this->assertArrayNotHasKey('name', $check->asArray()['client']);
+        $this->assertTrue($check->asArray()['internet']);
+        $this->assertEquals('test@test.test', $check->asArray()['user']);
     }
 
     public function testPutBuyReturnCorrectionCheckSucceded()
@@ -140,6 +155,7 @@ class CorrectionCheckTest extends TestCase
         $check->setShouldPrint(true);
         $check->setCallbackUrl("http://localhost:8110/index.php/shop/komtetkassa/success/");
         $check->setInternet(true);
+        $check->setUser('test@test.test');
 
         $data = $check->asArray();
         $path = 'api/shop/v1/queues/queue-id/task';
@@ -147,5 +163,6 @@ class CorrectionCheckTest extends TestCase
         $this->client->expects($this->once())->method('sendRequest')->with($path, $data)->willReturn($rep);
         $this->assertEquals($this->qm->putCheck($check, 'my-queue'), $rep);
         $this->assertTrue($check->asArray()['internet']);
+        $this->assertEquals('test@test.test', $check->asArray()['user']);
     }
 }
