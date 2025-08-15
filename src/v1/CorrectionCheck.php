@@ -94,6 +94,11 @@ class CorrectionCheck
     /**
      * @var string
      */
+    private $user;
+
+    /**
+     * @var string
+     */
     private $callbackUrl;
 
     /**
@@ -201,7 +206,7 @@ class CorrectionCheck
     /**
      * @param Buyer $buyer
      *
-     * @return Check
+     * @return CorrectionCheck
      */
     public function addBuyer(Buyer $buyer)
     {
@@ -261,11 +266,23 @@ class CorrectionCheck
     /**
      * @param bool $value
      *
-     * @return Check
+     * @return CorrectionCheck
      */
     public function setInternet($value)
     {
         $this->internet = (bool) $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $user
+     *
+     * @return CorrectionCheck
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
 
         return $this;
     }
@@ -337,6 +354,10 @@ class CorrectionCheck
 
         if ($this->internet !== null) {
             $result['internet'] = $this->internet;
+        }
+
+        if ($this->user !== null) {
+            $result['user'] = $this->user;
         }
 
         if ($this->callbackUrl !== null) {

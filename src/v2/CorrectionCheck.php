@@ -271,7 +271,7 @@ class CorrectionCheck
     /**
      * @param bool $value
      *
-     * @return Check
+     * @return CorrectionCheck
      */
     public function setInternet($value)
     {
@@ -283,7 +283,7 @@ class CorrectionCheck
     /**
      * @param int $timeZone One of TimeZone::TIME_ZONE_* constants
      *
-     * @return Check
+     * @return CorrectionCheck
      */
     public function setTimeZone($timeZone)
     {
