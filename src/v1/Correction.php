@@ -31,6 +31,7 @@ class Correction
 
     /**
      * @var string
+     * @deprecated This property will be removed in future versions
      */
     private $description;
 
@@ -38,11 +39,11 @@ class Correction
      * @param string $type Correction type (Correction::TYPE_*)
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     * @param string $description Description
+     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public function __construct($type, $date, $document, $description)
+    public function __construct($type, $date, $document, $description=null)
     {
         $this->type = $type;
         $this->date = $date;
@@ -53,11 +54,11 @@ class Correction
     /**
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     * @param string $description Description
+     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public static function createSelf($date, $document, $description)
+    public static function createSelf($date, $document, $description=null)
     {
         return new static(static::TYPE_SELF, $date, $document, $description);
     }
@@ -65,11 +66,11 @@ class Correction
     /**
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     * @param string $description Description
+     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public static function createForced($date, $document, $description)
+    public static function createForced($date, $document, $description=null)
     {
         return new static(static::TYPE_FORCED, $date, $document, $description);
     }
@@ -79,11 +80,16 @@ class Correction
      */
     public function asArray()
     {
-        return [
+        $result = [
             'type' => $this->type,
             'date' => $this->date,
             'document' => $this->document,
-            'description' => $this->description
         ];
+
+        if ($this->description !== null) {
+            $result['description'] = $this->description;
+        }
+
+        return $result;
     }
 }

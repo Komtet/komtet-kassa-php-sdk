@@ -46,7 +46,7 @@ class CorrectionCheckTest extends TestCase
     public function testPutSellCorrectionCheckSucceded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createSelf('2012-12-21', '4815162342', 'description');
+        $correction = Correction::createSelf('2012-12-21', '4815162342');
         $check = CorrectionCheck::createSellCorrection('4815162342', TaxSystem::PATENT, $correction);
         $vat = new Vat(Vat::RATE_20);
         $position = new Position('name', 100, 1, 100, $vat);
@@ -76,7 +76,7 @@ class CorrectionCheckTest extends TestCase
     public function testPutSellReturnCorrectionCheckSucceded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createForced('2012-12-21', '4815162342', 'description');
+        $correction = Correction::createForced('2012-12-21', '4815162342');
         $check = CorrectionCheck::createSellReturnCorrection('4815162342', TaxSystem::PATENT, $correction);
         $vat = new Vat(Vat::RATE_20);
         $position = new Position('name', 100, 1, 100, $vat);
@@ -107,7 +107,7 @@ class CorrectionCheckTest extends TestCase
     public function testPutBuyCorrectionCheckSucceded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createSelf('2012-12-21', '4815162342', 'description');
+        $correction = Correction::createSelf('2012-12-21', '4815162342');
         $check = CorrectionCheck::createBuyCorrection('4815162342', TaxSystem::PATENT, $correction);
         $vat = new Vat(Vat::RATE_20);
         $position = new Position('name', 100, 1, 100, $vat);
@@ -138,7 +138,7 @@ class CorrectionCheckTest extends TestCase
     public function testPutBuyReturnCorrectionCheckSucceded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createSelf('2012-12-21', '4815162342', 'description');
+        $correction = Correction::createSelf('2012-12-21', '4815162342');
         $check = CorrectionCheck::createBuyReturnCorrection('4815162342', TaxSystem::PATENT, $correction);
         $vat = new Vat(Vat::RATE_20);
         $position = new Position('name', 100, 1, 100, $vat);
