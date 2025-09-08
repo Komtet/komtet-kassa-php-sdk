@@ -63,7 +63,7 @@ class CorrectionInfo
      *
      * @return CorrectionInfo
      */
-    public static function createInstruction($base_date, $base_number = null)
+    public static function createInstruction($base_date, $base_number)
     {
         return new static(static::TYPE_INSTRUCTION, $base_date, $base_number);
     }

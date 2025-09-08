@@ -43,12 +43,18 @@ class Correction
      *
      * @return Correction
      */
-    public function __construct($type, $date, $document, $description=null)
+    public function __construct($type, $date, $document=null, $description=null)
     {
         $this->type = $type;
         $this->date = $date;
-        $this->document = $document;
-        $this->description = $description;
+
+        if ($document) {
+            $this->document = $document;
+        }
+
+        if ($description) {
+            $this->description = $description;
+        }
     }
 
     /**
@@ -58,7 +64,7 @@ class Correction
      *
      * @return Correction
      */
-    public static function createSelf($date, $document, $description=null)
+    public static function createSelf($date, $document=null, $description=null)
     {
         return new static(static::TYPE_SELF, $date, $document, $description);
     }
@@ -82,9 +88,12 @@ class Correction
     {
         $result = [
             'type' => $this->type,
-            'date' => $this->date,
-            'document' => $this->document,
+            'date' => $this->date
         ];
+
+        if ($this->document !== null) {
+            $result['document'] = $this->document;
+        }
 
         if ($this->description !== null) {
             $result['description'] = $this->description;
