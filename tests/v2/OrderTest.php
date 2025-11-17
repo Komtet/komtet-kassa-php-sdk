@@ -346,7 +346,7 @@ class OrderTest extends TestCase
             'type' => 'product',
             'quantity' => 2,
             'total' => 40.0,
-            'vat' => '18',
+            'vat' => '20',
             'measure' => 2
         ]);
         $position3 = new OrderPosition([
@@ -418,7 +418,7 @@ class OrderTest extends TestCase
             'type' => 'product',
             'quantity' => 2,
             'total' => 40.0,
-            'vat' => '18',
+            'vat' => '20',
             'measure' => 'kg'
         ]);
         $position3 = new OrderPosition([

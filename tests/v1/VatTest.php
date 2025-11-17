@@ -40,13 +40,5 @@ class VatTest extends TestCase
         $this->assertEquals((new Vat('10/110'))->getRate(), '110');
         $this->assertEquals((new Vat('120'))->getRate(), '120');
         $this->assertEquals((new Vat('20/120'))->getRate(), '120');
-
-        $this->assertEquals((new Vat(18))->getRate(), '20');
-        $this->assertEquals((new Vat(0.18))->getRate(), '20');
-        $this->assertEquals((new Vat(18.0))->getRate(), '20');
-        $this->assertEquals((new Vat('18'))->getRate(), '20');
-        $this->assertEquals((new Vat('0.18'))->getRate(), '20');
-        $this->assertEquals((new Vat('118'))->getRate(), '120');
-        $this->assertEquals((new Vat('18/118'))->getRate(), '120');
     }
 }

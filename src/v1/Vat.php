@@ -24,12 +24,12 @@ class Vat
     /**
      * 5%
      */
-    const RATE_5 = '5';    
+    const RATE_5 = '5';
 
     /**
      * 7%
      */
-    const RATE_7 = '7';   
+    const RATE_7 = '7';
 
     /**
      * 10%
@@ -40,6 +40,11 @@ class Vat
      * 20%
      */
     const RATE_20 = '20';
+
+    /**
+     * 22%
+     */
+    const RATE_22 = '22';
 
     /**
      * 5/105
@@ -60,6 +65,11 @@ class Vat
      * 20/120
      */
     const RATE_120 = '120';
+
+    /**
+     * 22/122
+     */
+    const RATE_122 = '122';
 
     private $rate;
 
@@ -90,10 +100,7 @@ class Vat
             '7/107' => static::RATE_107,
             '10/110' => static::RATE_110,
             '20/120' => static::RATE_120,
-            // С 1 января 2019 года ставка по налогу 18% увеличилась до 20% и больше не применяется
-            '18' => static::RATE_20,
-            '118' => static::RATE_120,
-            '18/118' => static::RATE_120
+            '22/122' => static::RATE_122,
         ];
 
         $rate = $rateMapping[$rate] ?? $rate;
@@ -105,10 +112,12 @@ class Vat
             static::RATE_7,
             static::RATE_10,
             static::RATE_20,
+            static::RATE_22,
             static::RATE_105,
             static::RATE_107,
             static::RATE_110,
-            static::RATE_120
+            static::RATE_120,
+            static::RATE_122
         ])) {
             throw new \InvalidArgumentException(sprintf('Unknown VAT rate: %s', $rate));
         }
