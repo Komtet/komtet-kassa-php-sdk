@@ -96,14 +96,17 @@ class Agent
      *
      * @return Agent
      */
-    public function setPayingAgentInfo($operation, $phones) {
+    public function setPayingAgentInfo($phones, $operation=null) {
         $this->agent_info['paying_agent'] = [
-            'operation' => $operation,
             'phones' => $phones
         ];
+
+        if ($operation) {
+            $this->agent_info['paying_agent']['operation'] = $operation;
+        }
+
         return $this;
     }
-
 
     /**
      * Передача атрибутов оператора по приему платежей

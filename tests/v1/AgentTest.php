@@ -46,24 +46,24 @@ class AgentTest extends TestCase
     public function testPayingAgentInfo()
     {
         $agent = new Agent(Agent::PAYMENT_AGENT);
-        $agent->setPayingAgentInfo('оплата', ['+79998887766']);
+        $agent->setPayingAgentInfo(['+79998887766']);
         $this->assertEquals(
             json_encode($agent->asArray()),
             '{"type":"payment_agent","paying_agent":{'.
-                '"operation":"\u043e\u043f\u043b\u0430\u0442\u0430",'.
                 '"phones":["+79998887766"]'.
             '}}'
         );
     }
 
-    public function testReceivePaymentsOperatorInfo()
+    public function testPayingAgentInfoWithOperation()
     {
         $agent = new Agent(Agent::PAYMENT_AGENT);
-        $agent->setReceivePaymentsOperatorInfo(['+79998887766']);
+        $agent->setPayingAgentInfo(['+79998887766'], 'оплата');
         $this->assertEquals(
             json_encode($agent->asArray()),
-            '{"type":"payment_agent","receive_payments_operator":{'.
-                '"phones":["+79998887766"]'.
+            '{"type":"payment_agent","paying_agent":{'.
+                '"phones":["+79998887766"],'.
+                '"operation":"\u043e\u043f\u043b\u0430\u0442\u0430"'.
             '}}'
         );
     }

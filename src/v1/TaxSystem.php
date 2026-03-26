@@ -12,27 +12,27 @@ namespace Komtet\KassaSdk\v1;
 class TaxSystem
 {
     /**
-     * Common tax system
+     * ОСН
      */
     const COMMON = 0;
 
     /**
-    * Simplified tax system: Income
+    * УСН Доходы
     */
     const SIMPLIFIED_IN = 1;
 
     /**
-     * Simplified tax system: Income - Outgo
+     * УСН Доходы минус расходы
      */
     const SIMPLIFIED_IN_OUT = 2;
 
     /**
-     * Unified social tax
+     * ЕСН
      */
     const UST = 4;
 
     /**
-     * Patent
+     * Патент
      */
     const PATENT = 5;
 }

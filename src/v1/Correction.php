@@ -30,20 +30,13 @@ class Correction
     private $document;
 
     /**
-     * @var string
-     * @deprecated This property will be removed in future versions
-     */
-    private $description;
-
-    /**
      * @param string $type Correction type (Correction::TYPE_*)
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public function __construct($type, $date, $document=null, $description=null)
+    public function __construct($type, $date, $document=null)
     {
         $this->type = $type;
         $this->date = $date;
@@ -51,34 +44,28 @@ class Correction
         if ($document) {
             $this->document = $document;
         }
-
-        if ($description) {
-            $this->description = $description;
-        }
     }
 
     /**
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public static function createSelf($date, $document=null, $description=null)
+    public static function createSelf($date, $document=null)
     {
-        return new static(static::TYPE_SELF, $date, $document, $description);
+        return new static(static::TYPE_SELF, $date, $document);
     }
 
     /**
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public static function createForced($date, $document, $description=null)
+    public static function createForced($date, $document)
     {
-        return new static(static::TYPE_FORCED, $date, $document, $description);
+        return new static(static::TYPE_FORCED, $date, $document);
     }
 
     /**
@@ -93,10 +80,6 @@ class Correction
 
         if ($this->document !== null) {
             $result['document'] = $this->document;
-        }
-
-        if ($this->description !== null) {
-            $result['description'] = $this->description;
         }
 
         return $result;
