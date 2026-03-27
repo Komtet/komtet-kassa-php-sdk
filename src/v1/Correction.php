@@ -30,13 +30,18 @@ class Correction
     private $document;
 
     /**
+     * @var string
+     * @deprecated This property will be removed in future versions
+     */
+    private $description;
+
+    /**
      * @param string $type Correction type (Correction::TYPE_*)
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
-     *
-     * @return Correction
+     * @param string $description Description (Deprecated, will be removed)
      */
-    public function __construct($type, $date, $document=null)
+    public function __construct($type, $date, $document=null, $description=null)
     {
         $this->type = $type;
         $this->date = $date;
@@ -44,28 +49,38 @@ class Correction
         if ($document) {
             $this->document = $document;
         }
+
+        if ($description) {
+            @trigger_error(
+                'Parameter "description" in Correction class is deprecated and will be removed in future versions.',
+                E_USER_DEPRECATED
+            );
+            $this->description = $description;
+        }
     }
 
     /**
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
+     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public static function createSelf($date, $document=null)
+    public static function createSelf($date, $document=null, $description=null)
     {
-        return new static(static::TYPE_SELF, $date, $document);
+        return new static(static::TYPE_SELF, $date, $document, $description);
     }
 
     /**
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
+     * @param string $description Description (Deprecated, will be removed)
      *
      * @return Correction
      */
-    public static function createForced($date, $document)
+    public static function createForced($date, $document, $description=null)
     {
-        return new static(static::TYPE_FORCED, $date, $document);
+        return new static(static::TYPE_FORCED, $date, $document, $description);
     }
 
     /**
@@ -80,6 +95,10 @@ class Correction
 
         if ($this->document !== null) {
             $result['document'] = $this->document;
+        }
+
+        if ($this->description !== null) {
+            $result['description'] = $this->description;
         }
 
         return $result;
