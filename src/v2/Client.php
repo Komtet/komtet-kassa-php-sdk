@@ -53,7 +53,7 @@ class Client
      *
      * @return Client
      */
-    public function __construct($key, $secret, LoggerInterface $logger = null)
+    public function __construct($key, $secret, ?LoggerInterface $logger = null)
     {
         $this->key = $key;
         $this->secret = $secret;
