@@ -40,8 +40,6 @@ class Correction
      * @param string $date Document date (yyyy-mm-dd)
      * @param string $document Document number
      * @param string $description Description (Deprecated, will be removed)
-     *
-     * @return Correction
      */
     public function __construct($type, $date, $document=null, $description=null)
     {
@@ -53,6 +51,10 @@ class Correction
         }
 
         if ($description) {
+            @trigger_error(
+                'Parameter "description" in Correction class is deprecated and will be removed in future versions.',
+                E_USER_DEPRECATED
+            );
             $this->description = $description;
         }
     }

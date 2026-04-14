@@ -32,7 +32,7 @@ class Payment
     const TYPE_CREDIT = 'credit';
 
     /**
-     * Cумма встречным предлжением
+     * Cумма встречным предоставлением
      */
     const TYPE_COUNTER_PROVISIONING = 'counter_provisioning';
 

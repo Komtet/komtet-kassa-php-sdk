@@ -89,7 +89,28 @@ class Agent
     }
 
     /**
-     * Передача атрибутов платежного агента
+     * АКТУАЛЬНЫЙ МЕТОД: Передача атрибутов платежного агента
+     *
+     * @param array $phones
+     * @param string $operation
+     *
+     * @return Agent
+     */
+    public function setPayingAgent($phones, $operation=null) {
+        $this->agent_info['paying_agent'] = [
+            'phones' => $phones
+        ];
+
+        if ($operation) {
+            $this->agent_info['paying_agent']['operation'] = $operation;
+        }
+
+        return $this;
+    }
+
+    /**
+     * УСТАРЕВШИЙ МЕТОД: Передача атрибутов платежного агента
+     * * @deprecated Используйте setPayingAgent($phones, $operation)
      *
      * @param string $operation
      * @param array $phones
@@ -97,13 +118,14 @@ class Agent
      * @return Agent
      */
     public function setPayingAgentInfo($operation, $phones) {
-        $this->agent_info['paying_agent'] = [
-            'operation' => $operation,
-            'phones' => $phones
-        ];
-        return $this;
-    }
+        @trigger_error(
+            'Method setPayingAgent is deprecated and will be removed in future versions. ' .
+            'Use setPayingAgent($phones, $operation) instead.',
+            E_USER_DEPRECATED
+        );
 
+        return $this->setPayingAgent($phones, $operation);
+    }
 
     /**
      * Передача атрибутов оператора по приему платежей

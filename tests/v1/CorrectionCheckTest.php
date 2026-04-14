@@ -46,7 +46,7 @@ class CorrectionCheckTest extends TestCase
     public function testPutSellCorrectionCheckSucceded()
     {
         $this->qm->registerQueue('my-queue', 'queue-id');
-        $correction = Correction::createSelf('2012-12-21', '4815162342');
+        $correction = Correction::createSelf('2012-12-21');
         $check = CorrectionCheck::createSellCorrection('4815162342', TaxSystem::PATENT, $correction);
         $vat = new Vat(Vat::RATE_20);
         $position = new Position('name', 100, 1, 100, $vat);
