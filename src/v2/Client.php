@@ -47,6 +47,16 @@ class Client
     private $maskedHeaders = ['Authorization', 'X-HMAC-Signature'];
 
     /**
+     * @var int|null Seconds to wait for the connection, null for the cURL default
+     */
+    private $connectTimeout = null;
+
+    /**
+     * @var int|null Seconds the whole request may take, null for no limit
+     */
+    private $timeout = null;
+
+    /**
      * @param string $key Shop ID
      * @param string $secret Secret key
      * @param LoggerInterface $logger PSR Logger
@@ -80,6 +90,34 @@ class Client
     public function setPartner($value)
     {
         $this->partner = $value;
+
+        return $this;
+    }
+
+    /**
+     * Sets the maximum time to wait for the connection to the server.
+     *
+     * @param int|null $seconds Seconds, null for the cURL default
+     *
+     * @return Client
+     */
+    public function setConnectTimeout($seconds)
+    {
+        $this->connectTimeout = $seconds;
+
+        return $this;
+    }
+
+    /**
+     * Sets the maximum time the whole request may take, connection included.
+     *
+     * @param int|null $seconds Seconds, null for no limit
+     *
+     * @return Client
+     */
+    public function setTimeout($seconds)
+    {
+        $this->timeout = $seconds;
 
         return $this;
     }
@@ -146,6 +184,12 @@ class Client
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        if ($this->connectTimeout !== null) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connectTimeout);
+        }
+        if ($this->timeout !== null) {
+            curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+        }
         if (in_array($method, array('POST', 'PUT'))) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
