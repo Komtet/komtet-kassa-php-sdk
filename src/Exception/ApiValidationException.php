@@ -15,7 +15,7 @@ class ApiValidationException extends \RuntimeException implements SdkException
     protected $vldCode = '';
     protected $description = '';
 
-    public function __construct($title, $vldCode, $description, $respCode, Exception $previous = null) {
+    public function __construct($title, $vldCode, $description, $respCode, ?\Throwable $previous = null) {
         $this->title = $title;
         $this->vldCode = $vldCode;
         $this->description = $description;

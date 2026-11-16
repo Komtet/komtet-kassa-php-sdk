@@ -3,6 +3,7 @@ Changelog
 
 Unreleased
 ----------
+  - Параметр $previous в конструкторе `ApiValidationException` теперь явно объявлен как nullable и принимает `\Throwable`: раньше тип указывал на несуществующий класс `Komtet\KassaSdk\Exception\Exception`, и передать исключение было нельзя
 
 11.1.0 (14.04.2026)
 -------------------
