@@ -180,7 +180,11 @@ class Client
             }
         }
 
-        curl_close($ch);
+        // Since PHP 8.0 the handle is freed by itself and curl_close() has no
+        // effect; since PHP 8.5 it is deprecated.
+        if (PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
 
         $this->log($log_level_debug, 'response: {response}', ['response' => $response]);
 
