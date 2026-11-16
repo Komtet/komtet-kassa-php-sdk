@@ -10,6 +10,7 @@
 namespace {
     $curlMonkeyPatchEnabled = false;
     $dataVariable = null;
+    $curlOptions = [];
 }
 
 namespace Komtet\KassaSdk\v2 {
@@ -48,6 +49,10 @@ namespace Komtet\KassaSdk\v2 {
                 global $dataVariable;
                 $dataVariable = $option;
             }
+        if (isset($curlMonkeyPatchEnabled) && $curlMonkeyPatchEnabled === true) {
+            global $curlOptions;
+            $curlOptions[$key] = $option;
+        }
         return call_user_func_array('\curl_setopt', func_get_args());
     }
 
@@ -84,8 +89,9 @@ use PHPUnit\Framework\TestCase;
             $this->check->addPayment($payment);
             $this->check->addPosition($position);
 
-            global $curlMonkeyPatchEnabled;
+            global $curlMonkeyPatchEnabled, $curlOptions;
             $curlMonkeyPatchEnabled = true;
+            $curlOptions = [];
         }
 
         protected function tearDown(): void
@@ -117,6 +123,25 @@ use PHPUnit\Framework\TestCase;
 
             $this->assertEquals($decodedCheck->positions[0]->total,
                                 $this->check->getPositions()[0]->getTotal());
+        }
+
+        public function testTimeoutsAreNotSetByDefault()
+        {
+            $this->client->sendRequest('api/shop/v2/queues/queue-id/task', $this->check->asArray());
+
+            global $curlOptions;
+            $this->assertArrayNotHasKey(CURLOPT_CONNECTTIMEOUT, $curlOptions);
+            $this->assertArrayNotHasKey(CURLOPT_TIMEOUT, $curlOptions);
+        }
+
+        public function testTimeouts()
+        {
+            $this->client->setConnectTimeout(10)->setTimeout(30);
+            $this->client->sendRequest('api/shop/v2/queues/queue-id/task', $this->check->asArray());
+
+            global $curlOptions;
+            $this->assertSame(10, $curlOptions[CURLOPT_CONNECTTIMEOUT]);
+            $this->assertSame(30, $curlOptions[CURLOPT_TIMEOUT]);
         }
 
         public function testAPIValidationException()
