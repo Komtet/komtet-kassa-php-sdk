@@ -10,6 +10,8 @@
 namespace {
     $curlMonkeyPatchEnabled = false;
     $dataVariable = null;
+    $curlResponse = true;
+    $curlStatus = 200;
 }
 
 namespace Komtet\KassaSdk\v2 {
@@ -19,7 +21,8 @@ namespace Komtet\KassaSdk\v2 {
     function curl_exec($descriptor) {
         global $curlMonkeyPatchEnabled;
         if (isset($curlMonkeyPatchEnabled) && $curlMonkeyPatchEnabled === true) {
-            return True;
+            global $curlResponse;
+            return $curlResponse;
         }
         else
         {
@@ -32,7 +35,8 @@ namespace Komtet\KassaSdk\v2 {
         if (isset($curlMonkeyPatchEnabled) &&
             $curlMonkeyPatchEnabled === true &&
             $key == CURLINFO_HTTP_CODE) {
-                return 200;
+                global $curlStatus;
+                return $curlStatus;
         }
         else
         {
@@ -90,8 +94,48 @@ use PHPUnit\Framework\TestCase;
 
         protected function tearDown(): void
         {
-            global $curlMonkeyPatchEnabled;
+            global $curlMonkeyPatchEnabled, $curlResponse, $curlStatus;
             $curlMonkeyPatchEnabled = false;
+            $curlResponse = true;
+            $curlStatus = 200;
+        }
+
+        public function testApiErrorResponse()
+        {
+            global $curlResponse, $curlStatus;
+            $curlStatus = 422;
+            $curlResponse = json_encode([
+                'title' => 'Ошибка валидации',
+                'code' => 'VLD11',
+                'description' => 'Чек с таким идентификатором уже существует',
+            ]);
+
+            try {
+                $this->client->sendRequest('api/shop/v2/queues/queue-id/task', $this->check->asArray());
+                $this->fail('ApiValidationException was not thrown');
+            } catch (ApiValidationException $e) {
+                $this->assertSame('Ошибка валидации', $e->getMessage());
+                $this->assertSame('VLD11', $e->getVLDCode());
+                $this->assertSame('Чек с таким идентификатором уже существует', $e->getDescription());
+                $this->assertSame(422, $e->getCode());
+            }
+        }
+
+        public function testNonJsonErrorResponse()
+        {
+            global $curlResponse, $curlStatus;
+            $curlStatus = 500;
+            $curlResponse = '<html>Internal Server Error</html>';
+
+            try {
+                $this->client->sendRequest('api/shop/v2/queues/queue-id/task', $this->check->asArray());
+                $this->fail('ApiValidationException was not thrown');
+            } catch (ApiValidationException $e) {
+                $this->assertSame('Unexpected status (500)', $e->getMessage());
+                $this->assertSame('', $e->getVLDCode());
+                $this->assertSame('', $e->getDescription());
+                $this->assertSame(500, $e->getCode());
+            }
         }
 
         public function testRestorePrecisions()

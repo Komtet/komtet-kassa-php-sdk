@@ -170,10 +170,16 @@ class Client
 
                 if (in_array($status, [500, 422, 403])) {
                     $resp_data = json_decode($response, true);
-                    throw new ApiValidationException($resp_data['title'],
-                                                     $resp_data['code'],
-                                                     $resp_data['description'],
-                                                     $status);
+                    // A proxy in front of the API may answer with a non-JSON body.
+                    if (!is_array($resp_data)) {
+                        $resp_data = [];
+                    }
+                    throw new ApiValidationException(
+                        $resp_data['title'] ?? sprintf('Unexpected status (%s)', $status),
+                        $resp_data['code'] ?? '',
+                        $resp_data['description'] ?? '',
+                        $status
+                    );
                 }
 
                 throw new ClientException(sprintf('Unexpected status (%s)', $status), $status);
